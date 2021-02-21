@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "385846453468",
+    "firebase_url": "https://holcim-materiasprimas-default-rtdb.firebaseio.com",
+    "project_id": "holcim-materiasprimas",
+    "storage_bucket": "holcim-materiasprimas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385846453468:android:359f3855f71c6c11bf4019",
+        "android_client_info": {
+          "package_name": "com.example.mantenimientoholcim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385846453468-rpghjeo8sd9v10ttofmadsfdgn8vj92j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5DakJwO8TTWZm1YUPKNm1mGfeCDx6mYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385846453468-rpghjeo8sd9v10ttofmadsfdgn8vj92j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
