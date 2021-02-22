@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cvEquipo"
+    android:id="@+id/cvItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbarTrackVertical="@drawable/ic_launcher_foreground"
@@ -20,7 +20,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/cvOPcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -77,6 +76,14 @@
                             android:text="15"
                             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                             android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/txtCodigo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="TextView"
+                            android:textSize="8sp" />
 
                     </LinearLayout>
 

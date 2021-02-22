@@ -1,7 +1,8 @@
 package com.example.mantenimientoholcim.Modelo;
 
-public class Item {
-    private String nombres;
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private String codigo;
     private String marca;
     private String descripcion;
@@ -12,8 +13,7 @@ public class Item {
     private int vidaUtil;
     private String tipoInspeccion;
 
-    public Item(String nombres, String codigo, String marca, String descripcion, String observacion, int stock, String estado, String ubicacion, int vidaUtil, String tipoInspeccion) {
-        this.nombres = nombres;
+    public Item(String codigo, String marca, String descripcion, String observacion, int stock, String estado, String ubicacion, int vidaUtil, String tipoInspeccion) {
         this.codigo = codigo;
         this.marca = marca;
         this.descripcion = descripcion;
@@ -23,14 +23,6 @@ public class Item {
         this.ubicacion = ubicacion;
         this.vidaUtil = vidaUtil;
         this.tipoInspeccion = tipoInspeccion;
-    }
-
-    public String getNombres() {
-        return nombres;
-    }
-
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
     }
 
     public String getCodigo() {
