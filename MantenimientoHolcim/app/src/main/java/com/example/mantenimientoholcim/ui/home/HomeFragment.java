@@ -11,25 +11,77 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mantenimientoholcim.ListAdapterItem;
+import com.example.mantenimientoholcim.Modelo.Item;
 import com.example.mantenimientoholcim.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private RecyclerView rvItems;
+    List<Item> items=new ArrayList<>();
+    View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
+        //rvItems=root.findViewById(R.id.rvHerramientas);
+        cargarItems();
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+
             }
         });
         return root;
+    }
+
+    void cargarItems(){
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        DatabaseReference myRef= database.getReference("Items");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    String nombres=ds.child("nombres").getValue().toString();
+                    String codigo=ds.getKey();
+                    String marca=ds.child("marca").getValue().toString();
+                    String descripcion=ds.child("descripcion").getValue().toString();
+                    String observacion=ds.child("observacion").getValue().toString();
+                    int stock=Integer.parseInt(ds.child("stock").getValue().toString());
+                    String estado=ds.child("estadoActual").getValue().toString();
+                    String ubicacion=ds.child("ubicacion").getValue().toString();
+                    int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
+                    String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();;
+                    Item item= new Item(nombres,codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
+                    items.add(item);
+                }
+                rvItems=root.findViewById(R.id.rvHerramientas);
+                ListAdapterItem li= new ListAdapterItem(items,root.getContext());
+                rvItems.setHasFixedSize(true);
+                rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
+                rvItems.setAdapter(li);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
