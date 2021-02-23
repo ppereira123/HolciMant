@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fabItem;
     View root;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -59,6 +60,9 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+    void buscarItems(){
+
+    }
 
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
@@ -67,6 +71,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Item> items=new ArrayList<>();
+
                 for(DataSnapshot ds: snapshot.getChildren()){
                     String codigo=ds.getKey();
                     String marca=ds.child("marca").getValue().toString();
@@ -76,7 +81,7 @@ public class HomeFragment extends Fragment {
                     String estado=ds.child("estado").getValue().toString();
                     String ubicacion=ds.child("ubicacion").getValue().toString();
                     int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
-                    String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();;
+                    String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();
                     Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
                     if(!items.contains(item)){
                     items.add(item);

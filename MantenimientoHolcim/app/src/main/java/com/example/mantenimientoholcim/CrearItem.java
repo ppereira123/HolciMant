@@ -31,6 +31,7 @@ public class CrearItem extends AppCompatActivity {
     String codigo="";
     Item item=null;
     Button btnGenerar;
+    int stock=1;
 
     public CrearItem(){
 
@@ -156,7 +157,7 @@ public class CrearItem extends AppCompatActivity {
             error=error+" DESCRIPCION";
         }
         if(error.equals("")){
-            Item item= new Item(codigo,marca,descripcion,observacion,1,estado,ubicacion,vidaUtil,tipoInspeccion);
+            Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
             refItem.setValue(item);
             finish();
         }
@@ -166,7 +167,6 @@ public class CrearItem extends AppCompatActivity {
 
     }
 
-
     public void editarDatos(Item item){
         descripcionTxt.setText(item.getDescripcion());
         codigoTxt.setText(item.getCodigo());
@@ -175,5 +175,6 @@ public class CrearItem extends AppCompatActivity {
         marcaTxt.setText(item.getMarca());
         observacionTxt.setText(item.getObservacion());
         vidaUtilTxt.setValue(item.getVidaUtil());
+        stock=item.getStock();
     }
 }
