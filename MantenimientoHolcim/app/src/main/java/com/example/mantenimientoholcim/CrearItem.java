@@ -64,8 +64,16 @@ public class CrearItem extends AppCompatActivity {
         List<String> ubicaciones= new ArrayList<>();
         List<String> tipos= new ArrayList<>();
         estados.add("");
-        ubicaciones.add("");
-        tipos.add("");
+        ubicaciones.add(0,"Bodega de Materiales");
+        ubicaciones.add(1,"Bodega de Herramientas");
+        tipos.add(0,"N/A");
+        tipos.add(1,"Trimestral");
+        tipos.add(2,"Quinquenal");
+        tipos.add(3,"Mensual");
+        tipos.add(3,"Anual");
+        estados.add(0,"N/A");
+        estados.add(1,"En uso");
+        estados.add(2,"Repuesto");
         ArrayAdapter<String> adapterEstados=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,estados);
         ArrayAdapter<String> adapterUbicaciones=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,ubicaciones);
         ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,tipos);

@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="#1D039BE5"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="6dp">
@@ -38,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Herramienta: Liga Pro" />
+                    android:text="Herramienta" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,6 +51,7 @@
                         android:id="@+id/btnMenos"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/menos" />
 
@@ -91,6 +93,7 @@
                         android:id="@+id/btnMas"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/panelBackground"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/anadir" />
 

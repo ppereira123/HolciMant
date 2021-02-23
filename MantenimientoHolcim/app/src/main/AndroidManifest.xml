@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
-        <activity android:name=".CrearItem"></activity>
+        <activity android:name=".PuntoAnclajeFijo"></activity>
+        <activity android:name=".PlantillaInspeccionArnes" />
+        <activity android:name=".CrearItem" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

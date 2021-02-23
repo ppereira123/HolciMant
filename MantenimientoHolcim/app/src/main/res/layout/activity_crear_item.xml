@@ -88,7 +88,7 @@
                 android:layout_marginLeft="5dp"
                 android:ems="10"
                 android:hint="Ingresar marca"
-                android:inputType="number" />
+                android:inputType="text" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -106,7 +106,7 @@
                 android:layout_marginLeft="5dp"
                 android:ems="10"
                 android:hint="Ingresar observación del item"
-                android:inputType="number" />
+                android:inputType="text" />
 
 
             <TextView
