@@ -89,70 +89,7 @@ public class CrearItem extends AppCompatActivity {
         ubicacionSpinner.setAdapter(adapterUbicaciones);
         tipoInspeccionspinner.setAdapter(adapterTipos);
 
-        //Spinner dependiente//
-        ArrayList<String> estante= new ArrayList<>();
-        ArrayList<String> bodegaMateriales= new ArrayList<>();
-        bodegaMateriales.add("Aceite");
-        bodegaMateriales.add("Grasas");
-        bodegaMateriales.add("Refigerante");
-        ArrayList<String> bodegaHerramientas= new ArrayList<>();
-        bodegaHerramientas.add("1A");
-        bodegaHerramientas.add("1B");
-        bodegaHerramientas.add("1C");
-        bodegaHerramientas.add("1D");
-        bodegaHerramientas.add("1E");
-        bodegaHerramientas.add("2A");
-        bodegaHerramientas.add("2B");
-        bodegaHerramientas.add("2C");
-        bodegaHerramientas.add("2D");
-        bodegaHerramientas.add("3A");
-        bodegaHerramientas.add("3B");
-        bodegaHerramientas.add("3C");
-        bodegaHerramientas.add("3D");
-        bodegaHerramientas.add("1P");
-        bodegaHerramientas.add("2P");
-        bodegaHerramientas.add("3P");
-        bodegaHerramientas.add("4P");
-        ArrayList<String> bodegaLubricantes= new ArrayList<>();
-        bodegaLubricantes.add("N/A");
-        ArrayList<String> bodega= new ArrayList<>();
-        bodegaLubricantes.add("N/A");
-        ArrayList<String> bodegaLlantas= new ArrayList<>();
-        bodegaLlantas.add("N/A");
-
-        ubicacionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
-                }
-                else if(position==1){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaMateriales);
-                }
-                else if(position==2){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLubricantes);
-                }
-                else if(position==3){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodega);
-                }
-                else if(position==4){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLlantas);
-                }
-                else
-                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
-                estanteSpinner.setAdapter(adapterestanteSpinner);
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        //Spinner dependiente fin//
+                //Spinner dependiente fin//
         spinnerEstado();
         spinnerTipo();
         spinnerUbicaciones();
@@ -188,6 +125,54 @@ public class CrearItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ubicacion=  parent.getItemAtPosition(position).toString();
+                //Spinner dependiente//
+                ArrayList<String> estante= new ArrayList<>();
+                ArrayList<String> bodegaMateriales= new ArrayList<>();
+                bodegaMateriales.add("Aceite");
+                bodegaMateriales.add("Grasas");
+                bodegaMateriales.add("Refigerante");
+                ArrayList<String> bodegaHerramientas= new ArrayList<>();
+                bodegaHerramientas.add("1A");
+                bodegaHerramientas.add("1B");
+                bodegaHerramientas.add("1C");
+                bodegaHerramientas.add("1D");
+                bodegaHerramientas.add("1E");
+                bodegaHerramientas.add("2A");
+                bodegaHerramientas.add("2B");
+                bodegaHerramientas.add("2C");
+                bodegaHerramientas.add("2D");
+                bodegaHerramientas.add("3A");
+                bodegaHerramientas.add("3B");
+                bodegaHerramientas.add("3C");
+                bodegaHerramientas.add("3D");
+                bodegaHerramientas.add("1P");
+                bodegaHerramientas.add("2P");
+                bodegaHerramientas.add("3P");
+                bodegaHerramientas.add("4P");
+                ArrayList<String> bodegaLubricantes= new ArrayList<>();
+                bodegaLubricantes.add("N/A");
+                ArrayList<String> bodega= new ArrayList<>();
+                bodegaLubricantes.add("N/A");
+                ArrayList<String> bodegaLlantas= new ArrayList<>();
+                bodegaLlantas.add("N/A");
+                if(position==0){
+                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
+                }
+                else if(position==1){
+                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaMateriales);
+                }
+                else if(position==2){
+                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLubricantes);
+                }
+                else if(position==3){
+                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodega);
+                }
+                else if(position==4){
+                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLlantas);
+                }
+                else
+                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
+                estanteSpinner.setAdapter(adapterestanteSpinner);
             }
 
             @Override
