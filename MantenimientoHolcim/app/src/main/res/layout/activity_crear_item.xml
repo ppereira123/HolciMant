@@ -118,7 +118,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <Spinner
-                android:id="@+id/estadoActualSpinner"
+                android:id="@+id/spinnerInspeccion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp" />
@@ -132,7 +132,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <Spinner
-                android:id="@+id/spinnerInspeccion"
+                android:id="@+id/estadoActualSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp" />
@@ -146,6 +146,18 @@
 
             <Spinner
                 android:id="@+id/spinnerUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Estante: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <Spinner
+                android:id="@+id/spinnerEstante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />
