@@ -127,14 +127,10 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion6.add("están sueltas si usted puede moverlas a mano");inspeccion6.add("Largeros, abrazaderas, escalones o travesaños no están rajados, partidos, abiertos, cortados o rotos");
         inspeccion6.add("No existe desgaste en travesaños o peldaños");
         inspeccion6.add("No hay astillas en montantes, travesaños o escalones" );
-        inspeccion6.add(
-                "Las bases no se encuentra dañadas o desgastadas" );
-        inspeccion6.add(
-                "No existen fracturas en escalones");
-        inspeccion6.add(
-                "No existe corrosión, herrumbre, óxido y desgaste excesivo, especialmente en peldaños" );
-        inspeccion6.add(
-                "No faltan etiquetas de identificación");
+        inspeccion6.add("Las bases no se encuentra dañadas o desgastadas" );
+        inspeccion6.add("No existen fracturas en escalones");
+        inspeccion6.add("No existe corrosión, herrumbre, óxido y desgaste excesivo, especialmente en peldaños" );
+        inspeccion6.add("No faltan etiquetas de identificación");
 
 
     }
