@@ -22,12 +22,14 @@ import com.example.mantenimientoholcim.Modelo.Item;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspeccion.ViewHolder> {
     private List<String> mdata;
     private LayoutInflater mInflater;
     private Context context;
+    private HashMap<String,String> valores= new HashMap<>();
 
 
     public ListAdapterInspeccion(List<String> itemList, Context context){
@@ -52,6 +54,12 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         return mdata.size();
     }
 
+    public HashMap<String,String> getValores(){
+        return valores;
+    }
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtEnunciado;
@@ -72,7 +80,9 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                    checkNOOK.setChecked(false);}
+                    checkNOOK.setChecked(false);
+                    valores.put(item,"OK");
+                    }
                 }
             });
 
@@ -80,7 +90,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                    checkOk.setChecked(false);}
+                    checkOk.setChecked(false);
+                    valores.put(item,"NO OK");}
                 }
             });
 
