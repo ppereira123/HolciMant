@@ -9,7 +9,34 @@
         <item>RESTRICTOR DE MOVIMIENTO</item>
         <item>ESLINGA</item>
         <item>ESCALERAS FIJAS (INCLUYEN ESCALERAS DE ACCESO A PLATAFORMAS)</item>
-        <item>Escalera de tijeras</item>
         <item>PASILLOS Y PLATAFORMAS FIJAS</item>
+        <item>ESCALERAS MÓVILES: Escalera de tijeras</item>
+        <item>ESCALERAS MÓVILES: Escalera de extensión</item>
+        <item>ESCALERAS MÓVILES: Plataformas móviles de trabajo</item>
+        <item>ROTOMARTILLO</item>
+        <item>AMOLADORA</item>
+        <item>TALADRO</item>
+        <item>GRATA - PULIDORA</item>
+        <item>SOPLADOR</item>
+        <item>TRINEO</item>
+        <item>TRONZADORA</item>
+        <item>EXTRACTOR - VENTILADOR DE MANGAS</item>
+        <item>EXTENSIÓN 110 V - 220 V</item>
+        <item>EXTENSIÓN 480</item>
+        <item>TRASPALETA ELÉCTRICA</item>
+        <item>GUARDAS DE MÁQUINAS</item>
+        <item>MANGUERAS - CONEXIONES - ACCESORIOS</item>
+        <item>SOLDADORA</item>
+        <item>ACCESORIOS DE OXICORTE (TUERCAS, SOLPLETES, MANÓMETROS)</item>
+        <item>CILINDRO</item>
+        <item>ACCESORIOS DE IZAJE</item>
+        <item>GANCHO (CONDICIONES ADICIONALES)</item>
+        <item>ESLINGA SINTÉTICA:Cable de acero</item>
+        <item>ESLINGA SINTÉTICA:Cadena</item>
+        <item>ESLINGA SINTÉTICA:Sintética</item>
+
+
+
+
     </string-array>
 </resources>
