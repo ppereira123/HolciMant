@@ -62,11 +62,8 @@ public class GalleryFragment extends Fragment {
     }
 
     void cargarInspecciones(){
-        List<String> tipos= new ArrayList<>();
-        tipos.add("Restrictor de movimiento");
-        tipos.add("Inspeccion 1");
-        tipos.add("Inspeccion 2");
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(root.getContext(), android.R.layout.simple_dropdown_item_1line,tipos);
+
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(root.getContext(),R.array.combo_posiciones, android.R.layout.simple_spinner_item);
         tipoInspecciones.setAdapter(adapter);
     }
 }

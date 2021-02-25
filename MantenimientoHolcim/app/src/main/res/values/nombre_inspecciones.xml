@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="combo_posiciones">
+        <item>ARNÉS DE CUERPO ENTERO</item>
+        <item>PUNTOS DE ANCLAJE FIJOS</item>
+        <item>PUNTOS DE ANCLAJE MÓVILES: Punto de anclaje de cable de acero</item>
+        <item>PUNTOS DE ANCLAJE MÓVILES: Punto de anclaje de faja sintética</item>
+        <item>LÍNEA DE VIDA FIJA Y RETRÁCTIL</item>
+        <item>RESTRICTOR DE MOVIMIENTO</item>
+        <item>ESLINGA</item>
+        <item>ESCALERAS FIJAS (INCLUYEN ESCALERAS DE ACCESO A PLATAFORMAS)</item>
+        <item>Escalera de tijeras</item>
+        <item>PASILLOS Y PLATAFORMAS FIJAS</item>
+    </string-array>
+</resources>
