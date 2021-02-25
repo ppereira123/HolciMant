@@ -232,16 +232,18 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion16.add("El enchufe de 480 Vac posee la conexión a tierra");
         tipoInspecciones.add(inspeccion16);
 
-        El cableado eléctrico se encuentra en buen estado
-        Los enchufes no poseen daños o prensacables faltantes
-        El botón de emergencia se encuentra operativo
-        La mecánica y el funcionamiento del acelerador se encuentra operativa
-        Botoneras marcha y paro se encuentran operativas
-        Los fusibles se encuentran operativos, no se han realizado bypass (puentes)
-                Los bornes de la batería no presentan corrosión o daños
-        Los cables eléctricos de conexión de la batería se encuentran en buen estado
-        La carcasa de la batería no presentan daños
-        Las conexiones o cables del cargador no presentan daños o partes expuestas
+        List<String> inspeccion17= new ArrayList<>();
+        inspeccion17.add("El cableado eléctrico se encuentra en buen estado");
+        inspeccion17.add("Los enchufes no poseen daños o prensacables faltantes");
+        inspeccion17.add("El botón de emergencia se encuentra operativo");
+        inspeccion17.add("La mecánica y el funcionamiento del acelerador se encuentra operativa");
+        inspeccion17.add("Botoneras marcha y paro se encuentran operativas");
+        inspeccion17.add("Los fusibles se encuentran operativos, no se han realizado bypass (puentes)");
+        inspeccion17.add("Los bornes de la batería no presentan corrosión o daños");
+        inspeccion17.add("Los cables eléctricos de conexión de la batería se encuentran en buen estado");
+        inspeccion17.add("La carcasa de la batería no presentan daños");
+        inspeccion17.add("Las conexiones o cables del cargador no presentan daños o partes expuestas");
+        tipoInspecciones.add(inspeccion17);
 
 
 
@@ -256,17 +258,19 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion18.add("La máquina inspeccionada cuenta con su paro de emergencia o banderola de parada de emergencia y se encuentra funcional.");
         tipoInspecciones.add(inspeccion18);
 
-        List<String> inspeccion19= new ArrayList<>();
-        inspeccion19.add("Las conexiones se encuentran libres de grasa y suciedad");
-        inspeccion19.add("La medición que muestran los manómetros es visible y correcta");
-        inspeccion19.add("Los dispositivos de seguridad de la válvula están conectados correctamente al soplador");
-        inspeccion19.add("No existe goteo o fuga en alguna parte del sistema");
-        inspeccion19.add("Existe arresta llamas en las válvulas y soplete/mezclador");
-        inspeccion19.add("El soplete no presenta fugas en la válvula de corte de paso");
-        inspeccion19.add("Se encuentra disponible la tapa protectora/capuchón para la válvula");
-        inspeccion19.add("Las conexiones de mangueras se encuentran correctamente ajustadas y sin escapes");
-        inspeccion19.add("Las mangueras de gas combustible y oxígeno se encuentran en buen estado y sin perforaciones");
-        tipoInspecciones.add(inspeccion19);
+        List<String> inspeccionff= new ArrayList<>();
+        inspeccionff.add("Las conexiones se encuentran libres de grasa y suciedad");
+        inspeccionff.add("La medición que muestran los manómetros es visible y correcta");
+        inspeccionff.add("Los dispositivos de seguridad de la válvula están conectados correctamente al soplador");
+        inspeccionff.add("No existe goteo o fuga en alguna parte del sistema");
+        inspeccionff.add("Existe arresta llamas en las válvulas y soplete/mezclador");
+        inspeccionff.add("El soplete no presenta fugas en la válvula de corte de paso");
+        inspeccionff.add("Se encuentra disponible la tapa protectora/capuchón para la válvula");
+        inspeccionff.add("Las conexiones de mangueras se encuentran correctamente ajustadas y sin escapes");
+        inspeccionff.add("Las mangueras de gas combustible y oxígeno se encuentran en buen estado y sin perforaciones");
+        tipoInspecciones.add(inspeccionff);
+
+
 
         List<String> inspeccion20= new ArrayList<>();
         inspeccion20.add("La conexión eléctrica se encuentra en buen estado\n (no posee  empates, el aislante se encuentra en buenas condiciones)");
@@ -280,6 +284,209 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion20.add("La  carcasa exterior se  encuentra en  buenas  condiciones");
         inspeccion20.add("El panel de  control se encuentra en  buenas condiciones");
         tipoInspecciones.add(inspeccion20);
+
+        List<String> inspeccion19= new ArrayList<>();
+        inspeccion19.add("Las conexiones se encuentran libres de grasa y suciedad");
+        inspeccion19.add("La medición que muestran los manómetros es visible y correcta");
+        inspeccion19.add("Los dispositivos de seguridad de la válvula están conectados correctamente al soplador");
+        inspeccion19.add("No existe goteo o fuga en alguna parte del sistema");
+        inspeccion19.add("Existe arresta llamas en las válvulas y soplete/mezclador");
+        inspeccion19.add("El soplete no presenta fugas en la válvula de corte de paso");
+        inspeccion19.add("Se encuentra disponible la tapa protectora/capuchón para la válvula");
+        inspeccion19.add("Las conexiones de mangueras se encuentran correctamente ajustadas y sin escapes");
+        inspeccion19.add("Las mangueras de gas combustible y oxígeno se encuentran en buen estado y sin perforaciones");
+        tipoInspecciones.add(inspeccion19);
+
+
+        List<String> inspeccion21= new ArrayList<>();
+        inspeccion21.add("Se dispone de válvula de protección o de alivio.");
+        inspeccion21.add("El cilindro se encuentra en posición vertical y fija.");
+        inspeccion21.add("Se encuentra marcado claramente el contenido y rombo de seguridad.");
+        inspeccion21.add("No existe olor a gas, requerimientos de testeador.");
+        inspeccion21.add("Si se cierran las válvulas, no existe paso de gas.");
+        inspeccion21.add("No presenta altos niveles de corrosión, deformaciones, grietas u otros defectos.");
+        inspeccion21.add("No existen factores alrededor que activen un incendio, como chispas, fuego, etc.");
+        inspeccion21.add("Se dispone de prueba hidrostática");
+        tipoInspecciones.add(inspeccion21);
+
+
+        List<String> inspeccion22= new ArrayList<>();
+        inspeccion22.add("Accesorio posee nombre del fabricante y/o la capacidad de carga (o tamaño según es requerido)");
+        inspeccion22.add("No existe una reducción de más del 10% en la dimensión original del accesorio");
+        inspeccion22.add("No existen partes dobladas, retorcidas, distorsionadas, elongadas, fisuradas, o componentes de carga quebrados.");
+        inspeccion22.add("Libre de muescas, hendiduras, desgaste o corrosión excesiva");
+        inspeccion22.add("Libre de indicios de temperatura excesiva incluyendo salpicadura de soldadura, impactos o daños por chispas eléctricas, o evidencia de soldadura");
+        inspeccion22.add("No existen componentes de reemplazo no autorizados");
+        inspeccion22.add("No existen pernos, tuercas, chavetas, anillas, que estén sueltos o faltantes u otro accesorio del tipo de seguro o retención");
+        tipoInspecciones.add(inspeccion22);
+
+        List<String> inspeccion23= new ArrayList<>();
+        inspeccion23.add("Pestillo de seguridad colocado y en buenas condiciones (cierra automáticamente)");
+        inspeccion23.add("No existe una reducción de más del 10% en la dimensión original de la base del gancho");
+        inspeccion23.add("No existe una reducción de más del 5% en otras áreas del gancho, sin exceder 1/4");
+        inspeccion23.add("No existe abertura del gancho");
+        tipoInspecciones.add(inspeccion23);
+
+        List<String> inspeccion24= new ArrayList<>();
+        inspeccion24.add("El cable se  encuentra limpio, sin  tierra ni grasa)");
+        inspeccion24.add("El cable está libre de nudos)");
+        inspeccion24.add("El cable  tiene  placa de identificación visible con su capacidad de carga)");
+        inspeccion24.add("El cable está libre de corrosión severa)");
+        inspeccion24.add("El cable no presenta abrasión severa localizada, dobleces permanentes, aplastamientos, jaulas de pájaro)");
+        inspeccion24.add("El cable no presenta hilos rotos (más de 10 alambres rotos en un paso, o 5 alambres rotos en un torón en un solo paso))");
+        inspeccion24.add("El cable cumple con las dimensiones mínimos especificadas en la parte inferior del formulario)");
+        inspeccion24.add("La cadena tiene  placa de identificación visible con su capacidad de carga)");
+        inspeccion24.add("Cadena sin desgaste excesivo,  muescas, hendiduras)");
+        inspeccion24.add("Eslabones de la Cadena estan sin fisuras, ni roturas)");
+        inspeccion24.add("Eslabones o componentes de la cadena no presentan alargamiento)");
+        inspeccion24.add("Eslabones o componentes  de la cadena sin exceso de corrosión, ni hoyos)");
+        inspeccion24.add("Eslabones o componentes de la cadena con movimiento libre)");
+        inspeccion24.add("Eslabones o componentes de la cadena sin salpicaduras de soldadura)");
+        inspeccion24.add("La eslinga tiene  placa de identificación visible con su capacidad de carga)");
+        inspeccion24.add("Eslinga sin quemaduras por ácido o cáustica)");
+        inspeccion24.add("Libre de partes derretidas o chamuscadas en toda la eslinga)");
+        inspeccion24.add("Libre de hoyos, roturas, cortes o partes deshilachadas)");
+        inspeccion24.add("Libre de costuras rotas o desgastadas en lugares donde se ha unido la eslinga)");
+        inspeccion24.add("Libre de desgaste por abrasión excesiva)");
+        inspeccion24.add("Libre de partes decoloradas, quebradizas o lugares tiesos en cualquier parte de la eslinga (puede significar daño por luz solar/ ultravioleta o daño químico))");
+        tipoInspecciones.add(inspeccion24);
+
+        List<String> inspeccion25= new ArrayList<>();
+        inspeccion25.add("Sistema Hidráulico: Cilindro hidráulico / pistón no presenta problemas de goteo o ruido");
+        inspeccion25.add("Sistema Hidráulico: Las conexiones hidráulicas, mangueras y conexiones flexibles no presentan fugas de aceite");
+        inspeccion25.add("Sistema Hidráulico: El nivel de aceite hidráulico es el adecuado");
+        inspeccion25.add("Sistema Mecánico: Las horquillas no presentan deformaciones o desperfectos que afecten la integridad estructural (quebraduras)");
+        inspeccion25.add("Sistema Mecánico: El chasis no presenta deformaciones o roturas que afecten la integridad estructural");
+        inspeccion25.add("Sistema Mecánico: El equipo no presenta tornillos sueltos o faltantes");
+        inspeccion25.add("Sistema Mecánico: Las varillas de empuje o palancas no presentan deformaciones o roturas  afecten la integridad estructural");
+        inspeccion25.add("Sistema Mecánico: La caja de transmisión no presenta ruidos ni goteos (cuando aplique)");
+        inspeccion25.add("Sistema Mecánico: Las ruedas no presentan deformación o daños que puedan provocar inestabilidad del equipo o que no permitan su movilidad");
+        inspeccion25.add("Todas las señales de funciones, instrucción, precaución, y las etiquetas de advertencia o placas están en el equipo y son legibles");
+        inspeccion25.add("La bocina se encuentra operativa");
+        inspeccion25.add("El freno se encuentra operativo");
+        inspeccion25.add("El paro de emergencia se encuentra operativo (transpaleta eléctrica)");
+        tipoInspecciones.add(inspeccion25);
+
+
+        List<String> inspeccion26= new ArrayList<>();
+        inspeccion26.add("La capacidad está marcada en el equipo");
+        inspeccion26.add("El seguro funciona correctamente");
+        inspeccion26.add("Los apoyos para carga (superior e inferior) están libres de fisuras, dobladuras");
+        inspeccion26.add("Los dientes están completos y en buen estado");
+        tipoInspecciones.add(inspeccion26);
+
+        List<String> inspeccion27= new ArrayList<>();
+        inspeccion27.add("La capacidad está marcada en el equipo");
+        inspeccion27.add("El seguro funciona correctamente");
+        inspeccion27.add("Existen los apoyos para carga superior e inferior");
+        inspeccion27.add("Los dientes están completos y en buen estado");
+        inspeccion27.add("No presenta fugas de aceite (o-ring en buen estado)");
+        tipoInspecciones.add(inspeccion27);
+
+        List<String> inspeccion28= new ArrayList<>();
+        inspeccion28.add("El tecle se encuentra limpio, sin tierra ni grasa en su estructura y cadena");
+        inspeccion28.add("El tecle tiene marcada su capacidad en su estructura y en los 2 ganchos");
+        inspeccion28.add("Los ganchos poseen su pestillo de seguridad superior e inferior");
+        inspeccion28.add("Los ganchos no están deformados; es decir no están abiertos, ni tampoco presentan golpes ni magulladuras");
+        inspeccion28.add("Los ganchos no presentan desgaste");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        inspeccion28.add("Los eslabones de las cadenas están en buenas condiciones (no alargados, ni aplastados, ni rotos, ni con señales de soldadura)");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        inspeccion28.add("Los accionamientos (subir, bajar, neutro) funcionan correctamente");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        inspeccion28.add("El manubrio se encuentra en buen estado");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        inspeccion28.add("El gancho inferior posee el perno original");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        inspeccion28.add("La cadena posee el seguro de final de cadena y el perno original del seguro");
+        inspeccion28.add("El gancho superior gira 360° sin problema");
+        tipoInspecciones.add(inspeccion28);
+
+
+        List<String> inspeccion29= new ArrayList<>();
+        inspeccion29.add("No existen piezas desgastadas, agrietadas o distorsionadas tales como pasadores, rodamientos, ruedas, ejes, engranajes, rodillos, de bloqueo y dispositivos de sujeción, parachoques, y paradas");
+        inspeccion29.add("No existen miembros agrietados, deformes, corroídos");
+        inspeccion29.add("No existen pernos flojos o faltantes, tuercas, pernos, remaches");
+        inspeccion29.add("No existe polea y tambor agrietadas o desgastadas");
+        inspeccion29.add("Dispositivo limitador de carrera superior operativo (detiene el movimiento antes de que la carga impacte alguna parte del troley o del bloque de izaje)");
+        inspeccion29.add("No existe desgaste excesivo de las piezas del sistema de frenos");
+        inspeccion29.add("No existe desgaste excesivo de las ruedas dentadas de la cadena de transmisión y cadena de estiramiento unidad excesiva");
+        inspeccion29.add("No existe deterioro de los controladores, interruptores maestros, contactos, finales de carrera");
+        inspeccion29.add("Todas las señales de funciones, instrucción, precaución, y las etiquetas de advertencia o placas están legibles y en el equipo");
+        inspeccion29.add("Cable sin corrosión, aplastamiento permanente ni cables rotos");
+        tipoInspecciones.add(inspeccion29);
+
+        List<String> inspeccion30= new ArrayList<>();
+        inspeccion30.add("Cilindro hidráulico / pistón no presenta problemas de goteo o ruido");
+        inspeccion30.add("Las conexiones hidráulicas, mangueras y conexiones flexibles no presentan fugas de aceite");
+        inspeccion30.add("Las horquillas no presentan deformaciones o desperfectos que afecten la integridad estructural (quebraduras)");
+        inspeccion30.add("El equipo no presenta tornillos sueltos o faltantes");
+        inspeccion30.add("El cable de acero no presenta daños como torceduras, rotura, jaula de pájaro");
+        inspeccion30.add("Los dientes del sistema de tracción no presentan fisuras");
+        inspeccion30.add("Las ruedas no presentan deformación o daños que puedan provocar inestabilidad del equipo o que no permitan su movilidad");
+        tipoInspecciones.add(inspeccion30);
+
+
+        List<String> inspeccion31= new ArrayList<>();
+        inspeccion31.add("Las  mangueras se  encuentran en  buen estado");
+        inspeccion31.add("Los acoples son redondos");
+        inspeccion31.add("El nivel de aceite es el correcto");
+        inspeccion31.add("El manómetro está en buen estado (0 - 10000 psi)");
+        inspeccion31.add("La purga se encuentra en  buen estado");
+        tipoInspecciones.add(inspeccion31);
+
+
+        List<String> inspeccion32= new ArrayList<>();
+        inspeccion32.add("Chaleco en buen estado general, con su número claramente visible");
+        inspeccion32.add("Libre de aceite, grasa o exceso de suciedad");
+        inspeccion32.add("No existe corrosión en las hebillas");
+        inspeccion32.add("Cinturón o cremallera de sujeción en buen estado");
+        inspeccion32.add("No existen rasgaduras");
+        inspeccion32.add("Los materiales reflectantes se encuentran y no están desvanecidos");
+        inspeccion32.add("El color del chaleco no se ha desvanecido");
+        inspeccion32.add("Luz estroboscópica / flash, silbato, punto de enganche se encuentran en buen estado");
+        inspeccion32.add("Los cinturones de sujeción están en buenas condiciones y son lo suficientemente fuertes");
+        inspeccion32.add("La flotabilidad del chaleco sigue siendo efectiva para la capacidad según las recomendaciones del fabricante (realizar prueba en agua)");
+        inspeccion32.add("Para inflables: cilindro de gas presente y activador automático operativo (etiqueta verde) + proveedor de servicios externo, constatar la verificación de mantenimiento realizada hace menos de un año");
+        inspeccion32.add("El chaleco se almacena adecuadamente, dentro de una temperatura razonable (por debajo de 60°C)");
+        inspeccion32.add("El chaleco se guarda en un lugar seco y oscuro");
+        inspeccion32.add("Después de su uso se dejas tanto el chaleco, como el aro salvavidas colgados hasta secarse completamente, previo a guardarlos");
+        tipoInspecciones.add(inspeccion32);
+
+        List<String> inspeccion33= new ArrayList<>();
+        inspeccion33.add("Gancho o soporte a máximo 1,5 m de altura desde el piso");
+        inspeccion33.add("Extintor ubicado en el sitio asignado");
+        inspeccion33.add("Libre de acceso para uso inmediato y sin obstrucciones");
+        inspeccion33.add("Manómetro en buen estado (PQS)");
+        inspeccion33.add("Indicador de presión en franja verde a 195 PSI (PQS)");
+        inspeccion33.add("Sellos de seguridad en buenas condiciones, no rotos o faltantes");
+        inspeccion33.add("Cartel de uso del extintor legible y con vista hacia fuera");
+        inspeccion33.add("Libre de daños físicos y corrosión");
+        inspeccion33.add("Boquilla de la manguera sin obstrucciones");
+        inspeccion33.add("Recarga anual vigente y con etiqueta disponible en buen estado");
+        inspeccion33.add("Manija del extintor en buen estado");
+        inspeccion33.add("Extintor adecuado al tipo de fuego que podría presentarse");
+        inspeccion33.add("Condición de pintura del cilindro en buen estado");
+        inspeccion33.add("Boquilla y/o corneta no cristalizada o quebradiza por efecto del sol");
+        inspeccion33.add("Manguera del extintor libre de daños");
+        inspeccion33.add("Carretilla o ruedas del extintor corroída, doblada o rota");
+        inspeccion33.add("Soporte o sujetador de la manguera disponible y en buen estado");
+        tipoInspecciones.add(inspeccion33);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

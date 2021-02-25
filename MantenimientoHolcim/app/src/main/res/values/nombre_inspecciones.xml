@@ -31,12 +31,15 @@
         <item>CILINDRO</item>
         <item>ACCESORIOS DE IZAJE</item>
         <item>GANCHO (CONDICIONES ADICIONALES)</item>
-        <item>ESLINGA SINTÉTICA:Cable de acero</item>
-        <item>ESLINGA SINTÉTICA:Cadena</item>
-        <item>ESLINGA SINTÉTICA:Sintética</item>
-
-
-
-
+        <item>ESLINGA SINTÉTICA</item>
+        <item>TRASPALETA</item>
+        <item>SOPORTES DE CARGA</item>
+        <item>GATAS</item>
+        <item>TECLE </item>
+        <item>PUENTE GRÚA</item>
+        <item>WINCHA MANUAL</item>
+        <item>INYECTOR HIDRÁULICO</item>
+        <item>CHALECO - ARO SALVAVIDAS</item>
+        <item>Extintor Portátil</item>
     </string-array>
 </resources>
