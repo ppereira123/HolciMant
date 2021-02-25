@@ -131,6 +131,15 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion6.add("No existen fracturas en escalones");
         inspeccion6.add("No existe corrosión, herrumbre, óxido y desgaste excesivo, especialmente en peldaños" );
         inspeccion6.add("No faltan etiquetas de identificación");
+        tipoInspecciones.add(inspeccion6);
+        List<String> inspeccion6_1= new ArrayList<>();
+        inspeccion6_1.add("Los bloqueos de extensión no están sueltos, rotos o faltantes" );
+        inspeccion6_1.add("No existen bloqueos defectuosos que no se asienten apropiadamente cuando la escalera está extendida" );
+        inspeccion6_1.add("Existe buena lubricación de las partes que trabajan" );
+        inspeccion6_1.add("No existen almohadillas o mangas faltantes o defectuosas" );
+        inspeccion6_1.add("Cuerdas, cadenas y sogas en buen estado" );
+        tipoInspecciones.add(inspeccion6_1);
+
 
 
     }
