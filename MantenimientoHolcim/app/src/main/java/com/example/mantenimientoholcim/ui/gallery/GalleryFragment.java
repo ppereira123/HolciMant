@@ -32,6 +32,7 @@ public class GalleryFragment extends Fragment {
     ListView tipoInspecciones;
     EditText txtInspecciones;
     View root;
+    List<String> listTipoInspecciones;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,17 +40,20 @@ public class GalleryFragment extends Fragment {
                 new ViewModelProvider(this).get(GalleryViewModel.class);
         root = inflater.inflate(R.layout.fragment_gallery, container, false);
         tipoInspecciones=root.findViewById(R.id.listTipoInspecciones);
+        cargarInspecciones();
         txtInspecciones=root.findViewById(R.id.editTextInspeccion);
+
         tipoInspecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 txtInspecciones.setText(String.valueOf(position));
                 Intent intent= new Intent(root.getContext(),PlantillasInspeccion.class);
                 intent.putExtra("posicion",position);
+                intent.putExtra("enunciado",listTipoInspecciones.get(position));
                 startActivity(intent);
             }
         });
-        cargarInspecciones();
+
 
         //final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -62,7 +66,10 @@ public class GalleryFragment extends Fragment {
     }
 
     void cargarInspecciones(){
-
+        listTipoInspecciones= new ArrayList<>();
+        listTipoInspecciones.add("ARNÉS DE CUERPO ENTERO"); listTipoInspecciones.add("PUNTOS DE ANCLAJE FIJOS"); listTipoInspecciones.add("Punto de anclaje de cable de acero");
+        listTipoInspecciones.add("Punto de anclaje de faja sintética");listTipoInspecciones.add("LÍNEA DE VIDA FIJA Y RETRÁCTIL");listTipoInspecciones.add("RESTRICTOR DE MOVIMIENTO");listTipoInspecciones.add("ESLINGA");listTipoInspecciones.add("ESCALERAS FIJAS ");
+        listTipoInspecciones.add("Escalera de tijeras");listTipoInspecciones.add("PASILLOS Y PLATAFORMAS FIJAS");
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(root.getContext(),R.array.combo_posiciones, android.R.layout.simple_spinner_item);
         tipoInspecciones.setAdapter(adapter);
     }
