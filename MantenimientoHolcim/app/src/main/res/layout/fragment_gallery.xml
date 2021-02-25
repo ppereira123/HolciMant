@@ -22,15 +22,6 @@
             android:hint="Buscar plantillas de inspección"
             android:inputType="textPersonName" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabInspeccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginLeft="20dp"
-            android:clickable="true"
-            android:src="@android:drawable/ic_input_add" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -38,8 +29,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvInspeccion"
+        <ListView
+            android:id="@+id/listTipoInspecciones"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

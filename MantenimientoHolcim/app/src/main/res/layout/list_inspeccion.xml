@@ -2,29 +2,21 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cvItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbarTrackVertical="@drawable/ic_launcher_foreground"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:animateLayoutChanges="true"
-        android:fadingEdge="horizontal"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="#1D039BE5"
+        android:padding="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#1D039BE5"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="6dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtEnunciado"
@@ -38,14 +30,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <CheckBox
                     android:id="@+id/checkOK"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="OK" />
 
@@ -54,12 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="NO OK" />
             </LinearLayout>
-
         </LinearLayout>
-    </LinearLayout>
 
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
