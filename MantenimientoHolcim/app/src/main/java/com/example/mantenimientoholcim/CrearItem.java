@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -215,7 +216,13 @@ public class CrearItem extends AppCompatActivity {
         }
         if(error.equals("")){
             Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
-            refItem.setValue(item);
+            refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(CrearItem.this, "Item creado correctamente", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             finish();
         }
         else{
