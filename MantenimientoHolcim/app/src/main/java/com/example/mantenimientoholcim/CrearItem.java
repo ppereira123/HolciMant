@@ -152,7 +152,7 @@ public class CrearItem extends AppCompatActivity {
                 ArrayList<String> bodegaLubricantes= new ArrayList<>();
                 bodegaLubricantes.add("N/A");
                 ArrayList<String> bodega= new ArrayList<>();
-                bodegaLubricantes.add("N/A");
+                bodega.add("N/A");
                 ArrayList<String> bodegaLlantas= new ArrayList<>();
                 bodegaLlantas.add("N/A");
                 if(position==0){
