@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +25,10 @@ public class PlantillasInspeccion extends AppCompatActivity {
     Context context=this;
     List<List<String>> tipoInspecciones= new ArrayList<>();
     ListAdapterInspeccion li;
-    EditText editTextCodigo;
+    EditText editTextCodigo,nombreInspector,fechaInspeccion,fechaProximaInspeccion;
     TextView txtnombreInspecciones;
-    String nombreInspeccion;
+    String nombreInspeccion="";
+    int posicion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +36,13 @@ public class PlantillasInspeccion extends AppCompatActivity {
         editTextCodigo=findViewById(R.id.editTextCodigoInspeccion);
 
         cargarInspecciones();
-        int posicion=getIntent().getIntExtra("posicion",0);
+        posicion=getIntent().getIntExtra("posicion",0);
+        nombreInspeccion=getIntent().getStringExtra("enunciado");
         rvInspecciones=findViewById(R.id.rvInspecciones);
+        nombreInspector=findViewById(R.id.nombreInspector);
+        fechaInspeccion=findViewById(R.id.fechaInspección);
+        fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
+
         li= new ListAdapterInspeccion(tipoInspecciones.get(posicion),this);
         rvInspecciones.setHasFixedSize(true);
         rvInspecciones.setLayoutManager(new LinearLayoutManager(context));
@@ -42,7 +53,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
     void cargarInspecciones(){
         List<String> inspeccion0= new ArrayList<>();
-        inspeccion0.add("Inspeccione hebillas, anillas de cuerpo, broches, dedales y almohadillas. No hay distorsión, o tienen bordes agudos, ruidos, fracturas, o partes desgastadas.");
+        inspeccion0.add("Inspeccione hebillas_anillas de cuerpo_broches_dedales y almohadillas. No hay distorsión, o tienen bordes agudos, ruidos, fracturas, o partes desgastadas.");
         inspeccion0.add("Las hebillas trabajan libremente");
         inspeccion0.add("Revisar las costuras no deben existir hilos que se desprendan, sobre todo en los sitios de remate de hilo.");
         inspeccion0.add("Revise que las partes plásticas no presenten deformaciones o rotura");
@@ -144,9 +155,56 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
     }
 
+    public void cancel(View view){
+        finish();
+    }
+
     public  void guardar(View view){
+        String inspector="";
+        String fechaI="";
+        String proxima="";
+        String codigo="";
+        String error="";
+
         HashMap<String,String> valores=li.getValores();
-        editTextCodigo.setText(String.valueOf(valores.size()));
+        inspector=nombreInspector.getText().toString();
+        fechaI=fechaInspeccion.getText().toString();
+        proxima=fechaProximaInspeccion.getText().toString();
+        codigo=editTextCodigo.getText().toString();
+
+        if(inspector.equals("")){
+            error=error+"Nombre Inspector";
+        }
+
+        if(fechaI.equals("")){
+            error=error+"Fecha de inspeccion";
+        }
+
+        if(proxima.equals("")){
+            error=error+"Fecha proxima inspeccion";
+        }
+
+        if(codigo.equals("")){
+            error=error+"Codigo";
+        }
+
+        int diferencia=tipoInspecciones.get(posicion).size()-valores.size();
+        if(diferencia!=0){
+            error=error+"Completar "+String.valueOf(diferencia)+" parametros de inspeccion";
+        }
+
+        if(error.equals("")){
+            InspeccionTipo1 inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
+            FirebaseDatabase database= FirebaseDatabase.getInstance();
+            DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
+            DatabaseReference ref2=ref1.push();
+            ref2.setValue(valores);
+            finish();
+        }
+
+        else{
+            Toast.makeText(context, "Falta completar: "+error, Toast.LENGTH_LONG).show();
+        }
 
     }
 }
