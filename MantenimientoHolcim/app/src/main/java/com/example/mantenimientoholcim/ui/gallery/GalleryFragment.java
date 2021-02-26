@@ -33,8 +33,7 @@ public class GalleryFragment extends Fragment {
     ListView tipoInspecciones;
     EditText txtInspecciones;
     View root;
-    Resources res = getResources();
-    String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class GalleryFragment extends Fragment {
                 txtInspecciones.setText(String.valueOf(position));
                 Intent intent= new Intent(root.getContext(),PlantillasInspeccion.class);
                 intent.putExtra("posicion",position);
-                intent.putExtra("enunciado",nombre_inspecciones[position]);
                 startActivity(intent);
             }
         });

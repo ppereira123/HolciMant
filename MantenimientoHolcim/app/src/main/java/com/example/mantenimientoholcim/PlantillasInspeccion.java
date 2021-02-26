@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
     TextView txtnombreInspecciones;
     String nombreInspeccion="";
     int posicion;
+    Resources res = getResources();
+    String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
-        nombreInspeccion=getIntent().getStringExtra("enunciado");
+        nombreInspeccion=nombreInspeccion[posicion];
         rvInspecciones=findViewById(R.id.rvInspecciones);
         nombreInspector=findViewById(R.id.nombreInspector);
         fechaInspeccion=findViewById(R.id.fechaInspección);
