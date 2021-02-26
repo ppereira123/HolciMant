@@ -56,15 +56,12 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         TextView txtEnunciado,txtNum;
         CheckBox checkOk,checkNOOK;
         private View view;
-        int count=0;
         public ViewHolder(View view) {
             super(view);
             txtEnunciado=view.findViewById(R.id.txtEnunciado);
             txtNum=view.findViewById(R.id.txtNum);
             checkOk=view.findViewById(R.id.checkOK);
             checkNOOK=view.findViewById(R.id.checkNOOK);
-            checkOk.setChecked(false);
-            checkNOOK.setChecked(false);
             this.view=view;
         }
 
@@ -72,6 +69,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         public void binData(String item,int posicion) {
             txtEnunciado.setText(item);
             String pos= String.valueOf(posicion);
+            checkOk.setChecked(false);
+            checkNOOK.setChecked(false);
 
            txtNum.setText(String.valueOf(posicion));
                 checkOk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -97,7 +96,6 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                         }
                 }
             });
-            count++;
 
         }
     }
