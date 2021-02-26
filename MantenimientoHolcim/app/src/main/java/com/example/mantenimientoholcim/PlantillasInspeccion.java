@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,8 +31,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
     TextView txtnombreInspecciones;
     String nombreInspeccion="";
     int posicion;
-    Resources res = getResources();
-    String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +40,10 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
+
+        Resources res = getResources();
+        String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
+
         nombreInspeccion=nombre_inspecciones[posicion];
         rvInspecciones=findViewById(R.id.rvInspecciones);
         nombreInspector=findViewById(R.id.nombreInspector);
@@ -502,7 +506,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         String codigo="";
         String error="";
 
-        List <ElementInspeccion> valores=li.getValores();
+        HashMap<String, ElementInspeccion> valores=li.getValores();
         inspector=nombreInspector.getText().toString();
         fechaI=fechaInspeccion.getText().toString();
         proxima=fechaProximaInspeccion.getText().toString();
@@ -534,7 +538,12 @@ public class PlantillasInspeccion extends AppCompatActivity {
             FirebaseDatabase database= FirebaseDatabase.getInstance();
             DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
             DatabaseReference ref2=ref1.push();
-            ref2.setValue(inspeccionTipo1);
+            ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
+                }
+            });
             finish();
         }
 

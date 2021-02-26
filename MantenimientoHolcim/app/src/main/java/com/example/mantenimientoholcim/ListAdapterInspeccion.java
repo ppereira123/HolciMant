@@ -20,7 +20,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
     private List<String> mdata;
     private LayoutInflater mInflater;
     private Context context;
-    private List<ElementInspeccion> valores= new ArrayList<>();
+    private HashMap<String, ElementInspeccion> valores= new HashMap<String, ElementInspeccion>();
 
 
     public ListAdapterInspeccion(List<String> itemList, Context context){
@@ -37,7 +37,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
 
     @Override
     public void onBindViewHolder(@NonNull ListAdapterInspeccion.ViewHolder holder, int position) {
-        holder.binData(mdata.get(position));
+        holder.binData(mdata.get(position),position);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         return mdata.size();
     }
 
-    public List<ElementInspeccion> getValores(){
+    public HashMap<String, ElementInspeccion> getValores(){
         return valores;
     }
 
@@ -53,27 +53,33 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView txtEnunciado;
+        TextView txtEnunciado,txtNum;
         CheckBox checkOk,checkNOOK;
         private View view;
+        int count=0;
         public ViewHolder(View view) {
             super(view);
             txtEnunciado=view.findViewById(R.id.txtEnunciado);
+            txtNum=view.findViewById(R.id.txtNum);
             checkOk=view.findViewById(R.id.checkOK);
             checkNOOK=view.findViewById(R.id.checkNOOK);
             this.view=view;
         }
 
 
-        public void binData(String item) {
+        public void binData(String item,int posicion) {
             txtEnunciado.setText(item);
-            checkOk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            String pos= String.valueOf(posicion);
+           txtNum.setText(String.valueOf(posicion));
+                checkOk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                     checkNOOK.setChecked(false);
                     ElementInspeccion elementInspeccion= new ElementInspeccion(item,"OK");
-                    valores.add(elementInspeccion);
+                     valores.put(pos,elementInspeccion);
+
+
                     }
                 }
             });
@@ -83,10 +89,12 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                     checkOk.setChecked(false);
-                        ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
-                        valores.add(elementInspeccion);}
+                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
+                        valores.put(pos,elementInspeccion);
+                        }
                 }
             });
+            count++;
 
         }
     }
