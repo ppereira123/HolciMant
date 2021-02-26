@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="combo_posiciones">
+    <string-array name="combo_inspeccionesNombre">
         <item>ARNÉS DE CUERPO ENTERO</item>
         <item>PUNTOS DE ANCLAJE FIJOS</item>
         <item>PUNTOS DE ANCLAJE MÓVILES: Punto de anclaje de cable de acero</item>
