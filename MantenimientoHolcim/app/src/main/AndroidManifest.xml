@@ -13,8 +13,6 @@
         android:theme="@style/Theme.MantenimientoHolcim">
         <activity android:name=".RevisionPuntosBloqueo"></activity>
         <activity android:name=".PlantillasInspeccion" />
-        <activity android:name=".PuntoAnclajeFijo" />
-        <activity android:name=".PlantillaInspeccionArnes" />
         <activity android:name=".CrearItem" />
         <activity
             android:name=".MainActivity"
