@@ -63,6 +63,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
             txtNum=view.findViewById(R.id.txtNum);
             checkOk=view.findViewById(R.id.checkOK);
             checkNOOK=view.findViewById(R.id.checkNOOK);
+            checkOk.setChecked(false);
+            checkNOOK.setChecked(false);
             this.view=view;
         }
 
@@ -70,6 +72,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         public void binData(String item,int posicion) {
             txtEnunciado.setText(item);
             String pos= String.valueOf(posicion);
+
            txtNum.setText(String.valueOf(posicion));
                 checkOk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
