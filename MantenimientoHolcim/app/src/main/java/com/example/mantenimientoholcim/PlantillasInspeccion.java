@@ -499,7 +499,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         String codigo="";
         String error="";
 
-        HashMap<String,String> valores=li.getValores();
+        List <ElementInspeccion> valores=li.getValores();
         inspector=nombreInspector.getText().toString();
         fechaI=fechaInspeccion.getText().toString();
         proxima=fechaProximaInspeccion.getText().toString();
@@ -531,7 +531,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
             FirebaseDatabase database= FirebaseDatabase.getInstance();
             DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
             DatabaseReference ref2=ref1.push();
-            ref2.setValue(valores);
+            ref2.setValue(inspeccionTipo1);
             finish();
         }
 

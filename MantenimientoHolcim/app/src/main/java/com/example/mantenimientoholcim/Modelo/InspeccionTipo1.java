@@ -1,7 +1,9 @@
 package com.example.mantenimientoholcim.Modelo;
 
+import com.example.mantenimientoholcim.ElementInspeccion;
+
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.List;
 
 public class InspeccionTipo1 implements Serializable {
     String enuunciado;
@@ -9,9 +11,9 @@ public class InspeccionTipo1 implements Serializable {
     String fechaInspeccion;
     String proximaInspeccion;
     String codigo;
-    HashMap<String,String> valores;
+    List<ElementInspeccion> valores;
 
-    public InspeccionTipo1(String enuunciado, String nombreInspector, String fechaInspeccion, String proximaInspeccion, String codigo, HashMap<String, String> valores) {
+    public InspeccionTipo1(String enuunciado, String nombreInspector, String fechaInspeccion, String proximaInspeccion, String codigo, List<ElementInspeccion> valores) {
         this.enuunciado = enuunciado;
         this.nombreInspector = nombreInspector;
         this.fechaInspeccion = fechaInspeccion;
@@ -20,7 +22,7 @@ public class InspeccionTipo1 implements Serializable {
         this.valores = valores;
     }
 
-    public InspeccionTipo1(String enuunciado, String nombreInspector, HashMap<String, String> valores) {
+    public InspeccionTipo1(String enuunciado, String nombreInspector, List<ElementInspeccion> valores) {
         this.enuunciado = enuunciado;
         this.nombreInspector = nombreInspector;
         this.valores = valores;
@@ -66,11 +68,11 @@ public class InspeccionTipo1 implements Serializable {
         this.codigo = codigo;
     }
 
-    public HashMap<String, String> getValores() {
+    public List<ElementInspeccion> getValores() {
         return valores;
     }
 
-    public void setValores(HashMap<String, String> valores) {
+    public void setValores(List<ElementInspeccion> valores) {
         this.valores = valores;
     }
 }

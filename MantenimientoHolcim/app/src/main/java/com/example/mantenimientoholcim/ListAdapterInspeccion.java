@@ -1,27 +1,18 @@
 package com.example.mantenimientoholcim;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.mantenimientoholcim.Modelo.Item;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +20,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
     private List<String> mdata;
     private LayoutInflater mInflater;
     private Context context;
-    private HashMap<String,String> valores= new HashMap<>();
+    private List<ElementInspeccion> valores= new ArrayList<>();
 
 
     public ListAdapterInspeccion(List<String> itemList, Context context){
@@ -54,7 +45,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
         return mdata.size();
     }
 
-    public HashMap<String,String> getValores(){
+    public List<ElementInspeccion> getValores(){
         return valores;
     }
 
@@ -81,7 +72,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                     checkNOOK.setChecked(false);
-                    valores.put(item,"OK");
+                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"OK");
+                    valores.add(elementInspeccion);
                     }
                 }
             });
@@ -91,7 +83,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                     checkOk.setChecked(false);
-                    valores.put(item,"NO OK");}
+                        ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
+                        valores.add(elementInspeccion);}
                 }
             });
 
