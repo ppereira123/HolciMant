@@ -40,18 +40,18 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
-        nombreInspeccion=nombreInspeccion[posicion];
+        nombreInspeccion=nombre_inspecciones[posicion];
         rvInspecciones=findViewById(R.id.rvInspecciones);
         nombreInspector=findViewById(R.id.nombreInspector);
         fechaInspeccion=findViewById(R.id.fechaInspección);
         fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
+        txtnombreInspecciones=findViewById(R.id.txtPI1);
 
         li= new ListAdapterInspeccion(tipoInspecciones.get(posicion),this);
         rvInspecciones.setHasFixedSize(true);
         rvInspecciones.setLayoutManager(new LinearLayoutManager(context));
         rvInspecciones.setAdapter(li);
-        //nombreInspeccion= new String(R.array.combo_posiciones.get(posicion));
-        //txtnombreInspecciones.setText(nombreInspeccion);
+        txtnombreInspecciones.setText(nombreInspeccion);
     }
 
     void cargarInspecciones(){
