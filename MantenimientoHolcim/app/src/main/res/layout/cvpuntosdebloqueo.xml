@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#6090A3A3"
+            android:background="#2090A3A3"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="6dp">
@@ -70,12 +70,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="#51E53935"
+                    android:elevation="10dp"
                     android:gravity="center"
+                    android:padding="10dp"
                     android:text="Punto de bloqueo"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="#000000"
-                    android:elevation="10dp"
-                    android:padding="10dp"/>
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/text4"
@@ -120,8 +120,8 @@
                         android:layout_width="191dp"
                         android:layout_height="wrap_content"
                         android:background="#20CFDC"
-                        android:orientation="vertical"
                         android:elevation="10dp"
+                        android:orientation="vertical"
                         android:padding="10dp">
 
                         <TextView
@@ -139,6 +139,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="Cumple" />
+
                         <CheckBox
                             android:id="@+id/checkBox6"
                             android:layout_width="wrap_content"
@@ -153,8 +154,8 @@
                         android:layout_width="191dp"
                         android:layout_height="wrap_content"
                         android:background="#19E6AC"
-                        android:orientation="vertical"
                         android:elevation="10dp"
+                        android:orientation="vertical"
                         android:padding="10dp">
 
                         <TextView
@@ -172,6 +173,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="Cumple" />
+
                         <CheckBox
                             android:id="@+id/checkBox9"
                             android:layout_width="wrap_content"
@@ -182,6 +184,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/text9"
                     android:layout_width="match_parent"
