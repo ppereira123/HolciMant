@@ -79,7 +79,8 @@ public class CrearItem extends AppCompatActivity {
         tipos.add(1,"Trimestral");
         tipos.add(2,"Quinquenal");
         tipos.add(3,"Mensual");
-        tipos.add(3,"Anual");
+        tipos.add(4,"Semestral");
+        tipos.add(5,"Anual");
         estados.add(0,"N/A");
         estados.add(1,"En uso");
         estados.add(2,"Repuesto");
