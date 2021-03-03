@@ -1,12 +1,16 @@
 package com.example.mantenimientoholcim;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,13 +64,16 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
         Resources res = getResources();
         String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
-        String[] imagesdeinspeccion = res.getStringArray(R.array.combo_inspeccionesImagenes);
+        String[] imagenesdeinspeccion = res.getStringArray(R.array.combo_inspeccionesImagenes);
         nombreInspeccion=nombre_inspecciones[posicion];
-        imagenInspeccion= nombreInspeccion;
+        imagenInspeccion= imagenesdeinspeccion[posicion];
         rvInspecciones=findViewById(R.id.rvInspecciones);
         nombreInspector=findViewById(R.id.nombreInspector);
         imagInspeccion=findViewById(R.id.imgInspeccion);
-        imagInspeccion.setImageResource(R.mipmap.arnes);
+        String uri =imagenInspeccion;
+        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+        Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
+        imagInspeccion.setImageDrawable(imagen);
 
 
         String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);

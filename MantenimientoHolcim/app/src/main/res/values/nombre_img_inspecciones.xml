@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="combo_inspeccionesImagenes">
-        <item>arnes</item>
-        <item>puntofijo</item>
-        <item>puntofijo</item>
-        <item>puntofijo</item>
-        <item>linea_de_vida</item>
-        <item>RESTRICTOR DE MOVIMIENTO</item>
-        <item>ESLINGA</item>
-        <item>ESCALERAS FIJAS (INCLUYEN ESCALERAS DE ACCESO A PLATAFORMAS)</item>
-        <item>PASILLOS Y PLATAFORMAS FIJAS</item>
-        <item>ESCALERAS MÓVILES: Escalera de tijeras</item>
-        <item>ESCALERAS MÓVILES: Escalera de extensión</item>
-        <item>ESCALERAS MÓVILES: Plataformas móviles de trabajo</item>
-        <item>ROTOMARTILLO</item>
-        <item>AMOLADORA</item>
-        <item>TALADRO</item>
-        <item>GRATA - PULIDORA</item>
-        <item>SOPLADOR</item>
-        <item>TRINEO</item>
-        <item>TRONZADORA</item>
-        <item>EXTRACTOR - VENTILADOR DE MANGAS</item>
-        <item>EXTENSIÓN 110 V - 220 V</item>
-        <item>EXTENSIÓN 480</item>
-        <item>TRASPALETA ELÉCTRICA</item>
-        <item>GUARDAS DE MÁQUINAS</item>
-        <item>MANGUERAS - CONEXIONES - ACCESORIOS</item>
-        <item>SOLDADORA</item>
-        <item>ACCESORIOS DE OXICORTE (TUERCAS, SOLPLETES, MANÓMETROS)</item>
-        <item>CILINDRO</item>
-        <item>ACCESORIOS DE IZAJE</item>
-        <item>GANCHO (CONDICIONES ADICIONALES)</item>
-        <item>ESLINGA SINTÉTICA</item>
-        <item>TRASPALETA</item>
-        <item>SOPORTES DE CARGA</item>
-        <item>GATAS</item>
-        <item>TECLE </item>
-        <item>PUENTE GRÚA</item>
-        <item>WINCHA MANUAL</item>
-        <item>INYECTOR HIDRÁULICO</item>
-        <item>CHALECO - ARO SALVAVIDAS</item>
-        <item>Extintor Portátil</item>
-        <item>BATERIA</item>
+        <item>"@mipmap/arnes"</item>
+        <item>"@mipmap/puntofijo"</item>
+        <item>"@mipmap/puntofijo</item>
+        <item>"@mipmap/puntofijo"</item>
+        <item>"@mipmap/linea_de_vida"</item>
+        <item>"@mipmap/restrictor_de_movimiento"</item>
+        <item>"@mipmap/eslinga"</item>
+        <item>"@mipmap/escalera_fija"</item>
+        <item>"@mipmap/pasillo_fijo"</item>
+        <item>"@mipmap/escalera_movil"</item>
+        <item>"@mipmap/escalera_de_extencion"</item>
+        <item>"@mipmap/plataforma_movil_de_trabajo"</item>
+        <item>"@mipmap/rotomartillo"</item>
+        <item>"@mipmap/amoladora"</item>
+        <item>"@mipmap/talador"</item>
+        <item>"@mipmap/gratapulidora"</item>
+        <item>"@mipmap/soplador"</item>
+        <item>"@mipmap/trineo"</item>
+        <item>"@mipmap/tronzadora"</item>
+        <item>"@mipmap/extractor"</item>
+        <item>"@mipmap/extension110_220"</item>
+        <item>"@mipmap/extension480"</item>
+        <item>"@mipmap/traspaleta"</item>
+        <item>"@mipmap/guardasdemaquina"</item>
+        <item>"@mipmap/manguera"</item>
+        <item>"@mipmap/soldadora"</item>
+        <item>"@mipmap/accesoriosdeoxicorte"</item>
+        <item>"@mipmap/cilindro"</item>
+        <item>"@mipmap/accesoriosdeizage"</item>
+        <item>"@mipmap/accesoriosdeizage"</item>
+        <item>"@mipmap/eslingasintetica"</item>
+        <item>"@mipmap/traspaleta"</item>
+        <item>"@mipmap/embanque"</item>
+        <item>"@mipmap/gata"</item>
+        <item>"@mipmap/tecle"</item>
+        <item>"@mipmap/puentegrua"</item>
+        <item>"@mipmap/wincha"</item>
+        <item>"@mipmap/inyectorhidraulico"</item>
+        <item>"@mipmap/chaleco"</item>
+        <item>"@mipmap/extintor"</item>
+        <item>"@mipmap/bateria"</item>
     </string-array>
 </resources>

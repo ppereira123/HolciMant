@@ -34,12 +34,25 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtNombreItem"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Herramienta" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txtNombreItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="Herramienta" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="181dp"
+                        android:layout_height="35dp"
+                        app:srcCompat="@android:drawable/ic_menu_manage" />
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,39 +68,51 @@
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/menos" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <FrameLayout
+                        android:layout_width="276dp"
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/txtEquipo2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="Stock"
-                            android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="117dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            app:srcCompat="@mipmap/almacen" />
 
-                        <TextView
-                            android:id="@+id/txtStock"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="15"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/txtCodigo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TextView"
-                            android:textSize="8sp" />
+                            android:orientation="vertical">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/txtEquipo2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:text="Stock"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtStock"
+                                android:layout_width="259dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:text="15"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/txtCodigo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="TextView"
+                                android:textSize="8sp" />
+
+                        </LinearLayout>
+                    </FrameLayout>
 
                     <ImageButton
                         android:id="@+id/btnMas"
