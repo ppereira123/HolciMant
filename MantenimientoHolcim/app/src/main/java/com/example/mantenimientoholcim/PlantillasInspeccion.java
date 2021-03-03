@@ -1,15 +1,21 @@
 package com.example.mantenimientoholcim;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +24,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class PlantillasInspeccion extends AppCompatActivity {
     RecyclerView rvInspecciones;
@@ -29,27 +40,97 @@ public class PlantillasInspeccion extends AppCompatActivity {
     ListAdapterInspeccion li;
     EditText editTextCodigo,nombreInspector,fechaInspeccion,fechaProximaInspeccion;
     TextView txtnombreInspecciones;
+    ImageView imagInspeccion;
     String nombreInspeccion="";
+    String imagenInspeccion="";
     int posicion;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plantillas_inspeccion);
         editTextCodigo=findViewById(R.id.editTextCodigoInspeccion);
+        Date d=new Date();
+        //SACAMOS LA FECHA COMPLETA
+        fechaInspeccion=findViewById(R.id.fechaInspección);
+        SimpleDateFormat fecc=new SimpleDateFormat("d/MMMM/yyyy");
+        String fechacComplString = fecc.format(d);
+        fechaInspeccion.setText(fechacComplString);
+        fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
 
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
 
         Resources res = getResources();
         String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
-
+        String[] imagenesdeinspeccion = res.getStringArray(R.array.combo_inspeccionesImagenes);
         nombreInspeccion=nombre_inspecciones[posicion];
+        imagenInspeccion= imagenesdeinspeccion[posicion];
         rvInspecciones=findViewById(R.id.rvInspecciones);
         nombreInspector=findViewById(R.id.nombreInspector);
-        fechaInspeccion=findViewById(R.id.fechaInspección);
-        fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
+        imagInspeccion=findViewById(R.id.imgInspeccion);
+        String uri =imagenInspeccion;
+        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+        Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
+        imagInspeccion.setImageDrawable(imagen);
+
+
+        String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);
+        boolean existeSemestral= existeEnArreglo(tipodeinspeccionSemestral,nombreInspeccion);
+        String[] tipodeinspeccionAnual = res.getStringArray(R.array.Anual);
+        boolean existeAnual= existeEnArreglo(tipodeinspeccionAnual,nombreInspeccion);
+        String[] tipodeinspeccionMensual = res.getStringArray(R.array.Mensual);
+        boolean existeMensual= existeEnArreglo(tipodeinspeccionMensual,nombreInspeccion);
+        String[] tipodeinspeccionTrimestral = res.getStringArray(R.array.Trimestral);
+        boolean existeTrimestral= existeEnArreglo(tipodeinspeccionTrimestral,nombreInspeccion);
+        String[] tipodeinspeccionQuinquenal = res.getStringArray(R.array.Quinquenal);
+        boolean existeQuinquenal= existeEnArreglo(tipodeinspeccionQuinquenal,nombreInspeccion);
+
+        if(existeSemestral){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 6);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+
+        }
+        else if(existeAnual){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 12);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+        }
+        else if(existeTrimestral){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 3);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+
+        }
+        else if(existeMensual){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 1);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+        }
+        else if(existeQuinquenal){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 5);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+        }
+        else{
+            fechaProximaInspeccion.setText("N/A");
+        }
+
+
         txtnombreInspecciones=findViewById(R.id.txtPI1);
+
 
         li= new ListAdapterInspeccion(tipoInspecciones.get(posicion),this);
         rvInspecciones.setHasFixedSize(true);
@@ -57,6 +138,22 @@ public class PlantillasInspeccion extends AppCompatActivity {
         rvInspecciones.setAdapter(li);
         txtnombreInspecciones.setText(nombreInspeccion);
     }
+    public static boolean existeEnArreglo(String[] arreglo, String busqueda) {
+        for (int x = 0; x < arreglo.length; x++) {
+            if (arreglo[x].equals(busqueda)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Date variarFecha(Date fecha, int campo, int valor){
+        if (valor==0) return fecha;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(campo, valor);
+        return calendar.getTime();
+    }
+
 
     void cargarInspecciones(){
         List<String> inspeccion0= new ArrayList<>();
@@ -111,7 +208,6 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion4.add("El cordón de absorción de energía no tiene fibras rotas, bordes deshilachados, distorsionados, ni tiene bordes agudos, ruidos, fracturas o corrosión.");
         inspeccion4.add("Inspeccione la correcta operación de los ganchos de conexión");
         inspeccion4.add("Las puertas de los ganchos se mueven libremente y se bloquean al cierre.");
-        inspeccion4.add("Inspeccione el amortiguador de energía para determinar si ha sido activado. (El amortiguador debe estar recogido)");
         inspeccion4.add("Inspeccione el amortiguador de energía para determinar si ha sido activado. (El amortiguador debe estar recogido)");
         inspeccion4.add("Revise si existen las etiquetas de inspección y registre la actual revisión");
         tipoInspecciones.add(inspeccion4);
@@ -491,6 +587,12 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion33.add("Soporte o sujetador de la manguera disponible y en buen estado");
         tipoInspecciones.add(inspeccion33);
 
+        List<String> inspeccion34= new ArrayList<>();
+        inspeccion34.add("El tenchufe se encuentra en buen estado:\n1.- No posee empates\n2.- La protección no esta cortada\n3.- Verificar la continuidad de cables  L, N y GND  (desde el enchufe hasta el tomacorriente");
+        inspeccion34.add("El enchufe:\n1.- Es polarizado 110/220 Vac\n2.- Posee la conexión a tierra\n3.- Las conexiones poseen prensacable");
+        inspeccion34.add("El tomacorriente de 110/220 Vac:\n1.- Posee doble tapa\n2.- Posee la conexión a tierra\n3.- Las conexiones poseen prensacables");
+        inspeccion34.add("Los tomacorrientes están  protegidos por un dispositivo de corriente residual aprobado, valorado a una corriente de desconexión de 30mA.");
+        tipoInspecciones.add(inspeccion34);
 
 
     }

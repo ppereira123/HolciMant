@@ -1,2 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="combo_inspeccionesImagenes">
+        <item>"@mipmap/arnes"</item>
+        <item>"@mipmap/puntofijo"</item>
+        <item>"@mipmap/puntofijo</item>
+        <item>"@mipmap/puntofijo"</item>
+        <item>"@mipmap/linea_de_vida"</item>
+        <item>"@mipmap/restrictor_de_movimiento"</item>
+        <item>"@mipmap/eslinga"</item>
+        <item>"@mipmap/escalera_fija"</item>
+        <item>"@mipmap/pasillo_fijo"</item>
+        <item>"@mipmap/escalera_movil"</item>
+        <item>"@mipmap/escalera_de_extencion"</item>
+        <item>"@mipmap/plataforma_movil_de_trabajo"</item>
+        <item>"@mipmap/rotomartillo"</item>
+        <item>"@mipmap/amoladora"</item>
+        <item>"@mipmap/talador"</item>
+        <item>"@mipmap/gratapulidora"</item>
+        <item>"@mipmap/soplador"</item>
+        <item>"@mipmap/trineo"</item>
+        <item>"@mipmap/tronzadora"</item>
+        <item>"@mipmap/extractor"</item>
+        <item>"@mipmap/extension110_220"</item>
+        <item>"@mipmap/extension480"</item>
+        <item>"@mipmap/traspaleta"</item>
+        <item>"@mipmap/guardasdemaquina"</item>
+        <item>"@mipmap/manguera"</item>
+        <item>"@mipmap/soldadora"</item>
+        <item>"@mipmap/accesoriosdeoxicorte"</item>
+        <item>"@mipmap/cilindro"</item>
+        <item>"@mipmap/accesoriosdeizage"</item>
+        <item>"@mipmap/accesoriosdeizage"</item>
+        <item>"@mipmap/eslingasintetica"</item>
+        <item>"@mipmap/traspaleta"</item>
+        <item>"@mipmap/embanque"</item>
+        <item>"@mipmap/gata"</item>
+        <item>"@mipmap/tecle"</item>
+        <item>"@mipmap/puentegrua"</item>
+        <item>"@mipmap/wincha"</item>
+        <item>"@mipmap/inyectorhidraulico"</item>
+        <item>"@mipmap/chaleco"</item>
+        <item>"@mipmap/extintor"</item>
+        <item>"@mipmap/bateria"</item>
+    </string-array>
+</resources>
