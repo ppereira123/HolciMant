@@ -73,10 +73,22 @@
                 android:layout_margin="10dp"
                 android:inputType="textPersonName"
                 android:hint="Ingresar provima fecha de iinspección"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvpuntosdebloqueo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/btnmaspuntos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="end"
+                android:layout_margin="20dp"
+                android:onClick="maspuntodebloqueo"
+                app:srcCompat="@mipmap/mas" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

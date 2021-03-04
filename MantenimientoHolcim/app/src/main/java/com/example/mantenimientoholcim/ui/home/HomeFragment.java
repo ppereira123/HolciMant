@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,8 +36,10 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private RecyclerView rvItems;
+    SearchView searchView;
     private FloatingActionButton fabItem;
     View root;
+    List<Item> listitems;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,6 +49,23 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
         //rvItems=root.findViewById(R.id.rvHerramientas);
         fabItem=root.findViewById(R.id.fabItems);
+        searchView = root.findViewById(R.id.buscartHerramientas);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                buscar(s);
+                return true;
+            }
+        });
+
+
         fabItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,9 +80,22 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+
+
+
         return root;
     }
-    void buscarItems(){
+    void buscar(String s){
+        ArrayList<Item>milista = new ArrayList<>();
+        for (Item obj: listitems){
+            if(obj.getDescripcion().toLowerCase().contains(s.toLowerCase())){
+                milista.add(obj);
+            }
+
+        }
+        ListAdapterItem adapterItem= new ListAdapterItem(milista, root.getContext());
+        rvItems.setAdapter(adapterItem);
 
     }
 
@@ -87,12 +122,12 @@ public class HomeFragment extends Fragment {
                     items.add(item);
                     }
                 }
+                listitems=items;
                 rvItems=root.findViewById(R.id.rvHerramientas);
                 ListAdapterItem li= new ListAdapterItem(items,root.getContext());
                 rvItems.setHasFixedSize(true);
                 rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
                 rvItems.setAdapter(li);
-
             }
 
             @Override
@@ -100,6 +135,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
 
     }
 }

@@ -67,7 +67,8 @@ public class GalleryFragment extends Fragment {
     }
 
     void cargarInspecciones(){
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(root.getContext(),R.array.combo_inspeccionesNombre, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(root.getContext(),R.array.combo_inspeccionesNombre, android.R.layout.simple_expandable_list_item_1);
         tipoInspecciones.setAdapter(adapter);
+
     }
 }
