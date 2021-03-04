@@ -34,14 +34,19 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/txtNombreItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="214dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:foregroundGravity="center"
                         android:gravity="center"
@@ -49,38 +54,39 @@
 
                     <ImageView
                         android:id="@+id/imageView5"
-                        android:layout_width="181dp"
-                        android:layout_height="35dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
                         app:srcCompat="@android:drawable/ic_menu_manage" />
                 </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="59dp"
+                    android:layout_height="match_parent"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/btnMenos"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:background="?attr/selectableItemBackground"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@mipmap/menos" />
+                        app:srcCompat="@mipmap/eliminar" />
 
                     <FrameLayout
-                        android:layout_width="276dp"
-                        android:layout_height="match_parent">
+                        android:layout_width="221dp"
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/imageView6"
-                            android:layout_width="117dp"
+                            android:layout_width="61dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@mipmap/almacen" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="221dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -116,9 +122,10 @@
 
                     <ImageButton
                         android:id="@+id/btnMas"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:background="?android:attr/panelBackground"
+                        android:foreground="@mipmap/mas"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/anadir" />
 

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.mantenimientoholcim.MainActivity;
 import com.example.mantenimientoholcim.R;
+import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
 import com.example.mantenimientoholcim.Signin.PerfilUsuario;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -108,7 +109,7 @@ public class LoginFireBase extends AppCompatActivity {
             info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
             info_user.put("user_id", user.getUid());
             finish();
-            Intent intent = new Intent(this, PerfilUsuario.class);
+            Intent intent = new Intent(this, RevisionPuntosBloqueo.class);
             intent.putExtra("info_user", info_user);
             startActivity(intent);
         } else {

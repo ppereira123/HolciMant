@@ -33,7 +33,9 @@
             android:id="@+id/listTipoInspecciones"
             style="@style/Widget.AppCompat.Light.ListView.DropDown"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:overScrollMode="always"
+            android:scrollbarStyle="outsideOverlay" />
     </LinearLayout>
 
 
