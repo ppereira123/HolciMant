@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mantenimientoholcim.AdaptadorItemInspecciones;
+import com.example.mantenimientoholcim.Modelo.ItemInspeccion;
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
@@ -32,7 +34,7 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private FloatingActionButton fabInspeccion;
     ListView tipoInspecciones;
-    EditText txtInspecciones;
+    private AdaptadorItemInspecciones adaptador;
     View root;
 
 
@@ -42,14 +44,12 @@ public class GalleryFragment extends Fragment {
                 new ViewModelProvider(this).get(GalleryViewModel.class);
         root = inflater.inflate(R.layout.fragment_gallery, container, false);
         tipoInspecciones=root.findViewById(R.id.listTipoInspecciones);
-        cargarInspecciones();
-        txtInspecciones=root.findViewById(R.id.editTextInspeccion);
-
+        adaptador= new AdaptadorItemInspecciones(getContext(), GetArrayItems() );
+        tipoInspecciones.setAdapter(adaptador);
 
         tipoInspecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                txtInspecciones.setText(String.valueOf(position));
                 if (position==41){
                     Intent intent= new Intent(root.getContext(), RevisionPuntosBloqueo.class);
                     startActivity(intent);
@@ -74,10 +74,18 @@ public class GalleryFragment extends Fragment {
         });
         return root;
     }
+    private  ArrayList<ItemInspeccion> GetArrayItems(){
+        ArrayList<ItemInspeccion> listItems = new ArrayList<>();
+        Resources res = getResources();
+        String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
+        int size= nombre_inspecciones.length;
+        for (int i=0; i<size; i++){
+            listItems.add(new ItemInspeccion(nombre_inspecciones[i]));
 
-    void cargarInspecciones(){
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(root.getContext(),R.array.combo_inspeccionesNombre, android.R.layout.simple_expandable_list_item_1);
-        tipoInspecciones.setAdapter(adapter);
+        }
+        return listItems;
 
     }
+
+
 }

@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:text="Nombre:" />
 
             <EditText
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/txtPB3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -57,7 +57,7 @@
                 android:hint="Ingresar fecha de la inspección"/>
 
             <TextView
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:id="@+id/textView12"
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
@@ -71,6 +71,24 @@
                 android:inputType="textPersonName"
                 android:hint="Ingresar provima fecha de iinspección"/>
 
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Aplatando el botón de + ingrese los puntos de bloqueo que desee" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnmaspuntos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="20dp"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:onClick="maspuntodebloqueo"
+                android:src="@android:drawable/ic_input_add" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvpuntosdebloqueo"
                 android:layout_width="match_parent"
@@ -78,26 +96,18 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <ImageView
-                android:id="@+id/btnmaspuntos"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:onClick="maspuntodebloqueo"
-                app:srcCompat="@mipmap/mas" />
-
             <Button
                 android:id="@+id/btnGuardarInspeccion"
-                android:layout_width="324dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:backgroundTint="#becde9"
-                android:text="Guardar Inspección"
+                android:onClick="subirinspeccion"
+                android:text="Subir Inspección"
                 android:textColor="#005da6"
                 app:cornerRadius="10dp"
-                app:icon="@mipmap/excel"
+                app:icon="@android:drawable/ic_menu_upload"
                 app:iconSize="50dp"
                 app:iconTintMode="multiply" />
 
