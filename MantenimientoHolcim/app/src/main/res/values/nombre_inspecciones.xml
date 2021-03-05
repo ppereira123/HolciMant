@@ -42,5 +42,14 @@
         <item>CHALECO - ARO SALVAVIDAS</item>
         <item>Extintor Portátil</item>
         <item>BATERIA</item>
+        <item>REVICIÓN PUNTOS DE BLOQUEO</item>
+    </string-array>
+    <string-array name="combo_tipos_de_energias">
+        <item>Térmicas</item>
+        <item>Hidráulicas</item>
+        <item>Químicas</item>
+        <item>Cinética</item>
+        <item>Potencial</item>
+        <item>Neumática</item>
     </string-array>
 </resources>

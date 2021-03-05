@@ -4,13 +4,14 @@ import android.net.Uri;
 
 import com.example.mantenimientoholcim.ElementInspeccion;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class PuntoBloqueo {
+public class PuntoBloqueo implements Serializable {
     String codigoHac;
     String lugar;
-    Uri foto;
-    HashMap<String, ElementInspeccion> valores;
+    String rutaimagen;
+    String tipoenergia;
     String observaciones;
     String elemento_energia;
     String comparacionenergia;
@@ -19,11 +20,18 @@ public class PuntoBloqueo {
     public PuntoBloqueo() {
     }
 
-    public PuntoBloqueo(String codigoHac, String lugar, Uri foto, HashMap<String, ElementInspeccion> valores, String observaciones, String elemento_energia, String comparacionenergia) {
+    public PuntoBloqueo(String codigoHac, String lugar, String rutaimagen, String tipoenergia) {
         this.codigoHac = codigoHac;
         this.lugar = lugar;
-        this.foto = foto;
-        this.valores = valores;
+        this.rutaimagen = rutaimagen;
+        this.tipoenergia = tipoenergia;
+    }
+
+    public PuntoBloqueo(String codigoHac, String lugar, String rutaimagen, String tipoenergia,  String observaciones, String elemento_energia, String comparacionenergia) {
+        this.codigoHac = codigoHac;
+        this.lugar = lugar;
+        this.rutaimagen = rutaimagen;
+        this.tipoenergia = tipoenergia;
         this.observaciones = observaciones;
         this.elemento_energia = elemento_energia;
         this.comparacionenergia = comparacionenergia;
@@ -45,21 +53,22 @@ public class PuntoBloqueo {
         this.lugar = lugar;
     }
 
-    public Uri getFoto() {
-        return foto;
+    public String getRutaimagen() {
+        return rutaimagen;
     }
 
-    public void setFoto(Uri foto) {
-        this.foto = foto;
+    public void setRutaimagen(String rutaimagen) {
+        this.rutaimagen = rutaimagen;
     }
 
-    public HashMap<String, ElementInspeccion> getValores() {
-        return valores;
+    public String getTipoenergia() {
+        return tipoenergia;
     }
 
-    public void setValores(HashMap<String, ElementInspeccion> valores) {
-        this.valores = valores;
+    public void setTipoenergia(String tipoenergia) {
+        this.tipoenergia = tipoenergia;
     }
+
 
     public String getObservaciones() {
         return observaciones;
