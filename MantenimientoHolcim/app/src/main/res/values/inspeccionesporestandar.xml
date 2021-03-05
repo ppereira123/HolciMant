@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="HSS_102">
+        <item>ARNÉS DE CUERPO ENTERO</item>
+        <item>PUNTOS DE ANCLAJE FIJOS</item>
+        <item>PUNTOS DE ANCLAJE MÓVILES: Punto de anclaje de cable de acero</item>
+        <item>PUNTOS DE ANCLAJE MÓVILES: Punto de anclaje de faja sintética</item>
+        <item>LÍNEA DE VIDA FIJA Y RETRÁCTIL</item>
+        <item>RESTRICTOR DE MOVIMIENTO</item>
+        <item>ESLINGA</item>
+        <item>ESCALERAS FIJAS (INCLUYEN ESCALERAS DE ACCESO A PLATAFORMAS)</item>
+        <item>PASILLOS Y PLATAFORMAS FIJAS</item>
+        <item>ESCALERAS MÓVILES: Escalera de tijeras</item>
+        <item>ESCALERAS MÓVILES: Escalera de extensión</item>
+        <item>ESCALERAS MÓVILES: Plataformas móviles de trabajo</item>
+    </string-array>
+    <string-array name="HSS_103">
+        <item>PUNTOS DE BLOQUEO</item>
+    </string-array>
+    <string-array name="HSS_105">
+        <item>ROTOMARTILLO</item>
+        <item>AMOLADORA</item>
+        <item>TALADRO</item>
+        <item>GRATA - PULIDORA</item>
+        <item>SOPLADOR</item>
+        <item>TRINEO</item>
+        <item>TRONZADORA</item>
+        <item>EXTRACTOR - VENTILADOR DE MANGAS</item>
+        <item>EXTENSIÓN 110 V - 220 V</item>
+        <item>EXTENSIÓN 480</item>
+        <item>BATERIA</item>
+    </string-array>
+
+    <string-array name="HSS_106">
+        <item>GUARDAS DE MÁQUINAS</item>
+    </string-array>
+
+    <string-array name="HSS_107">
+        <item>MANGUERAS - CONEXIONES - ACCESORIOS</item>
+        <item>SOLDADORA</item>
+        <item>ACCESORIOS DE OXICORTE (TUERCAS, SOLPLETES, MANÓMETROS)</item>
+        <item>CILINDRO</item>
+    </string-array>
+
+    <string-array name="HSS_108">
+        <item>ACCESORIOS DE IZAJE</item>
+        <item>GANCHO (CONDICIONES ADICIONALES)</item>
+        <item>ESLINGA SINTÉTICA</item>
+        <item>TRASPALETA</item>
+        <item>SOPORTES DE CARGA</item>
+        <item>GATAS</item>
+        <item>TECLE </item>
+        <item>PUENTE GRÚA</item>
+        <item>WINCHA MANUAL</item>
+        <item>INYECTOR HIDRÁULICO</item>
+        <item>CHALECO - ARO SALVAVIDAS</item>
+        <item>TRASPALETA ELÉCTRICA</item>
+    </string-array>
+
+    <string-array name="HSS_110">
+        <item>CHALECO - ARO SALVAVIDAS</item>
+    </string-array>
+</resources>

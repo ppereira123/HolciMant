@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
+import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -49,9 +50,17 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 txtInspecciones.setText(String.valueOf(position));
-                Intent intent= new Intent(root.getContext(),PlantillasInspeccion.class);
-                intent.putExtra("posicion",position);
-                startActivity(intent);
+                if (position==41){
+                    Intent intent= new Intent(root.getContext(), RevisionPuntosBloqueo.class);
+                    startActivity(intent);
+
+                }
+                else {
+                    Intent intent= new Intent(root.getContext(),PlantillasInspeccion.class);
+                    intent.putExtra("posicion",position);
+                    startActivity(intent);
+                }
+
             }
         });
 

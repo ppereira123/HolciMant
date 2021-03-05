@@ -1,9 +1,7 @@
 package com.example.mantenimientoholcim;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CrearItem extends AppCompatActivity {
     EditText descripcionTxt,marcaTxt,observacionTxt,codigoTxt;
@@ -46,7 +43,7 @@ public class CrearItem extends AppCompatActivity {
         descripcionTxt=findViewById(R.id.descripciontxt);
         marcaTxt=findViewById(R.id.marcatxt);
         btnGenerar=findViewById(R.id.btnGenerar);
-        observacionTxt=findViewById(R.id.observaciontxt);
+        observacionTxt=findViewById(R.id.observacion);
         vidaUtilTxt=findViewById(R.id.vidaUtilNp);
         estadoActualSpinner=findViewById(R.id.estadoActualSpinner);
         ubicacionSpinner=findViewById(R.id.spinnerUbicacion);

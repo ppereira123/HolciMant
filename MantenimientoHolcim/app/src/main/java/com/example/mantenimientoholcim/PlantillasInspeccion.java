@@ -132,6 +132,9 @@ public class PlantillasInspeccion extends AppCompatActivity {
         txtnombreInspecciones=findViewById(R.id.txtPI1);
 
 
+
+
+
         li= new ListAdapterInspeccion(tipoInspecciones.get(posicion),this);
         rvInspecciones.setHasFixedSize(true);
         rvInspecciones.setLayoutManager(new LinearLayoutManager(context));

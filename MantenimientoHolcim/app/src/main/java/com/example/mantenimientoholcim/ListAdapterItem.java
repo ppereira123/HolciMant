@@ -1,11 +1,9 @@
 package com.example.mantenimientoholcim;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +63,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
             txtCodigo=view.findViewById(R.id.txtCodigo);
             btnMas=view.findViewById(R.id.btnMas);
             btnMenos=view.findViewById(R.id.btnMenos);
-            cvItem=view.findViewById(R.id.cvItem);
+            cvItem=view.findViewById(R.id.cvPuntoBloqueo);
             this.view=view;
         }
 
@@ -88,7 +86,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
                     refStock.setValue(item.getStock()-1);
                     break;
 
-                case R.id.cvItem:
+                case R.id.cvPuntoBloqueo:
                     Intent intent= new Intent(context,CrearItem.class);
                     intent.putExtra("item",item);
                     context.startActivity(intent);
