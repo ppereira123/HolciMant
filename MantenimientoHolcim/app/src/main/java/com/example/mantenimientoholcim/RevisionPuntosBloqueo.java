@@ -18,14 +18,18 @@ import com.example.mantenimientoholcim.Modelo.PuntoBloqueo;
 import com.example.mantenimientoholcim.Modelo.RevisionPuntoBloqueo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static com.example.mantenimientoholcim.PlantillasInspeccion.variarFecha;
 
 public class RevisionPuntosBloqueo extends AppCompatActivity {
     RecyclerView rvPuntosBloqueo;
     Context context=this;
     EditText txtNombre,txtFecha,txtFechaProxima;
-    int puntosdebloqueo=1;
     List<PuntoBloqueo> puntos= new ArrayList<>();
     String nombre="";
     String fecha="";
@@ -42,6 +46,20 @@ public class RevisionPuntosBloqueo extends AppCompatActivity {
         txtFecha=findViewById(R.id.txtPbfechaInspección);
         txtFechaProxima=findViewById(R.id.txtPbfechaproximaInspeccion);
         revisionActual=(RevisionPuntoBloqueo)getIntent().getSerializableExtra("Revision");
+        //fecha
+        Date d=new Date();
+        SimpleDateFormat fecc=new SimpleDateFormat("d/MMMM/yyyy");
+        String fechacComplString = fecc.format(d);
+        txtFecha.setText(fechacComplString);
+        Date fechaFinal = variarFecha(d, Calendar.MONTH, 12);
+        SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
+        String fechacComplString2 = fecc2.format(fechaFinal);
+        txtFechaProxima.setText(fechacComplString2);
+
+
+
+
+        //fin fecha
         if(revisionActual==null){
 
         }
@@ -73,6 +91,10 @@ public class RevisionPuntosBloqueo extends AppCompatActivity {
         intent.putExtra("Revision",rpb);
         startActivity(intent);
         finish();
+
+    }
+    public void subirinspeccion(View view){
+        
 
     }
 }
