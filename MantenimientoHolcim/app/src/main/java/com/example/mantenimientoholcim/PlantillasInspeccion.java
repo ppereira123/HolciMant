@@ -14,16 +14,35 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.example.mantenimientoholcim.Modelo.ItemInspeccion;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class PlantillasInspeccion extends AppCompatActivity {
     RecyclerView rvInspecciones;
@@ -43,6 +63,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
     ImageView imagInspeccion;
     String nombreInspeccion="";
     String imagenInspeccion="";
+    InspeccionTipo1 inspeccionTipo1;
+    Button btnGenerar,btnGuardar;
     int posicion;
 
     @SuppressLint("ResourceAsColor")
@@ -58,7 +80,21 @@ public class PlantillasInspeccion extends AppCompatActivity {
         String fechacComplString = fecc.format(d);
         fechaInspeccion.setText(fechacComplString);
         fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
-
+        btnGuardar=findViewById(R.id.btnGuardar);
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardar();
+            }
+        });
+        btnGenerar=findViewById(R.id.btnexel);
+        btnGenerar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardar();
+                crearExcel(inspeccionTipo1);
+            }
+        });
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
 
@@ -604,7 +640,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         finish();
     }
 
-    public  void guardar(View view){
+    public  void guardar(){
         String inspector="";
         String fechaI="";
         String proxima="";
@@ -639,7 +675,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         }
 
         if(error.equals("")){
-            InspeccionTipo1 inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
+            inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
             FirebaseDatabase database= FirebaseDatabase.getInstance();
             DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
             DatabaseReference ref2=ref1.push();
@@ -657,4 +693,231 @@ public class PlantillasInspeccion extends AppCompatActivity {
         }
 
     }
+
+
+    /// crear excel
+
+    public  void crearExcel(InspeccionTipo1 inspecion){
+
+        Workbook wb = new HSSFWorkbook();
+
+
+        Map<String, CellStyle> styles = createStyles(wb);
+
+
+
+        Sheet sheet = wb.createSheet("Inspección");
+        sheet.setFitToPage(true);
+        sheet.setHorizontallyCenter(true);
+
+
+        //title row
+        Row titleRow = sheet.createRow(0);
+        titleRow.setHeightInPoints(20);
+        Cell titleCell = titleRow.createCell(0);
+        titleCell.setCellValue(inspecion.getEnuunciado());
+        titleCell.setCellStyle(styles.get("title"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$K$1"));
+
+
+        Row row = sheet.createRow(1);
+        Cell cell = row.createCell(0);
+        cell.setCellValue("Empresa: ");
+        cell.setCellStyle(styles.get("item_left1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$2:$B$2"));
+        cell = row.createCell(2);
+        cell.setCellValue("Holcim Ecuador");
+        cell.setCellStyle(styles.get("item_left"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$C$2:$D$2"));
+
+        row = sheet.createRow(2);
+        cell = row.createCell(0);
+        cell.setCellValue("Fecha: ");
+        cell.setCellStyle(styles.get("item_left1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$3:$B$3"));
+        cell = row.createCell(2);
+        cell.setCellValue(inspecion.getFechaInspeccion());
+        cell.setCellStyle(styles.get("item_left"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$C$3:$F$3"));
+
+
+        row = sheet.createRow(3);
+        cell = row.createCell(0);
+        cell.setCellValue("Inspector: ");
+        cell.setCellStyle(styles.get("item_left1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$4:$B$4"));
+        cell = row.createCell(2);
+        cell.setCellValue(inspecion.getNombreInspector());
+        cell.setCellStyle(styles.get("item_left"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$C$4:$F$4"));
+
+
+        row = sheet.createRow(4);
+        cell = row.createCell(0);
+        cell.setCellValue("Código: ");
+        cell.setCellStyle(styles.get("item_left1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$5:$B$5"));
+        cell = row.createCell(2);
+        cell.setCellValue(inspecion.getCodigo());
+        cell.setCellStyle(styles.get("item_left"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$C$5:$F$5"));
+
+
+        row = sheet.createRow(6);
+        cell = row.createCell(0);
+        cell.setCellValue("#");
+        cell.setCellStyle(styles.get("header"));
+
+        cell = row.createCell(1);
+        cell.setCellValue("Punto de revisión");
+        cell.setCellStyle(styles.get("header"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$B$7:$I$7"));
+
+        cell = row.createCell(9);
+        cell.setCellValue("OK");
+        cell.setCellStyle(styles.get("header"));
+
+        cell = row.createCell(10);
+        cell.setCellValue("NO OK");
+        cell.setCellStyle(styles.get("header"));
+
+
+        ///item
+        int i=0;
+        for(Map.Entry<String, ElementInspeccion> entry :inspecion.getValores().entrySet() ) {
+            row = sheet.createRow(i + 7);
+            cell = row.createCell(0);
+            cell.setCellValue(i+1);
+            cell.setCellStyle(styles.get("cell"));
+            ///punto de revision
+            cell = row.createCell(1);
+            cell.setCellValue(entry.getValue().getEnunciado());
+            cell.setCellStyle(styles.get("cell"));
+            for (int n = i+2; n < 1+9; n++) {
+                cell = row.createCell(n);
+                cell.setCellValue("");
+                cell.setCellStyle(styles.get("cell"));
+            }
+
+            //sheet.addMergedRegion(CellRangeAddress.valueOf("$B$"+(i+8)+":$I$"+(i+8)));
+
+            //ok
+
+            if(entry.getValue().getOk().equals("ok")){
+                cell = row.createCell(9);
+                cell.setCellValue("✓");
+                cell.setCellStyle(styles.get("cell"));
+            }
+            else{
+                cell = row.createCell(10);
+                cell.setCellValue("✓");
+                cell.setCellStyle(styles.get("cell"));
+            }
+
+            //no ok
+            cell = row.createCell(10);
+            cell.setCellValue("");
+            cell.setCellStyle(styles.get("cell"));
+            i=i++;
+        }
+
+
+
+
+        String nombreFile="w2.xls";
+        File file = new File(getExternalFilesDir(null),nombreFile);
+        FileOutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(file);
+            wb.write(outputStream);
+            Toast.makeText(getApplicationContext(),"Reporte generado correctamente",Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(),"NO OK",Toast.LENGTH_LONG).show();
+            try {
+                outputStream.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+    }
+    private static Map<String, CellStyle> createStyles(Workbook wb){
+        Map<String, CellStyle> styles = new HashMap<>();
+        CellStyle style;
+        Font titleFont = wb.createFont();
+        titleFont.setFontHeightInPoints((short)18);
+        titleFont.setBold(true);
+        style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setFont(titleFont);
+        styles.put("title", style);
+
+        Font itemFont = wb.createFont();
+        itemFont.setFontHeightInPoints((short)12);
+        itemFont.setFontName("Trebuchet MS");
+        style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setFont(titleFont);
+        style.setFont(itemFont);
+        styles.put("item_left", style);
+
+        Font itemresFont = wb.createFont();
+        itemresFont.setFontHeightInPoints((short)12);
+        itemresFont.setFontName("Trebuchet MS");
+        itemresFont.setBold(true);
+        style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setFont(itemresFont);
+        styles.put("item_left1", style);
+
+
+
+        Font monthFont = wb.createFont();
+        monthFont.setFontHeightInPoints((short)12);
+        monthFont.setColor(IndexedColors.WHITE.getIndex());
+        style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setFont(monthFont);
+        style.setWrapText(true);
+        styles.put("header", style);
+
+        Font cellFont = wb.createFont();
+        cellFont.setFontHeightInPoints((short)12);
+        style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setFont(cellFont);
+        style.setWrapText(true);
+        styles.put("cell", style);
+
+
+
+        return styles;
+    }
+
+
+
+
+    ///fin crear excel
+
+
+
+
+
+
 }
