@@ -1,7 +1,5 @@
 package com.example.mantenimientoholcim.Modelo;
 
-import com.example.mantenimientoholcim.ElementInspeccion;
-
 import java.io.Serializable;
 import java.util.HashMap;
 
