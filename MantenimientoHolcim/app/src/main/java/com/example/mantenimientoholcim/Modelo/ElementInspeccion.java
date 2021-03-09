@@ -1,4 +1,4 @@
-package com.example.mantenimientoholcim;
+package com.example.mantenimientoholcim.Modelo;
 
 public class ElementInspeccion {
     String enunciado;

@@ -1,11 +1,6 @@
 package com.example.mantenimientoholcim.Modelo;
 
-import android.net.Uri;
-
-import com.example.mantenimientoholcim.ElementInspeccion;
-
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class PuntoBloqueo implements Serializable {
     String codigoHac;

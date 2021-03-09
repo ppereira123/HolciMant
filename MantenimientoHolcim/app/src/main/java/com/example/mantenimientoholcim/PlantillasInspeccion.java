@@ -9,19 +9,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
-import com.example.mantenimientoholcim.Modelo.ItemInspeccion;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -43,14 +40,12 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public class PlantillasInspeccion extends AppCompatActivity {
@@ -793,38 +788,51 @@ public class PlantillasInspeccion extends AppCompatActivity {
             cell = row.createCell(1);
             cell.setCellValue(entry.getValue().getEnunciado());
             cell.setCellStyle(styles.get("cell"));
-            for (int n = i+2; n < 1+9; n++) {
+            for (int n = 2; n < 9; n++) {
                 cell = row.createCell(n);
                 cell.setCellValue("");
                 cell.setCellStyle(styles.get("cell"));
             }
 
-            //sheet.addMergedRegion(CellRangeAddress.valueOf("$B$"+(i+8)+":$I$"+(i+8)));
+            //merge de las celdas
+            int cont=7;
+            cont= cont+i;
+            sheet.addMergedRegion(new CellRangeAddress(
+                    cont, //first row (0-based)
+                    cont, //last row  (0-based)
+                    1, //first column (0-based)
+                    8 //last column  (0-based)
+            ));
 
             //ok
 
-            if(entry.getValue().getOk().equals("ok")){
+            if(entry.getValue().getOk().equals("OK")){
                 cell = row.createCell(9);
                 cell.setCellValue("✓");
                 cell.setCellStyle(styles.get("cell"));
+                //no ok
+                cell = row.createCell(10);
+                cell.setCellValue("");
+                cell.setCellStyle(styles.get("cell"));
             }
             else{
+                cell = row.createCell(9);
+                cell.setCellValue("");
+                cell.setCellStyle(styles.get("cell"));
                 cell = row.createCell(10);
                 cell.setCellValue("✓");
                 cell.setCellStyle(styles.get("cell"));
-            }
+                //no ok
 
-            //no ok
-            cell = row.createCell(10);
-            cell.setCellValue("");
-            cell.setCellStyle(styles.get("cell"));
-            i=i++;
+            }
+            i=i+1;
+
         }
 
 
 
 
-        String nombreFile="w2.xls";
+        String nombreFile="inspeciion.xls";
         File file = new File(getExternalFilesDir(null),nombreFile);
         FileOutputStream outputStream = null;
 
