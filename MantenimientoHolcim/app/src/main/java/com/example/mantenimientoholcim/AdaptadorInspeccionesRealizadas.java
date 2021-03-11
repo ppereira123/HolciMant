@@ -94,7 +94,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         ver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(view.getContext(), CrearItem.class);
+                Intent intent= new Intent(view.getContext(), VerInspeccion.class);
                context.startActivity(intent);
 
             }
