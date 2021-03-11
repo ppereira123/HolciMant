@@ -37,9 +37,7 @@ public class tab2 extends Fragment {
     ArrayList<InspeccionTipo1> listitems=new ArrayList<>();
     TextView txtPrueba;
 
-    public tab2(){
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

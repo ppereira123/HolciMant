@@ -20,6 +20,8 @@ import java.util.ArrayList;
 public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     private Context context;
     private ArrayList<InspeccionTipo1> listItems;
+
+
     public AdaptadorInspeccionesRealizadas(Context context, ArrayList<InspeccionTipo1> listItems) {
         this.context = context;
         this.listItems = listItems;
@@ -27,12 +29,12 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 0;
+        return listItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listItems.size();
+        return listItems.get(position);
     }
 
     @Override
