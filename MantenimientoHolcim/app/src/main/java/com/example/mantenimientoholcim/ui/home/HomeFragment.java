@@ -17,12 +17,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.mantenimientoholcim.AdaptadorItemInspecciones;
 import com.example.mantenimientoholcim.CrearItem;
 import com.example.mantenimientoholcim.ListAdapterItem;
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.PagerAdapter;
+import com.example.mantenimientoholcim.PagerAdapterhome;
 import com.example.mantenimientoholcim.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,107 +40,58 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private RecyclerView rvItems;
-    SearchView searchView;
-    private FloatingActionButton fabItem;
-    View root;
-    List<Item> listitems;
+
+
+
+    //tab
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TabItem tab1, tab2, tab3;
+    private PagerAdapterhome pagerAdapter;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
         //rvItems=root.findViewById(R.id.rvHerramientas);
-        fabItem=root.findViewById(R.id.fabItems);
-        searchView = root.findViewById(R.id.buscartHerramientas);
+
+        //tab
+        tabLayout= (TabLayout) root.findViewById(R.id.tablayouthome);
+        tab1 = (TabItem) root.findViewById(R.id.tab1home);
+        tab2 = (TabItem) root.findViewById(R.id.tab2home);
+        tab3 = (TabItem) root.findViewById(R.id.tab3home);
+        viewPager = root.findViewById(R.id.viewpagerhome);
 
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        pagerAdapter= new PagerAdapterhome(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                buscar(s);
-                return true;
-            }
-        });
+            public void onTabUnselected(TabLayout.Tab tab) {
 
 
-        fabItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(root.getContext(), CrearItem.class);
-                startActivity(intent);
             }
-        });
-        cargarItems();
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+
 
 
 
 
         return root;
     }
-    void buscar(String s){
-        ArrayList<Item>milista = new ArrayList<>();
-        for (Item obj: listitems){
-            if(obj.getDescripcion().toLowerCase().contains(s.toLowerCase())){
-                milista.add(obj);
-            }
 
-        }
-        ListAdapterItem adapterItem= new ListAdapterItem(milista, root.getContext());
-        rvItems.setAdapter(adapterItem);
-
-    }
-
-    void cargarItems(){
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Items");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Item> items=new ArrayList<>();
-
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    String codigo=ds.getKey();
-                    String marca=ds.child("marca").getValue().toString();
-                    String descripcion=ds.child("descripcion").getValue().toString();
-                    String observacion=ds.child("observacion").getValue().toString();
-                    int stock=Integer.parseInt(ds.child("stock").getValue().toString());
-                    String estado=ds.child("estado").getValue().toString();
-                    String ubicacion=ds.child("ubicacion").getValue().toString();
-                    int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
-                    String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();
-                    Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
-                    if(!items.contains(item)){
-                    items.add(item);
-                    }
-                }
-                listitems=items;
-                rvItems=root.findViewById(R.id.rvHerramientas);
-                ListAdapterItem li= new ListAdapterItem(items,root.getContext());
-                rvItems.setHasFixedSize(true);
-                rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
-                rvItems.setAdapter(li);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-    }
 }
