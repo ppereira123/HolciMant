@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".tab1Home">
+
+    <Button
+        android:id="@+id/btnLeerCodigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#becde9"
+        android:text="Escanear codgio QR"
+        android:textColor="#005da6"
+        app:icon="@mipmap/scan"
+        app:iconSize="50dp"
+        app:iconTintMode="multiply" />
+
+    <TextView
+        android:id="@+id/etCodigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="codigo" />
+</LinearLayout>

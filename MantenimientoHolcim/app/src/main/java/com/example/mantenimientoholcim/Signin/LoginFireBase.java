@@ -7,14 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.mantenimientoholcim.CrearExcel;
-import com.example.mantenimientoholcim.CrearPuntodeBloqueo;
 import com.example.mantenimientoholcim.MainActivity;
 import com.example.mantenimientoholcim.R;
-import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
-import com.example.mantenimientoholcim.Signin.PerfilUsuario;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,8 +20,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import org.apache.poi.ss.usermodel.CreationHelper;
 
 import java.util.HashMap;
 

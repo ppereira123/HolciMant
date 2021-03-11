@@ -3,6 +3,7 @@
     package="com.example.mantenimientoholcim">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -34,7 +35,6 @@
         </provider>
 
         <activity android:name=".CrearPuntodeBloqueo" />
-        <activity android:name=".CrearExcel" />
         <activity android:name=".Signin.LoginFireBase">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

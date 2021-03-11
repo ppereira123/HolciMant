@@ -4,44 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp">
-
-    <LinearLayout
+    android:orientation="vertical">
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayouthome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/tab">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/buscartHerramientas"
-            android:layout_width="match_parent"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab1home"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="#0091EA"
-            android:backgroundTint="#250091EA" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabItems"
-            android:layout_width="match_parent"
+            android:text="Escaner" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab2home"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginLeft="20dp"
-            android:background="#FFFFFF"
-            android:clickable="true"
-            android:src="@android:drawable/ic_input_add" />
-
-    </LinearLayout>
-
-    <LinearLayout
+            android:text="Registro" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab3home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Etiquetas" />
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/viewpagerhome">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHerramientas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    </androidx.viewpager.widget.ViewPager>
+
 
 
 </LinearLayout>
