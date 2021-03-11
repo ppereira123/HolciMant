@@ -1,12 +1,10 @@
 package com.example.mantenimientoholcim;
 
-import android.content.Intent;
-import android.content.res.Resources;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +15,7 @@ import android.widget.TextView;
 
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
-import com.example.mantenimientoholcim.Modelo.Item;
-import com.example.mantenimientoholcim.Modelo.ItemInspeccion;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,14 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 
 public class tab2 extends Fragment {
     ListView inspeccionesRealizadas;
     View root;
     private AdaptadorInspeccionesRealizadas adaptador;
-    ArrayList<InspeccionTipo1> listitems=new ArrayList<>();
+
     TextView txtPrueba;
 
 
@@ -45,8 +42,8 @@ public class tab2 extends Fragment {
         root = inflater.inflate(R.layout.fragment_tab2, container, false);
         inspeccionesRealizadas=root.findViewById(R.id.listInspeccionesrealizadas);
         cargarItems();
-        adaptador= new AdaptadorInspeccionesRealizadas(getContext(), listitems);
-        inspeccionesRealizadas.setAdapter(adaptador);
+        //adaptador= new AdaptadorInspeccionesRealizadas(getContext(), listitems);
+        //inspeccionesRealizadas.setAdapter(adaptador);
 
 
 
@@ -69,10 +66,11 @@ public class tab2 extends Fragment {
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Inspecciones");
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<InspeccionTipo1> items = new ArrayList<>();
+                ArrayList<InspeccionTipo1> listitems=new ArrayList<>();
                 if(snapshot.exists()) {
 
 
@@ -105,8 +103,8 @@ public class tab2 extends Fragment {
 
                     }
                 }
-                //AdaptadorInspeccionesRealizadas adaptador= new AdaptadorInspeccionesRealizadas(root.getContext(), listitems );
-               // inspeccionesRealizadas.setAdapter(adaptador);
+                AdaptadorInspeccionesRealizadas adaptador= new AdaptadorInspeccionesRealizadas(root.getContext(), listitems );
+                inspeccionesRealizadas.setAdapter(adaptador);
 
             }
 

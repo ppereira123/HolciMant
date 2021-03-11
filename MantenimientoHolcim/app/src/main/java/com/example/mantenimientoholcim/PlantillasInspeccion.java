@@ -692,7 +692,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
     /// crear excel
 
-    public  void crearExcel(InspeccionTipo1 inspecion){
+    public void crearExcel(InspeccionTipo1 inspecion){
 
         Workbook wb = new HSSFWorkbook();
 
@@ -830,9 +830,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
         }
 
 
-
-
-        String nombreFile="TEP-21.xls";
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss").format(Calendar.getInstance().getTime());
+        String nombreFile=inspecion.getCodigo()+timeStamp+".xls";
         File file = new File(getExternalFilesDir(null),nombreFile);
         FileOutputStream outputStream = null;
 
