@@ -68,35 +68,47 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
 
 
         public void binData(String item,int posicion) {
+            if(valores.containsKey(String.valueOf(posicion))){
+                ElementInspeccion e= valores.get(String.valueOf(posicion));
+                if(e.getOk().equals("OK")){
+                    checkOk.setChecked(true);
+                    checkNOOK.setChecked(false);
+                }
+
+                if(e.getOk().equals("NO OK")){
+                    checkOk.setChecked(false);
+                    checkNOOK.setChecked(true);
+                }
+            }
+
+            else{
+                checkOk.setChecked(false);
+                checkNOOK.setChecked(false);
+                valores.remove(String.valueOf(posicion));
+            }
             txtEnunciado.setText(item);
             String pos= String.valueOf(posicion);
-            checkOk.setChecked(false);
-            checkNOOK.setChecked(false);
 
            txtNum.setText(String.valueOf(posicion));
-                checkOk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                    checkNOOK.setChecked(false);
-                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"OK");
-                     valores.put(pos,elementInspeccion);
 
-
-                    }
-                }
-            });
-
-            checkNOOK.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                    checkOk.setChecked(false);
-                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
+                checkOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkNOOK.setChecked(false);
+                        ElementInspeccion elementInspeccion= new ElementInspeccion(item,"OK");
                         valores.put(pos,elementInspeccion);
-                        }
-                }
-            });
+                    }
+                });
+
+                checkNOOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkOk.setChecked(false);
+                        ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
+                        valores.put(pos,elementInspeccion);
+                    }
+                });
+                
 
         }
     }
