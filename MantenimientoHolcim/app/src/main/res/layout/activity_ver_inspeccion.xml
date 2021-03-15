@@ -22,7 +22,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtPI1"
+                    android:id="@+id/txtPI1Rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -33,7 +33,7 @@
                     android:textColor="#000000" />
 
                 <ImageView
-                    android:id="@+id/imgInspeccion"
+                    android:id="@+id/imgInspeccionRv"
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
@@ -41,7 +41,7 @@
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/txtPB2"
+                    android:id="@+id/txtPB2Rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -49,14 +49,14 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <EditText
-                    android:id="@+id/nombreInspector"
+                    android:id="@+id/nombreInspectorRv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:inputType="textPersonName" />
 
                 <TextView
-                    android:id="@+id/txtPB3"
+                    android:id="@+id/txtPB3Rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -64,13 +64,13 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <EditText
-                    android:id="@+id/fechaInspección"
+                    android:id="@+id/fechaInspecciónRv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/textView12Rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -78,14 +78,14 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <EditText
-                    android:id="@+id/fechaproximaInspeccion"
+                    android:id="@+id/fechaproximaInspeccionRv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:inputType="textPersonName" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/textView13Rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -93,73 +93,18 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <EditText
-                    android:id="@+id/editTextCodigoInspeccion"
+                    android:id="@+id/editTextCodigoInspeccionRv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:inputType="textPersonName" />
 
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Señale con OK las opciones que si se cumple y como NO OK las que no" />
-
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvInspecciones"
+                    android:id="@+id/rvInspeccionesRv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp" />
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Button
-                        android:id="@+id/btnexel"
-                        android:text="Generar excel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:backgroundTint="#becde9"
-                        android:textColor="#005da6"
-                        app:icon="@mipmap/excel"
-                        app:iconSize="50dp"
-                        app:iconTintMode="multiply"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.50121653" />
-
-                    <Button
-                        android:id="@+id/btnGuardar"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:backgroundTint="#becde9"
-                        android:text="Guardar"
-                        android:textColor="#005da6"
-                        app:icon="@mipmap/guardar"
-                        app:iconSize="40dp"
-                        app:iconTintMode="multiply"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>

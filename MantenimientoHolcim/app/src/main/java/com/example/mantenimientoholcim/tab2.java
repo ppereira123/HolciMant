@@ -4,6 +4,7 @@ package com.example.mantenimientoholcim;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
+import com.example.mantenimientoholcim.Modelo.Item;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,8 @@ public class tab2 extends Fragment {
     ListView inspeccionesRealizadas;
     View root;
     private AdaptadorInspeccionesRealizadas adaptador;
+    SearchView searchView;
+    ArrayList<InspeccionTipo1> buscarlist=new ArrayList<>();
 
     TextView txtPrueba;
 
@@ -40,7 +44,20 @@ public class tab2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_tab2, container, false);
+        searchView=root.findViewById(R.id.buscartinspecciones);
         inspeccionesRealizadas=root.findViewById(R.id.listInspeccionesrealizadas);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                buscar(s);
+                return true;
+            }
+        });
         cargarItems();
         //adaptador= new AdaptadorInspeccionesRealizadas(getContext(), listitems);
         //inspeccionesRealizadas.setAdapter(adaptador);
@@ -60,6 +77,18 @@ public class tab2 extends Fragment {
         return root;
     }
 
+    void buscar(String s){
+        ArrayList<InspeccionTipo1> milista = new ArrayList<>();
+        for (InspeccionTipo1 obj: buscarlist){
+            if(obj.getEnuunciado().toLowerCase().contains(s.toLowerCase())){
+                milista.add(obj);
+            }
+
+        }
+        AdaptadorInspeccionesRealizadas adaptadorbuscador= new AdaptadorInspeccionesRealizadas(root.getContext(), milista );
+        inspeccionesRealizadas.setAdapter(adaptadorbuscador);
+
+    }
 
 
 
@@ -93,6 +122,7 @@ public class tab2 extends Fragment {
                                     valores.put(key,itemInspeccion);
 
                                 }
+                                buscarlist=listitems;
                                 InspeccionTipo1 item= new InspeccionTipo1(enunciado,nombreInspector,fechaInspeccion,proximaInspeccion,codigo,valores);
                                 if(!listitems.contains(item)){
                                   listitems.add(item);

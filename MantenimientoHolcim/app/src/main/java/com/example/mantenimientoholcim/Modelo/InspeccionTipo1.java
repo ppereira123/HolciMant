@@ -1,5 +1,7 @@
 package com.example.mantenimientoholcim.Modelo;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.HashMap;
 

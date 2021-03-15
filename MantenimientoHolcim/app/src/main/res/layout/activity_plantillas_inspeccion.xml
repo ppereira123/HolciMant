@@ -25,94 +25,109 @@
                     android:id="@+id/txtPI1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:background="#7CB6B6B6"
+                    android:elevation="8dp"
+                    android:fontFamily="sans-serif-condensed"
                     android:gravity="center"
                     android:text="Inspeccion"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/imgInspeccion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/txtPB2"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Nombre:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    android:layout_height="150dp"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/nombreInspector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Ingresar nombre del inspector"
-                    android:inputType="textPersonName" />
+                    <ImageView
+                        android:id="@+id/imgInspeccion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:elevation="10dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtPB3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Fecha de inspección: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-                <EditText
-                    android:id="@+id/fechaInspección"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Ingresar fecha de la inspección" />
+                    android:layout_height="match_parent"
+                    app:boxStrokeColor="#FFFFFF">
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Proxima inspección: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nombreInspector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:hint="Nombre:" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/fechaproximaInspeccion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Ingresar provima fecha de iinspección"
-                    android:inputType="textPersonName" />
 
-                <TextView
-                    android:id="@+id/textView13"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Codigo del articulo: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    android:layout_height="match_parent">
 
-                <EditText
-                    android:id="@+id/editTextCodigoInspeccion"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fechaInspección"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:hint="Fecha de inspección:" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Ingresar codigo del articulo"
-                    android:inputType="textPersonName" />
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fechaproximaInspeccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:hint="Proxima inspección:" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCodigoInspeccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:hint="Codigo del articulo:" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <TextView
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:text="Señale con OK las opciones que si se cumple y como NO OK las que no" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvInspecciones"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -151,7 +166,7 @@
                         android:backgroundTint="#becde9"
                         android:text="Guardar"
                         android:textColor="#005da6"
-                        app:icon="@mipmap/guardar"
+                        app:icon="@android:drawable/ic_menu_save"
                         app:iconSize="40dp"
                         app:iconTintMode="multiply"
                         app:layout_constraintBottom_toBottomOf="parent"

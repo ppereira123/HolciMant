@@ -33,6 +33,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,7 +73,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final View view= convertView;
-        InspeccionTipo1 Item= (InspeccionTipo1) getItem(position);
+        InspeccionTipo1 item= (InspeccionTipo1) getItem(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.list_inspecciones_realizadas, null);
         TextView nombretv= (TextView) convertView.findViewById(R.id.inspector_ir);
         TextView titulotv= (TextView) convertView.findViewById(R.id.nombre_inspeccion);
@@ -81,20 +82,21 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         Button generarExcel= (Button) convertView.findViewById(R.id.crearExcel);
         Button ver= (Button) convertView.findViewById(R.id.ver);
 
-        nombretv.setText(Item.getNombreInspector());
-        titulotv.setText(Item.getEnuunciado());
-        fechatv.setText(Item.getFechaInspeccion());
-        codigotv.setText(Item.getCodigo());
+        nombretv.setText(item.getNombreInspector());
+        titulotv.setText(item.getEnuunciado());
+        fechatv.setText(item.getFechaInspeccion());
+        codigotv.setText(item.getCodigo());
         generarExcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearExcel(Item);
+                crearExcel(item);
             }
         });
         ver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(view.getContext(), VerInspeccion.class);
+                intent.putExtra("inspecion",(Serializable) item);
                context.startActivity(intent);
 
             }

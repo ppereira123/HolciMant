@@ -12,18 +12,79 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_margin="10dp"
         android:backgroundTint="#becde9"
+        android:elevation="8dp"
         android:text="Escanear codgio QR"
         android:textColor="#005da6"
         app:icon="@mipmap/scan"
         app:iconSize="50dp"
         app:iconTintMode="multiply" />
 
-    <TextView
-        android:id="@+id/etCodigo"
+    <ImageView
+        android:id="@+id/qr_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="codigo" />
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/txtcod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#becde9"
+        android:elevation="8dp"
+        android:text="Información"
+        android:textColor="#005da6"
+        app:icon="@mipmap/informacion"
+        app:iconSize="30dp"
+        app:iconTint="?attr/colorBackgroundFloating" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#becde9"
+            android:elevation="8dp"
+            android:text="prestamo"
+            android:textColor="#005da6"
+            android:textSize="14dp"
+            app:icon="@mipmap/salida"
+            app:iconSize="30dp" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#becde9"
+            android:elevation="8dp"
+            android:text="devolución"
+            android:textColor="#005da6"
+            android:textSize="14dp"
+            app:icon="@mipmap/devolver"
+            app:iconSize="30dp" />
+    </LinearLayout>
+
 </LinearLayout>

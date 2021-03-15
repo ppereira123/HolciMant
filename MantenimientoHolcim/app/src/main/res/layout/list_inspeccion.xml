@@ -2,15 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:scrollbarTrackVertical="@drawable/ic_launcher_foreground"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="8dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#f4f4f4"
+        android:elevation="8dp"
         android:padding="6dp">
 
         <LinearLayout
