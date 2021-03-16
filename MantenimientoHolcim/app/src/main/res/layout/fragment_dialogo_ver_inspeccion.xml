@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".Dialogos.DialogoVerInspeccion">
 
@@ -20,12 +20,131 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/imgbtnSalir"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@color/zxing_transparent"
             android:src="?attr/homeAsUpIndicator" />
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtPI1Rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="#7CB6B6B6"
+                    android:gravity="center"
+                    android:text="Inspeccion"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#000000" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="238dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtPB2Rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                        <EditText
+                            android:id="@+id/nombreInspectorRv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:inputType="textPersonName"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                        <TextView
+                            android:id="@+id/txtPB3Rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha de inspección: "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                        <EditText
+                            android:id="@+id/fechaInspecciónRv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                        <TextView
+                            android:id="@+id/textView12Rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Proxima inspección: "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                        <EditText
+                            android:id="@+id/fechaproximaInspeccionRv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                        <TextView
+                            android:id="@+id/textView13Rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Codigo del articulo: "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                        <EditText
+                            android:id="@+id/editTextCodigoInspeccionRv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imgInspeccionRv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        tools:src="@tools:sample/avatars" />
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvInspeccionesRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
