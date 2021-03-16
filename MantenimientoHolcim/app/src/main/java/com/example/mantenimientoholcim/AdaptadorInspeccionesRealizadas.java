@@ -1,7 +1,7 @@
 package com.example.mantenimientoholcim;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
+import com.example.mantenimientoholcim.Dialogos.DialogoVerInspeccion;
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
@@ -33,7 +31,6 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,9 +38,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+
+
 public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     private Context context;
     private ArrayList<InspeccionTipo1> listItems;
+    Activity activity;
+    View root;
 
 
     public AdaptadorInspeccionesRealizadas(Context context) {
@@ -95,9 +98,9 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         ver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(view.getContext(), VerInspeccion.class);
-                intent.putExtra("inspecion",(Serializable) item);
-               context.startActivity(intent);
+                DialogoVerInspeccion dialogoVerInspeccion= new DialogoVerInspeccion();
+                //dialogoVerInspeccion.show(getParentFragmentManager(),"DialogoVerInspeccixon");
+
 
             }
         });
@@ -332,6 +335,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
         return styles;
     }
+
 
 
 

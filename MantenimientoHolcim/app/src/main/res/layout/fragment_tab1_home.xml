@@ -37,7 +37,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btninformacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -49,17 +49,13 @@
         app:iconSize="30dp"
         app:iconTint="?attr/colorBackgroundFloating" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnprestamo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -73,7 +69,7 @@
             app:iconSize="30dp" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btndevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

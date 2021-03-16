@@ -70,7 +70,7 @@
                         android:id="@+id/btnMenos"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="@color/common_google_signin_btn_tint"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/eliminar" />
 
@@ -124,7 +124,7 @@
                         android:id="@+id/btnMas"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:background="?android:attr/panelBackground"
+                        android:background="@color/common_google_signin_btn_tint"
                         android:foreground="@mipmap/mas"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/anadir" />

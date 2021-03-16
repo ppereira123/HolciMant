@@ -39,7 +39,7 @@ public class VerInspeccion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_inspeccion);
+        //setContentView(R.layout.activity_ver_inspeccion);
         inspeccionTipo1= (InspeccionTipo1) getIntent().getSerializableExtra("inspeccion");
         editTextCodigo=findViewById(R.id.editTextCodigoInspeccionRv);
         fechaInspeccion=findViewById(R.id.fechaInspecciónRv);
