@@ -2,11 +2,17 @@ package com.example.mantenimientoholcim;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.StrictMode;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +21,7 @@ import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.sl.draw.Drawable;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -38,8 +45,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+
+import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
 
 
 public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
@@ -47,6 +57,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     private ArrayList<InspeccionTipo1> listItems;
     Activity activity;
     View root;
+    private String correo="";
 
 
     public AdaptadorInspeccionesRealizadas(Context context) {
@@ -84,6 +95,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         TextView codigotv= (TextView) convertView.findViewById(R.id.codigoIr);
         Button generarExcel= (Button) convertView.findViewById(R.id.crearExcel);
         Button ver= (Button) convertView.findViewById(R.id.ver);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
+
 
         nombretv.setText(item.getNombreInspector());
         titulotv.setText(item.getEnuunciado());
@@ -92,7 +105,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         generarExcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearExcel(item);
+                pedirCorreo(item);
             }
         });
         ver.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +121,33 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
 
         return convertView;
+    }
+    void pedirCorreo(InspeccionTipo1 inspecion){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Ingresa correo al que deseas enviar");
+
+// Set up the input
+        final EditText input = new EditText(context);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                correo = input.getText().toString();
+                crearExcel(inspecion);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 /// crear excel
 
@@ -258,6 +298,19 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
             outputStream = new FileOutputStream(file);
             wb.write(outputStream);
             Toast.makeText(context.getApplicationContext(),"Reporte generado correctamente",Toast.LENGTH_LONG).show();
+            String[] mailto = {correo};
+            Uri uri = Uri.fromFile(file);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, mailto);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Reporte de la inspección de:  "+inspecion.getEnuunciado()+", del articulo con codigo: "+inspecion.getCodigo());
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,"Fecha de reporte:  "+inspecion.getFechaInspeccion()+".\nInspector:"+inspecion.getNombreInspector()+".\nAtentamente HolcimMant.");
+            emailIntent.setType("application/pdf");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(Intent.createChooser(emailIntent, "Send email using:"));
+
+
+
+
         } catch (java.io.IOException e) {
             e.printStackTrace();
 
