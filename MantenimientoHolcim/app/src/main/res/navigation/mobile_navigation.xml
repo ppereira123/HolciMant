@@ -22,9 +22,10 @@
         android:name="com.example.mantenimientoholcim.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <activity
-        android:id="@+id/perfilUsuario"
-        android:name="com.example.mantenimientoholcim.Signin.PerfilUsuario"
-        android:label="activity_perfil_usuario"
-        tools:layout="@layout/activity_perfil_usuario" />
+    <fragment
+        android:id="@+id/perfilGoogle"
+        android:name="com.example.mantenimientoholcim.PerfilGoogle"
+        android:label="fragment_perfil_google"
+        tools:layout="@layout/fragment_perfil_google" />
+
 </navigation>

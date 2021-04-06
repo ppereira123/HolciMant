@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="391dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="#1D039BE5"
@@ -70,7 +70,7 @@
                         android:id="@+id/btnMenos"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:background="@color/common_google_signin_btn_tint"
+                        android:background="#00000000"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/eliminar" />
 
@@ -124,7 +124,6 @@
                         android:id="@+id/btnMas"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:background="@color/common_google_signin_btn_tint"
                         android:foreground="@mipmap/mas"
                         android:scaleType="fitCenter"
                         app:srcCompat="@mipmap/anadir" />

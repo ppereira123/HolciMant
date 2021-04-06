@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import com.example.mantenimientoholcim.Modelo.PuntoBloqueo;
 import com.example.mantenimientoholcim.Modelo.RevisionPuntoBloqueo;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -29,6 +33,9 @@ import static com.example.mantenimientoholcim.PlantillasInspeccion.variarFecha;
 public class RevisionPuntosBloqueo extends AppCompatActivity {
     RecyclerView rvPuntosBloqueo;
     Context context=this;
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInOptions gso;
     EditText txtNombre,txtFecha,txtFechaProxima;
     List<PuntoBloqueo> puntos= new ArrayList<>();
     String nombre="";
@@ -40,12 +47,18 @@ public class RevisionPuntosBloqueo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Inicializar Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         setContentView(R.layout.activity_revision_puntos_bloqueo);
         rvPuntosBloqueo=findViewById(R.id.rvpuntosdebloqueo);
         txtNombre=findViewById(R.id.txtPbNombre);
         txtFecha=findViewById(R.id.txtPbfechaInspección);
         txtFechaProxima=findViewById(R.id.txtPbfechaproximaInspeccion);
         revisionActual=(RevisionPuntoBloqueo)getIntent().getSerializableExtra("Revision");
+        txtNombre.setText(currentUser.getDisplayName());
         //fecha
         Date d=new Date();
         SimpleDateFormat fecc=new SimpleDateFormat("d/MMMM/yyyy");

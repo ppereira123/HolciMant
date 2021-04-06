@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Información de herramienta"
-            android:textColor="@color/tab"
+            android:textColor="@color/purple_500"
             android:textSize="17sp"
             android:textStyle="bold" />
 

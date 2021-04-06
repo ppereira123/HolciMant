@@ -41,6 +41,7 @@ import java.util.List;
 import id.zelory.compressor.Compressor;
 
 public class CrearPuntodeBloqueo extends AppCompatActivity {
+
     EditText hac,ubicacion, observacion;
     Button ingresarFoto;
     Spinner spinnertipodeEnergia;
@@ -58,6 +59,7 @@ public class CrearPuntodeBloqueo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_crear_puntode_bloqueo);
         hac= findViewById(R.id.hac);
         ubicacion= findViewById(R.id.ubicacion);

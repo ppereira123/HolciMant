@@ -72,21 +72,16 @@ public class CrearItem extends AppCompatActivity {
         ubicaciones.add(3,"Bodega.");
         ubicaciones.add(4,"Bodega de llantas y componentes grandes");
 
-        tipos.add(0,"N/A");
-        tipos.add(1,"Trimestral");
-        tipos.add(2,"Quinquenal");
-        tipos.add(3,"Mensual");
-        tipos.add(4,"Semestral");
-        tipos.add(5,"Anual");
         estados.add(0,"N/A");
         estados.add(1,"En uso");
         estados.add(2,"Repuesto");
         ArrayAdapter<String> adapterEstados=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,estados);
         ArrayAdapter<String> adapterUbicaciones=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,ubicaciones);
-        ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,tipos);
+        ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,getResources().getStringArray(R.array.combo_inspeccionesNombre));
         estadoActualSpinner.setAdapter(adapterEstados);
         ubicacionSpinner.setAdapter(adapterUbicaciones);
         tipoInspeccionspinner.setAdapter(adapterTipos);
+        //cambio
 
                 //Spinner dependiente fin//
         spinnerEstado();
@@ -100,6 +95,7 @@ public class CrearItem extends AppCompatActivity {
         codigoTxt.setEnabled(false);
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference ref= database.getReference("Items");
+        ref.keepSynced(true);
         refItem=ref.push();
         codigo=refItem.getKey();
         codigoTxt.setText(codigo);

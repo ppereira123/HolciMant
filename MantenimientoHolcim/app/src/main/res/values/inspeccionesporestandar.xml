@@ -28,7 +28,7 @@
         <item>EXTRACTOR - VENTILADOR DE MANGAS</item>
         <item>EXTENSIÓN 110 V - 220 V</item>
         <item>EXTENSIÓN 480</item>
-        <item>BATERIA</item>
+        <item>CARGADOR DE BATERIA</item>
     </string-array>
 
     <string-array name="HSS_106">
@@ -60,4 +60,47 @@
     <string-array name="HSS_110">
         <item>CHALECO - ARO SALVAVIDAS</item>
     </string-array>
+
+    <string-array name="semestre1">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+    </string-array>
+
+    <string-array name="semestre2">
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="trimestre1">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+    </string-array>
+    <string-array name="trimestre2">
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+    </string-array>
+    <string-array name="trimestre3">
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+    </string-array>
+    <string-array name="trimestre4">
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+
+
+
+
 </resources>

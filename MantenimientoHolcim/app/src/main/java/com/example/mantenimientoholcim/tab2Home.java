@@ -35,7 +35,7 @@ public class tab2Home extends Fragment {
     SearchView searchView;
     private FloatingActionButton fabItem;
     View root;
-    List<Item> listitems;
+    List<Item> listitems=new ArrayList<>();
 
 
     @Override
@@ -43,11 +43,11 @@ public class tab2Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_tab2_home, container, false);
-        //rvItems=root.findViewById(R.id.rvHerramientas);
+        rvItems=root.findViewById(R.id.rvHerramientas);
         fabItem=root.findViewById(R.id.fabItems);
         searchView = root.findViewById(R.id.buscartHerramientas);
 
-
+        cargarItems();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -69,7 +69,7 @@ public class tab2Home extends Fragment {
                 startActivity(intent);
             }
         });
-        cargarItems();
+
 
 
 

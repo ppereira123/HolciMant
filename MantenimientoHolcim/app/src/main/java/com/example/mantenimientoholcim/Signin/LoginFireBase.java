@@ -6,7 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mantenimientoholcim.MainActivity;
 import com.example.mantenimientoholcim.R;
@@ -28,7 +33,10 @@ public class LoginFireBase extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     static final int GOOGLE_SIGN_IN = 123;
     FirebaseAuth mAuth;
-    Button btn_login;
+    ImageButton imgIniciar;
+    ImageView imgHolcim,imgLogo;
+    TextView txtIncio;
+
 
 
 
@@ -51,6 +59,18 @@ public class LoginFireBase extends AppCompatActivity {
                 cerrarSesion();
             }
         }
+
+        imgHolcim=findViewById(R.id.imgHolcim);
+        imgIniciar=findViewById(R.id.btn_login);
+        imgLogo=findViewById(R.id.imgLogo);
+        txtIncio=findViewById(R.id.txtIniciarSesion);
+        Animation animationarriba= AnimationUtils.loadAnimation(this,R.anim.desplaza_arriba);
+        Animation animationAbajo= AnimationUtils.loadAnimation(this,R.anim.desplaza_abajo);
+        imgHolcim.setAnimation(animationarriba);
+        imgLogo.setAnimation(animationarriba);
+        imgIniciar.setAnimation(animationAbajo);
+        txtIncio.setAnimation(animationAbajo);
+
 
 
 
@@ -106,9 +126,6 @@ public class LoginFireBase extends AppCompatActivity {
             info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
             info_user.put("user_id", user.getUid());
             finish();
-            Intent intent = new Intent(this, PerfilUsuario.class);
-            intent.putExtra("info_user", info_user);
-            startActivity(intent);
         } else {
             System.out.println("sin registrarse");
         }

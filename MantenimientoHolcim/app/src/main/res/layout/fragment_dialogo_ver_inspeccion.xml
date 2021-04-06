@@ -67,7 +67,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txtPB2Rv"
+                            android:id="@+id/txtNombreInspeccion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Nombre:"
@@ -82,7 +82,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
-                            android:id="@+id/txtPB3Rv"
+                            android:id="@+id/txtFechaInspeccion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Fecha de inspección: "
@@ -96,7 +96,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
                         <TextView
-                            android:id="@+id/textView12Rv"
+                            android:id="@+id/txtProximaInspeccion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Proxima inspección: "
@@ -110,7 +110,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
                         <TextView
-                            android:id="@+id/textView13Rv"
+                            android:id="@+id/txtCodigoArticulo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Codigo del articulo: "

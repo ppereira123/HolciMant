@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.text.InputType;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +25,6 @@ import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.sl.draw.Drawable;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -42,12 +45,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
 
@@ -55,9 +61,13 @@ import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
 public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
     private Context context;
     private ArrayList<InspeccionTipo1> listItems;
+    ListadaptaritemsInspeccionesRealizadas li;
     Activity activity;
     View root;
     private String correo="";
+    LayoutInflater mInflater;
+    ImageView imagInspeccion;
+    String imagenInspeccion="";
 
 
     public AdaptadorInspeccionesRealizadas(Context context) {
@@ -86,9 +96,10 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final View view= convertView;
+
         InspeccionTipo1 item= (InspeccionTipo1) getItem(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.list_inspecciones_realizadas, null);
+        mInflater= LayoutInflater.from(context);
         TextView nombretv= (TextView) convertView.findViewById(R.id.inspector_ir);
         TextView titulotv= (TextView) convertView.findViewById(R.id.nombre_inspeccion);
         TextView fechatv= (TextView) convertView.findViewById(R.id.fechaIr);
@@ -111,8 +122,53 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         ver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogoVerInspeccion dialogoVerInspeccion= new DialogoVerInspeccion();
-                //dialogoVerInspeccion.show(getParentFragmentManager(),"DialogoVerInspeccixon");
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(item.getEnuunciado());
+                View view = mInflater.inflate(R.layout.adaptardorverinspeciones, null);
+                TextView editTextCodigo,fechaInspeccion,fechaProximaInspeccion,rvInspecciones,nombreInspector;
+                ImageView imagInspeccion;
+                ListView rvInspeccionesRv;
+                rvInspeccionesRv=view.findViewById(R.id.rvInspeccionesRv);
+                editTextCodigo=view.findViewById(R.id.txtCodigoArticulo);
+                fechaInspeccion=view.findViewById(R.id.txtFechaInspeccion);
+                fechaProximaInspeccion=view.findViewById(R.id.txtProximaInspeccion);
+                nombreInspector=view.findViewById(R.id.txtNombreInspeccion);
+                imagInspeccion=view.findViewById(R.id.imgInspeccionRv);
+
+                Resources res = context.getResources();
+                String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
+                String[] imagenesdeinspeccion = res.getStringArray(R.array.combo_inspeccionesImagenes);
+                int posicion=posicionexisteEnArreglo(nombre_inspecciones, item.getEnuunciado());
+                if (posicion==-1){
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }else{
+                    imagenInspeccion= imagenesdeinspeccion[posicion];
+                    String uri =imagenInspeccion;
+                    int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
+                    Drawable imagen = ContextCompat.getDrawable(context.getApplicationContext(), imageResource);
+                    imagInspeccion.setImageDrawable(imagen);
+                }
+                ArrayList<ElementInspeccion> listItems= (ArrayList<ElementInspeccion>) hashToList(item.getValores());
+                AdapterList_verInspeccion adaptador= new AdapterList_verInspeccion(context, listItems);
+                rvInspeccionesRv.setAdapter(adaptador);
+
+                nombreInspector.setText("Nombre: "+item.getNombreInspector());
+                fechaInspeccion.setText("Fecha Inspeccion: "+item.getFechaInspeccion());
+                fechaProximaInspeccion.setText("Fecha Proxima Inspeccion: "+item.getProximaInspeccion());
+                editTextCodigo.setText("Codigo articulo: "+item.getCodigo());
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                builder.setView(view);
+                builder.show();
+
+
+
 
 
             }
@@ -122,6 +178,31 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
         return convertView;
     }
+
+    public void cargar(InspeccionTipo1 inspecion){
+
+
+
+    }
+    public static int posicionexisteEnArreglo(String[] arreglo, String busqueda) {
+        for (int x = 0; x < arreglo.length; x++) {
+            if (arreglo[x].equals(busqueda)) {
+                return x;
+            }
+        }
+        return -1;
+    }
+    public static List<ElementInspeccion> hashToList(HashMap<String, ElementInspeccion> hash){
+        List<ElementInspeccion> list= new ArrayList();
+        for(Map.Entry m:hash.entrySet()){
+            ElementInspeccion i= (ElementInspeccion) m.getValue();
+            list.add(i);
+        }
+        return list;
+    }
+
+
+
     void pedirCorreo(InspeccionTipo1 inspecion){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Ingresa correo al que deseas enviar");
@@ -324,6 +405,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
 
     }
+
     private static Map<String, CellStyle> createStyles(Workbook wb){
         Map<String, CellStyle> styles = new HashMap<>();
         CellStyle style;

@@ -9,20 +9,24 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="androidx.multidex.MultiDexApplication"
+        android:name=".MantenimientoHolcim"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
+        <activity android:name=".Splash"></activity>
+
         <meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/file_paths"/>
+            android:resource="@xml/file_paths" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -31,12 +35,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
-
-        <activity android:name=".VerInspeccion"></activity>
-
+        <activity android:name=".VerInspeccion" />
         <activity android:name=".CrearPuntodeBloqueo" />
         <activity android:name=".Signin.LoginFireBase">
             <intent-filter>
@@ -45,7 +47,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Signin.PerfilUsuario" />
         <activity android:name=".RevisionPuntosBloqueo" />
         <activity android:name=".PlantillasInspeccion" />
         <activity android:name=".CrearItem" />

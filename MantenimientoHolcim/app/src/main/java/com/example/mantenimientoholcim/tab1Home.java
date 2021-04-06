@@ -51,7 +51,8 @@ import java.util.List;
 
 public class tab1Home extends DialogFragment {
     String etcodigo="";
-    Button btnLeerCodigo, btninformacion,btndevolucion,btnprestamo;
+    Button btnLeerCodigo,btndevolucion,btnprestamo;
+    ImageButton  btninformacion, btnBuscarInspecciones,btnHacerInspecciones;
     ImageView imgcodigo;
     TextView codigoview;
     private  LayoutInflater mInflater;
@@ -70,6 +71,9 @@ public class tab1Home extends DialogFragment {
         btninformacion= root.findViewById(R.id.btninformacion);
         btndevolucion= root.findViewById(R.id.btndevolucion);
         btnprestamo= root.findViewById(R.id.btnprestamo);
+        btnBuscarInspecciones= root.findViewById(R.id.btnBuscarInspecciones);
+        btnHacerInspecciones= root.findViewById(R.id.btnHacerInspeccion);
+
         mInflater=LayoutInflater.from(getContext());
 
 
@@ -155,6 +159,23 @@ public class tab1Home extends DialogFragment {
 
 
         });
+        btnHacerInspecciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean valid= etcodigo.equals("");
+                if(valid==false){
+
+
+
+
+
+                }else{
+                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         btnprestamo.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
