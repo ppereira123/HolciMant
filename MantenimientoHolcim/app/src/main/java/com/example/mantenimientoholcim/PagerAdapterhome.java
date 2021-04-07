@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.mantenimientoholcim.Herramientas.EscanerFragment;
+import com.example.mantenimientoholcim.Herramientas.GeneradorQR;
+import com.example.mantenimientoholcim.Herramientas.RegistroFragment;
+
 public class PagerAdapterhome extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
@@ -18,8 +22,8 @@ public class PagerAdapterhome extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new tab1Home();
-            case 1: return new tab2Home();
+            case 0: return EscanerFragment.newInstance();
+            case 1: return new RegistroFragment();
             case 2: return new GeneradorQR();
             default: return null;}
     }

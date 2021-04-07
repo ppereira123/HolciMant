@@ -1,4 +1,4 @@
-package com.example.mantenimientoholcim;
+package com.example.mantenimientoholcim.Herramientas;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.mantenimientoholcim.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;

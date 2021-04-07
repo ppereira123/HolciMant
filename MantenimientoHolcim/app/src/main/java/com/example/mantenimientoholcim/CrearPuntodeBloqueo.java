@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.example.mantenimientoholcim.Modelo.PuntoBloqueo;
@@ -133,6 +134,7 @@ public class CrearPuntodeBloqueo extends AppCompatActivity {
             //Bundle extras= data.getExtras();
             Bitmap imgBitmap= BitmapFactory.decodeFile(rutaImagen);//aqui esta leyendo
             foto.setImageBitmap(imgBitmap);
+
         }
     }
 

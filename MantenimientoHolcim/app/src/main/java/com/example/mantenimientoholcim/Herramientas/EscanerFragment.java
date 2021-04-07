@@ -1,37 +1,29 @@
-package com.example.mantenimientoholcim;
+package com.example.mantenimientoholcim.Herramientas;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
-import com.example.mantenimientoholcim.Modelo.Item;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.mantenimientoholcim.PlantillasInspeccion;
+import com.example.mantenimientoholcim.R;
+import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
+import com.example.mantenimientoholcim.buscarInspeccionItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,17 +37,33 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class tab1Home extends DialogFragment {
+public class EscanerFragment extends DialogFragment {
     String etcodigo="";
+    String tipo="";
     Button btnLeerCodigo,btndevolucion,btnprestamo;
     ImageButton  btninformacion, btnBuscarInspecciones,btnHacerInspecciones;
     ImageView imgcodigo;
     TextView codigoview;
+    LinearLayout llBtnDev,llOpc;
     private  LayoutInflater mInflater;
+
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public static EscanerFragment newInstance() {
+        EscanerFragment fragment = new EscanerFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
 
@@ -64,7 +72,7 @@ public class tab1Home extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View root = inflater.inflate(R.layout.fragment_tab1_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_escaner, container, false);
         btnLeerCodigo = root.findViewById(R.id.btnLeerCodigo);
         imgcodigo= root.findViewById(R.id.qr_img);
         codigoview= root.findViewById(R.id.txtcod);
@@ -73,6 +81,8 @@ public class tab1Home extends DialogFragment {
         btnprestamo= root.findViewById(R.id.btnprestamo);
         btnBuscarInspecciones= root.findViewById(R.id.btnBuscarInspecciones);
         btnHacerInspecciones= root.findViewById(R.id.btnHacerInspeccion);
+        llBtnDev=root.findViewById(R.id.llbtnDevuPres);
+        llOpc=root.findViewById(R.id.llbtnopc);
 
         mInflater=LayoutInflater.from(getContext());
 
@@ -162,8 +172,97 @@ public class tab1Home extends DialogFragment {
         btnHacerInspecciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 boolean valid= etcodigo.equals("");
                 if(valid==false){
+                    FirebaseDatabase database= FirebaseDatabase.getInstance();
+                    DatabaseReference myRef= database.getReference("Items");
+                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                tipo=snapshot.child("tipoInspeccion").getValue().toString();
+                                String[] nombresdeinspeccion =getResources().getStringArray(R.array.combo_inspeccionesNombre);
+                                int position=posicionEnArreglo(nombresdeinspeccion,tipo);
+                                if (position!=-1){
+                                    if (position==41){
+                                        Intent intent= new Intent(root.getContext(), RevisionPuntosBloqueo.class);
+                                        startActivity(intent);
+
+                                    }
+                                    else {
+                                        Intent intent= new Intent(root.getContext(), PlantillasInspeccion.class);
+                                        intent.putExtra("posicion",position);
+                                        intent.putExtra("codigo", etcodigo);
+                                        startActivity(intent);
+                                    }
+
+                                }else{
+                                    Toast.makeText(getContext(), "No existe formato para este tipo de inspección", Toast.LENGTH_SHORT).show(); }
+                            }else{
+                                Toast.makeText(getContext(), "No existe ese codigo de articulo en la base de datos", Toast.LENGTH_SHORT).show();
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
+
+
+                }else{
+                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        btnBuscarInspecciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean valid= etcodigo.equals("");
+                if(valid==false){
+                    FirebaseDatabase database= FirebaseDatabase.getInstance();
+                    DatabaseReference myRef= database.getReference("Items");
+                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                tipo=snapshot.child("tipoInspeccion").getValue().toString();
+                                String[] nombresdeinspeccion =getResources().getStringArray(R.array.combo_inspeccionesNombre);
+                                int position=posicionEnArreglo(nombresdeinspeccion,tipo);
+                                if (position!=-1){
+                                    Intent intent= new Intent(root.getContext(), buscarInspeccionItem.class);
+                                    intent.putExtra("codigo", etcodigo);
+                                    startActivity(intent);
+
+
+                                }else{
+                                    Toast.makeText(getContext(), "No existe inspecciones para este articulo", Toast.LENGTH_SHORT).show(); }
+                            }else{
+                                Toast.makeText(getContext(), "No existe ese codigo de articulo en la base de datos", Toast.LENGTH_SHORT).show();
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
+
+
 
 
 
@@ -284,7 +383,7 @@ public class tab1Home extends DialogFragment {
         return root;
     }
     public void escanear(){
-        IntentIntegrator intent= IntentIntegrator.forSupportFragment(tab1Home.this);
+        IntentIntegrator intent= IntentIntegrator.forSupportFragment(EscanerFragment.this);
         intent.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         intent.setPrompt("ESCANEAR CODIGO");
         intent.setCameraId(0);
@@ -292,6 +391,7 @@ public class tab1Home extends DialogFragment {
         intent.setBarcodeImageEnabled(false);
         intent.initiateScan();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -303,6 +403,8 @@ public class tab1Home extends DialogFragment {
                 etcodigo=result.getContents();
                 codigoview.setText(etcodigo);
                 getCode();
+                llOpc.setVisibility(View.VISIBLE);
+                llBtnDev.setVisibility(View.VISIBLE);
 
             }
         }else {
@@ -330,6 +432,14 @@ public class tab1Home extends DialogFragment {
         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
         imgcodigo.setImageBitmap(bitmap);
 
+    }
+    public static int posicionEnArreglo(String[] arreglo, String busqueda) {
+        for (int x = 0; x < arreglo.length; x++) {
+            if (arreglo[x].equals(busqueda)) {
+                return x;
+            }
+        }
+        return -1;
     }
 
 }

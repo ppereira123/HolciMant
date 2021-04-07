@@ -61,7 +61,7 @@ public class tab1 extends Fragment {
 
         return root;
     }
-    private ArrayList<ItemInspeccion> GetArrayItems(){
+    public ArrayList<ItemInspeccion> GetArrayItems(){
         ArrayList<ItemInspeccion> listItems = new ArrayList<>();
         Resources res = getResources();
         String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);

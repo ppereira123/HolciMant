@@ -8,24 +8,44 @@ public class Item implements Serializable {
     private String descripcion;
     private String observacion;
     private int stock;
-    private String estado;
+    private int stockDisponible;
+
     private String ubicacion;
     private int vidaUtil;
     private String tipoInspeccion;
+    private String estante;
+
 
     public Item() {
     }
 
-    public Item(String codigo, String marca, String descripcion, String observacion, int stock, String estado, String ubicacion, int vidaUtil, String tipoInspeccion) {
+    public Item(String codigo, String marca, String descripcion, String observacion, int stock, int stockDisponible, String ubicacion, int vidaUtil, String tipoInspeccion, String estante) {
         this.codigo = codigo;
         this.marca = marca;
         this.descripcion = descripcion;
         this.observacion = observacion;
         this.stock = stock;
-        this.estado = estado;
+        this.stockDisponible = stockDisponible;
         this.ubicacion = ubicacion;
         this.vidaUtil = vidaUtil;
         this.tipoInspeccion = tipoInspeccion;
+        this.estante = estante;
+    }
+
+    public int getStockDisponible() {
+        return stockDisponible;
+    }
+
+    public void setStockDisponible(int stockDisponible) {
+        this.stockDisponible = stockDisponible;
+    }
+
+    public String getEstante() {
+        return estante;
+    }
+
+    public void setEstante(String estante) {
+        this.estante = estante;
     }
 
     public String getCodigo() {
@@ -66,14 +86,6 @@ public class Item implements Serializable {
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getUbicacion() {

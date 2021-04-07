@@ -67,6 +67,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
     TextView txtnombreInspecciones;
     ImageView imagInspeccion, img_tiposinspecciones;
     String nombreInspeccion="";
+    String codigo="";
     String imagenInspeccion="";
     InspeccionTipo1 inspeccionTipo1;
     Button btnGenerar,btnGuardar;
@@ -110,6 +111,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
         });
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
+        codigo= getIntent().getStringExtra("codigo");
+
 
         Resources res = getResources();
         String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
@@ -124,6 +127,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
         imagInspeccion.setImageDrawable(imagen);
+        editTextCodigo.setText(codigo);
 
 
         String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);

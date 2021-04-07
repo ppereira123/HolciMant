@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
-        <activity android:name=".Splash"></activity>
+        <activity android:name=".buscarInspeccionItem"></activity>
+        <activity android:name=".Splash" />
 
         <meta-data
             android:name="com.google.android.actions"

@@ -80,6 +80,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
             switch (v.getId()){
                 case R.id.btnMas:
                     refStock.setValue(item.getStock()+1);
+
                     break;
 
                 case R.id.btnMenos:

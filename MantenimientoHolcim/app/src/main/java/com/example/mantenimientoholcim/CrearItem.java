@@ -31,6 +31,7 @@ public class CrearItem extends AppCompatActivity {
     Button btnGenerar;
     int stock=1;
     ArrayAdapter<String> adapterestanteSpinner;
+    String estanteSeleccionado="";
 
     public CrearItem(){
 
@@ -75,9 +76,18 @@ public class CrearItem extends AppCompatActivity {
         estados.add(0,"N/A");
         estados.add(1,"En uso");
         estados.add(2,"Repuesto");
+        String[] listanombre=getResources().getStringArray(R.array.combo_inspeccionesNombre);
+        ArrayList<String> listanueva = new ArrayList<String>();
+        listanueva.add("N/A");
+        for(int cnt=0;cnt<listanombre.length;cnt++)
+        {
+            listanueva.add(listanombre[cnt]);
+        }
+
+
         ArrayAdapter<String> adapterEstados=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,estados);
         ArrayAdapter<String> adapterUbicaciones=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,ubicaciones);
-        ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,getResources().getStringArray(R.array.combo_inspeccionesNombre));
+        ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,listanueva);
         estadoActualSpinner.setAdapter(adapterEstados);
         ubicacionSpinner.setAdapter(adapterUbicaciones);
         tipoInspeccionspinner.setAdapter(adapterTipos);
@@ -152,6 +162,7 @@ public class CrearItem extends AppCompatActivity {
                 bodegaLlantas.add("N/A");
                 if(position==0){
                     adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
+
                 }
                 else if(position==1){
                     adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaMateriales);
@@ -168,6 +179,17 @@ public class CrearItem extends AppCompatActivity {
                 else
                     adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
                 estanteSpinner.setAdapter(adapterestanteSpinner);
+                estanteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        estanteSeleccionado=parent.getItemAtPosition(position).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
 
             @Override
@@ -209,7 +231,9 @@ public class CrearItem extends AppCompatActivity {
             error=error+" DESCRIPCION";
         }
         if(error.equals("")){
-            Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
+
+
+                Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,ubicacion,vidaUtil,tipoInspeccion,estanteSeleccionado);
             refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {

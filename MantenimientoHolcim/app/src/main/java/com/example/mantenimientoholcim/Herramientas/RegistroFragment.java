@@ -1,14 +1,11 @@
-package com.example.mantenimientoholcim;
+package com.example.mantenimientoholcim.Herramientas;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mantenimientoholcim.CrearItem;
+import com.example.mantenimientoholcim.ListAdapterItem;
 import com.example.mantenimientoholcim.Modelo.Item;
-import com.example.mantenimientoholcim.ui.home.HomeViewModel;
+import com.example.mantenimientoholcim.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class tab2Home extends Fragment {
-    private tab2Home tab2Home;
+public class RegistroFragment extends Fragment {
+    private RegistroFragment tab2Home;
     private RecyclerView rvItems;
     SearchView searchView;
     private FloatingActionButton fabItem;
@@ -42,7 +41,7 @@ public class tab2Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_tab2_home, container, false);
+        root = inflater.inflate(R.layout.fragment_registro, container, false);
         rvItems=root.findViewById(R.id.rvHerramientas);
         fabItem=root.findViewById(R.id.fabItems);
         searchView = root.findViewById(R.id.buscartHerramientas);
@@ -104,11 +103,13 @@ public class tab2Home extends Fragment {
                     String descripcion=ds.child("descripcion").getValue().toString();
                     String observacion=ds.child("observacion").getValue().toString();
                     int stock=Integer.parseInt(ds.child("stock").getValue().toString());
-                    String estado=ds.child("estado").getValue().toString();
                     String ubicacion=ds.child("ubicacion").getValue().toString();
                     int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
                     String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();
-                    Item item= new Item(codigo,marca,descripcion,observacion,stock,estado,ubicacion,vidaUtil,tipoInspeccion);
+                    //estante
+                    //stock disponible
+
+                        Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,ubicacion,vidaUtil,tipoInspeccion,"");
                     if(!items.contains(item)){
                         items.add(item);
                     }
