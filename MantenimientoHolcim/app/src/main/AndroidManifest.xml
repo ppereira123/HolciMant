@@ -23,7 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
         <activity android:name=".buscarInspeccionItem"></activity>
-        <activity android:name=".Splash" />
+        <activity android:name=".Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.actions"
@@ -42,11 +48,6 @@
         <activity android:name=".VerInspeccion" />
         <activity android:name=".CrearPuntodeBloqueo" />
         <activity android:name=".Signin.LoginFireBase">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".RevisionPuntosBloqueo" />
         <activity android:name=".PlantillasInspeccion" />

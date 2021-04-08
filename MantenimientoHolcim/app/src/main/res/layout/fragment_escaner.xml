@@ -53,27 +53,32 @@
 
             <Button
                 android:id="@+id/btndevolucion"
-                android:layout_width="150dp"
-                android:layout_height="90dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:background="@drawable/boton_redondo"
                 android:elevation="15dp"
-                android:text="devolución"
+                android:text="devolución  "
                 android:textColor="#FFFFFF"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:icon="@mipmap/salida"
+                app:iconSize="30dp" />
 
             <Button
                 android:id="@+id/btnprestamo"
-                android:layout_width="150dp"
-                android:layout_height="90dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:background="@drawable/boton_redondo"
+                android:backgroundTint="@color/teal_200"
                 android:elevation="15dp"
                 android:text="prestamo"
                 android:textColor="#FFFFFF"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:icon="@mipmap/devolver"
+                app:iconSize="30dp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -118,6 +123,19 @@
             android:background="?selectableItemBackground"
             android:backgroundTint="@color/tab"
             android:src="?android:attr/actionModeFindDrawable" />
+
+        <Button
+            android:id="@+id/btnHistorialprestamo"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:background="?selectableItemBackground"
+            app:icon="@mipmap/registrarse"
+            app:iconGravity="top"
+            app:iconSize="40dp"
+            app:iconTint="#88000000" />
+
     </LinearLayout>
 
 

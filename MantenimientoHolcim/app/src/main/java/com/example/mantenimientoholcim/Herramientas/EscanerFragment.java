@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.CrearItem;
+import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
@@ -283,16 +284,21 @@ public class EscanerFragment extends DialogFragment {
         btnprestamo.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-                                               boolean valid= etcodigo.equals("");
+                                               boolean valid= etcodigo2.equals("");
                                                if(valid==false){
                                                    FirebaseDatabase database= FirebaseDatabase.getInstance();
                                                    DatabaseReference myRef= database.getReference("Items");
-                                                   myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                                                   DatabaseReference ref1=database.getReference("Prestamos").child(etcodigo2);
+                                                   ref1.keepSynced(true);
+                                                   DatabaseReference ref2=ref1.push();
+                                                   ref2.keepSynced(true);
+
+                                                   myRef.child(etcodigo2).addValueEventListener(new ValueEventListener() {
                                                        @Override
                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                            if(snapshot.exists()){
 
-                                                               refItem=myRef.child(etcodigo).child("stockDisponible");
+                                                               refItem=myRef.child(etcodigo2).child("stockDisponible");
 
                                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
                                                                builder2.setTitle("Prestamo de herramienta");
@@ -300,12 +306,17 @@ public class EscanerFragment extends DialogFragment {
                                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                            @Override
                                                                            public void onClick(DialogInterface dialog, int which) {
+
+
                                                                                refItem.setValue(Integer.parseInt(snapshot.child("stockDisponible").getValue().toString())-1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                                    @Override
                                                                                    public void onSuccess(Void aVoid) {
                                                                                        Toast.makeText(getContext(), "Ha prestado la herramienta: " + etcodigo, Toast.LENGTH_SHORT).show();
                                                                                    }
                                                                                });
+
+
+
 
                                                                            }
 

@@ -9,63 +9,62 @@
     tools:context=".Signin.LoginFireBase">
 
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgHolcim"
+            android:layout_width="226dp"
+            android:layout_height="94dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/logoholcim" />
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="331dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_margin="100dp"
+            android:layout_marginTop="120dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtIniciarSesion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgHolcim"
+            app:srcCompat="@mipmap/logo" />
+
+        <TextView
+            android:id="@+id/txtIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:gravity="center"
+            android:text="Iniciar Sesión"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login"
+            tools:layout_editor_absoluteX="34dp" />
 
-            <ImageView
-                android:id="@+id/imgHolcim"
-                android:layout_width="226dp"
-                android:layout_height="94dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_marginBottom="100dp"
-                app:srcCompat="@mipmap/logoholcim" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="48dp" />
-
-            <ImageView
-                android:id="@+id/imgLogo"
-                android:layout_width="331dp"
-                android:layout_height="81dp"
-                android:layout_gravity="center"
-                android:layout_margin="100dp"
-                app:srcCompat="@mipmap/logo" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="57dp" />
-
-            <TextView
-                android:id="@+id/txtIniciarSesion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Iniciar Sesión"
-                android:textSize="20sp" />
-
-            <ImageButton
-                android:id="@+id/btn_login"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:background="@drawable/boton_redondo"
-                android:elevation="15dp"
-                android:gravity="center"
-                android:onClick="iniciarSesion"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/googleazul"
-                android:textColor="#2962FF"
-                app:backgroundTint="#D5DADD" />
-        </LinearLayout>
-    </ScrollView>
+        <ImageButton
+            android:id="@+id/btn_login"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/boton_redondo"
+            android:elevation="15dp"
+            android:gravity="center"
+            android:onClick="iniciarSesion"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/googleazul"
+            android:textColor="#2962FF"
+            app:backgroundTint="#D5DADD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

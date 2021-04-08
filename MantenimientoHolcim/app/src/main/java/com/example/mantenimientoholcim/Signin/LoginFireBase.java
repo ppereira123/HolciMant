@@ -60,16 +60,7 @@ public class LoginFireBase extends AppCompatActivity {
             }
         }
 
-        imgHolcim=findViewById(R.id.imgHolcim);
-        imgIniciar=findViewById(R.id.btn_login);
-        imgLogo=findViewById(R.id.imgLogo);
-        txtIncio=findViewById(R.id.txtIniciarSesion);
-        Animation animationarriba= AnimationUtils.loadAnimation(this,R.anim.desplaza_arriba);
-        Animation animationAbajo= AnimationUtils.loadAnimation(this,R.anim.desplaza_abajo);
-        imgHolcim.setAnimation(animationarriba);
-        imgLogo.setAnimation(animationarriba);
-        imgIniciar.setAnimation(animationAbajo);
-        txtIncio.setAnimation(animationAbajo);
+
 
 
 
@@ -88,6 +79,12 @@ public class LoginFireBase extends AppCompatActivity {
     {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

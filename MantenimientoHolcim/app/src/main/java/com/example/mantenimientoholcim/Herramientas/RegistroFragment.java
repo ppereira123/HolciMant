@@ -106,8 +106,7 @@ public class RegistroFragment extends Fragment {
                     String ubicacion=ds.child("ubicacion").getValue().toString();
                     int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
                     String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();
-                    //estante
-                    //stock disponible
+
 
                         Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,ubicacion,vidaUtil,tipoInspeccion,"");
                     if(!items.contains(item)){
