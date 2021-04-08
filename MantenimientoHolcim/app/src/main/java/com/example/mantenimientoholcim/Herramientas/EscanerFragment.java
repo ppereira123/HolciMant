@@ -20,10 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mantenimientoholcim.CrearItem;
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
 import com.example.mantenimientoholcim.buscarInspeccionItem;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class EscanerFragment extends DialogFragment {
     String etcodigo="";
+    String etcodigo2="";
+    Integer codigonumero=-1;
+    DatabaseReference refItem;
     String tipo="";
     Button btnLeerCodigo,btndevolucion,btnprestamo;
     ImageButton  btninformacion, btnBuscarInspecciones,btnHacerInspecciones;
@@ -98,11 +103,11 @@ public class EscanerFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
-                boolean valid= etcodigo.equals("");
+                boolean valid= etcodigo2.equals("");
                 if(valid==false){
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                    myRef.child(etcodigo2).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -286,13 +291,22 @@ public class EscanerFragment extends DialogFragment {
                                                        @Override
                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                            if(snapshot.exists()){
+
+                                                               refItem=myRef.child(etcodigo).child("stockDisponible");
+
                                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
                                                                builder2.setTitle("Prestamo de herramienta");
                                                                builder2.setMessage("Esta seguro que desea prestar la herramienta con codigo:" + etcodigo)
                                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                            @Override
                                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                               Toast.makeText(getContext(), "Ha prestado la herramienta: " + etcodigo, Toast.LENGTH_SHORT).show();
+                                                                               refItem.setValue(Integer.parseInt(snapshot.child("stockDisponible").getValue().toString())-1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                   @Override
+                                                                                   public void onSuccess(Void aVoid) {
+                                                                                       Toast.makeText(getContext(), "Ha prestado la herramienta: " + etcodigo, Toast.LENGTH_SHORT).show();
+                                                                                   }
+                                                                               });
+
                                                                            }
 
                                                                        })
@@ -339,6 +353,7 @@ public class EscanerFragment extends DialogFragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
+
                                 AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
                                 builder2.setTitle("Devolución de herramienta");
                                 builder2.setMessage("Esta seguro que desea devolver la herramienta con codigo:" + etcodigo)
@@ -401,6 +416,7 @@ public class EscanerFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Cancelaste el escaneo", Toast.LENGTH_SHORT).show();
             }else  {
                 etcodigo=result.getContents();
+                etcodigo2=etcodigo.split("-")[0];
                 codigoview.setText(etcodigo);
                 getCode();
                 llOpc.setVisibility(View.VISIBLE);

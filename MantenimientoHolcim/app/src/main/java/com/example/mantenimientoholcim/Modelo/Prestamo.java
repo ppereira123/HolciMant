@@ -1,9 +1,9 @@
 package com.example.mantenimientoholcim.Modelo;
 
 public class Prestamo {
-    String codigo;
-    String codigoItem;
+    String numeroitem;
     int stockDisponible;
     String fechaPrestamo;
     String fechaDevolucion;
+    String propietario;
 }
