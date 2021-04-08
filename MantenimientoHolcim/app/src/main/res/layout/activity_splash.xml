@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8"
-        app:srcCompat="@mipmap/logo" />
+        android:src="@mipmap/logo" />
 
 
     <TextView
@@ -35,13 +35,13 @@
         android:id="@+id/imglogoHolcim"
         android:layout_width="72dp"
         android:layout_height="21dp"
+        android:src="@mipmap/logoholcim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintHorizontal_bias="0.850"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSplash"
-        app:layout_constraintVertical_bias="0.06"
-        app:srcCompat="@mipmap/logoholcim" />
+        app:layout_constraintVertical_bias="0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
