@@ -2,7 +2,6 @@ package com.example.mantenimientoholcim;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -37,7 +36,7 @@ public class buscarInspeccionItem extends AppCompatActivity {
         setContentView(R.layout.activity_buscar_inspeccion_item);
         inspeccionesRealizadas=findViewById(R.id.listInspeccionesrealizadas2);
         codigoInspeccion= getIntent().getStringExtra("codigo");
-        imgbtnSalir= findViewById(R.id.imgbtnSalirInspecciones2);
+        imgbtnSalir= findViewById(R.id.btnSalirHistorialPrestamos);
         cargarItems();
     }
     void cargarItems(){

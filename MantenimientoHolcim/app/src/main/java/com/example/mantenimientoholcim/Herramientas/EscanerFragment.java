@@ -30,6 +30,7 @@ import com.example.mantenimientoholcim.Modelo.Prestamo;
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
+import com.example.mantenimientoholcim.VistaHistorialPrestamos;
 import com.example.mantenimientoholcim.buscarInspeccionItem;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -62,7 +63,7 @@ public class EscanerFragment extends DialogFragment {
     Integer codigonumero=-1;
     DatabaseReference refItem;
     String tipo="";
-    Button btnLeerCodigo,btndevolucion,btnprestamo;
+    Button btnLeerCodigo,btndevolucion,btnprestamo,btnHistorialPrestamos;
     ImageButton  btninformacion, btnBuscarInspecciones,btnHacerInspecciones;
     ImageView imgcodigo;
     TextView codigoview;
@@ -106,6 +107,7 @@ public class EscanerFragment extends DialogFragment {
         btnprestamo= root.findViewById(R.id.btnprestamo);
         btnBuscarInspecciones= root.findViewById(R.id.btnBuscarInspecciones);
         btnHacerInspecciones= root.findViewById(R.id.btnHacerInspeccion);
+        btnHistorialPrestamos= root.findViewById(R.id.btnHistorialprestamo);
         llBtnDev=root.findViewById(R.id.llbtnDevuPres);
         llOpc=root.findViewById(R.id.llbtnopc);
 
@@ -292,6 +294,16 @@ public class EscanerFragment extends DialogFragment {
             }
         });
 
+        btnHistorialPrestamos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(root.getContext(), VistaHistorialPrestamos.class);
+                intent.putExtra("codigo", etcodigo);
+                startActivity(intent);
+
+            }
+        });
+
         btnprestamo.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
@@ -334,7 +346,7 @@ public class EscanerFragment extends DialogFragment {
                                                                        //refPrestamos.setValue(prestamo);
                                                                            Snackbar snackbar= Snackbar.make(root,"Item no devuelto",BaseTransientBottomBar.LENGTH_LONG);
                                                                            snackbar.show();
-                                                                   }
+                                                                       }
                                                                    }
                                                                    else{
                                                                        if(historial.size()<10){
@@ -483,6 +495,11 @@ public class EscanerFragment extends DialogFragment {
                         else{
                             Snackbar snackbar= Snackbar.make(root,"El codigo no existe",BaseTransientBottomBar.LENGTH_LONG);
                             snackbar.show();
+                            llOpc.setVisibility(View.INVISIBLE);
+                            llBtnDev.setVisibility(View.INVISIBLE);
+
+
+
                         }
                     }
 
@@ -513,7 +530,7 @@ public class EscanerFragment extends DialogFragment {
                     List<HistorialPrestamo> historialPrestamos= new ArrayList<>();
                     for(DataSnapshot ds: snapshot.child("historial").getChildren()){
                         String nombre=ds.child("nombre").getValue().toString();
-                        String fechaPrestamo=ds.child("fechaPrestamo").toString();
+                        String fechaPrestamo=ds.child("fechaPrestamo").getValue().toString();
                         String fechaDevolucion=ds.child("fechaDevolucion").getValue().toString();
                         String estadoPrestamo=ds.child("estadoPrestamo").getValue().toString();
                         HistorialPrestamo historialPrestamo=new HistorialPrestamo(nombre,fechaPrestamo,fechaDevolucion,estadoPrestamo);

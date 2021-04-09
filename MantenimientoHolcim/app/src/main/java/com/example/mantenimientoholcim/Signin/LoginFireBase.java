@@ -83,6 +83,7 @@ public class LoginFireBase extends AppCompatActivity {
         {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
 
         }
     }
@@ -100,6 +101,7 @@ public class LoginFireBase extends AppCompatActivity {
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());

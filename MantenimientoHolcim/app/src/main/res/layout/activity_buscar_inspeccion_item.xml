@@ -31,7 +31,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/imgbtnSalirInspecciones2"
+            android:id="@+id/btnSalirHistorialPrestamos"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"

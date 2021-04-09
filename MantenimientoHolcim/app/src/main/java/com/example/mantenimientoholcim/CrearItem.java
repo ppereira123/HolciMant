@@ -132,10 +132,11 @@ public class CrearItem extends AppCompatActivity {
                 ubicacion=  parent.getItemAtPosition(position).toString();
                 //Spinner dependiente//
                 ArrayList<String> estante= new ArrayList<>();
-                ArrayList<String> bodegaMateriales= new ArrayList<>();
-                bodegaMateriales.add("Aceite");
-                bodegaMateriales.add("Grasas");
-                bodegaMateriales.add("Refigerante");
+                ArrayList<String> bodegaLubricantes= new ArrayList<>();
+
+                bodegaLubricantes.add("Aceite");
+                bodegaLubricantes.add("Grasas");
+                bodegaLubricantes.add("Refigerante");
                 ArrayList<String> bodegaHerramientas= new ArrayList<>();
                 bodegaHerramientas.add("1A");
                 bodegaHerramientas.add("1B");
@@ -154,8 +155,8 @@ public class CrearItem extends AppCompatActivity {
                 bodegaHerramientas.add("2P");
                 bodegaHerramientas.add("3P");
                 bodegaHerramientas.add("4P");
-                ArrayList<String> bodegaLubricantes= new ArrayList<>();
-                bodegaLubricantes.add("N/A");
+                ArrayList<String> bodegaMateriales= new ArrayList<>();
+                bodegaMateriales.add("N/A");
                 ArrayList<String> bodega= new ArrayList<>();
                 bodega.add("N/A");
                 ArrayList<String> bodegaLlantas= new ArrayList<>();
@@ -258,5 +259,7 @@ public class CrearItem extends AppCompatActivity {
         observacionTxt.setText(item.getObservacion());
         vidaUtilTxt.setValue(item.getVidaUtil());
         stock=item.getStock();
+
+
     }
 }
