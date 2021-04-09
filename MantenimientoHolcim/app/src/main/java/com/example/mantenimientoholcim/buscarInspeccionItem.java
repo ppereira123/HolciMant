@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,6 +26,7 @@ public class buscarInspeccionItem extends AppCompatActivity {
     private AdaptadorInspeccionesRealizadas adaptador;
     String codigoInspeccion;
     ImageButton imgbtnSalir;
+    Context context=this;
 
 
     ArrayList<InspeccionTipo1> buscarlist=new ArrayList<>();
@@ -89,7 +91,7 @@ public class buscarInspeccionItem extends AppCompatActivity {
 
                     }
                 }
-                AdaptadorInspeccionesRealizadas adaptador= new AdaptadorInspeccionesRealizadas(getApplicationContext(), listitems );
+                AdaptadorInspeccionesRealizadas adaptador= new AdaptadorInspeccionesRealizadas(context, listitems );
                 inspeccionesRealizadas.setAdapter(adaptador);
 
             }

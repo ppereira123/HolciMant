@@ -10,10 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import android.provider.ContactsContract;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,12 +24,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.CrearItem;
+import com.example.mantenimientoholcim.Modelo.HistorialPrestamo;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.example.mantenimientoholcim.Modelo.Prestamo;
 import com.example.mantenimientoholcim.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
 import com.example.mantenimientoholcim.buscarInspeccionItem;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,10 +49,16 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 
 public class EscanerFragment extends DialogFragment {
     String etcodigo="";
-    String etcodigo2="";
+    String codigoDiv="";
     Integer codigonumero=-1;
     DatabaseReference refItem;
     String tipo="";
@@ -52,7 +67,11 @@ public class EscanerFragment extends DialogFragment {
     ImageView imgcodigo;
     TextView codigoview;
     LinearLayout llBtnDev,llOpc;
+    String nombre="";
     private  LayoutInflater mInflater;
+    Prestamo prestamo=null;
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
+    View root;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -78,7 +97,7 @@ public class EscanerFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View root = inflater.inflate(R.layout.fragment_escaner, container, false);
+         root = inflater.inflate(R.layout.fragment_escaner, container, false);
         btnLeerCodigo = root.findViewById(R.id.btnLeerCodigo);
         imgcodigo= root.findViewById(R.id.qr_img);
         codigoview= root.findViewById(R.id.txtcod);
@@ -93,10 +112,14 @@ public class EscanerFragment extends DialogFragment {
         mInflater=LayoutInflater.from(getContext());
 
 
+
         btnLeerCodigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 escanear();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                nombre=currentUser.getDisplayName();
 
             }
         });
@@ -104,11 +127,10 @@ public class EscanerFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
-                boolean valid= etcodigo2.equals("");
-                if(valid==false){
+
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(etcodigo2).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -163,9 +185,7 @@ public class EscanerFragment extends DialogFragment {
 
 
 
-                }else{
-                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
-                }
+
 
 
             }
@@ -178,12 +198,9 @@ public class EscanerFragment extends DialogFragment {
         btnHacerInspecciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                boolean valid= etcodigo.equals("");
-                if(valid==false){
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -223,20 +240,17 @@ public class EscanerFragment extends DialogFragment {
 
 
 
-                }else{
-                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
-                }
+
 
             }
         });
         btnBuscarInspecciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean valid= etcodigo.equals("");
-                if(valid==false){
+
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -274,9 +288,6 @@ public class EscanerFragment extends DialogFragment {
 
 
 
-                }else{
-                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
-                }
 
             }
         });
@@ -284,70 +295,101 @@ public class EscanerFragment extends DialogFragment {
         btnprestamo.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-                                               boolean valid= etcodigo2.equals("");
-                                               if(valid==false){
-                                                   FirebaseDatabase database= FirebaseDatabase.getInstance();
-                                                   DatabaseReference myRef= database.getReference("Items");
-                                                   DatabaseReference ref1=database.getReference("Prestamos").child(etcodigo2);
-                                                   ref1.keepSynced(true);
-                                                   DatabaseReference ref2=ref1.push();
-                                                   ref2.keepSynced(true);
 
-                                                   myRef.child(etcodigo2).addValueEventListener(new ValueEventListener() {
-                                                       @Override
-                                                       public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                           if(snapshot.exists()){
+                                                   AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                                                   builder2.setTitle("Prestamo de herramienta");
+                                                   builder2.setMessage("Esta seguro que desea prestar la herramienta con codigo:" + etcodigo)
+                                                           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(DialogInterface dialog, int which) {
+                                                                   SimpleDateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+                                                                   Calendar calendar=Calendar.getInstance();
+                                                                   Date hoy=calendar.getTime();
+                                                                   String fechaDevolucion=format.format(hoy);
+                                                                   List<HistorialPrestamo> historial= prestamo.getHistorial();
+                                                                   HistorialPrestamo historialPrestamo;
+                                                                   int tamano=historial.size()-1;
+                                                                   if(tamano<0){
+                                                                       historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
+                                                                       prestamo.setEstado("Prestado");
+                                                                   }
+                                                                   else{
+                                                                    historialPrestamo= historial.get(historial.size()-1);}
 
-                                                               refItem=myRef.child(etcodigo2).child("stockDisponible");
+                                                                   if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                                                                       if(historialPrestamo.getNombre().equals(nombre)){
+                                                                           dialog.dismiss();
+                                                                           Snackbar snackbar= Snackbar.make(root,"Devuelve el item antes de volverlo a prestar",BaseTransientBottomBar.LENGTH_LONG);
+                                                                           snackbar.show();
+                                                                       }
 
-                                                               AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                                                               builder2.setTitle("Prestamo de herramienta");
-                                                               builder2.setMessage("Esta seguro que desea prestar la herramienta con codigo:" + etcodigo)
-                                                                       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                           @Override
-                                                                           public void onClick(DialogInterface dialog, int which) {
-
-
-                                                                               refItem.setValue(Integer.parseInt(snapshot.child("stockDisponible").getValue().toString())-1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                   @Override
-                                                                                   public void onSuccess(Void aVoid) {
-                                                                                       Toast.makeText(getContext(), "Ha prestado la herramienta: " + etcodigo, Toast.LENGTH_SHORT).show();
-                                                                                   }
-                                                                               });
-
+                                                                       else{
 
 
+                                                                       historialPrestamo.setFechaDevolucion(fechaDevolucion);
+                                                                       historialPrestamo.setEstadoPrestamo("No devuelto");
+                                                                       historial.add(historial.size(),historialPrestamo);
+                                                                       prestamo.setHistorial(historial);
+                                                                       prestamo.setEstado("Prestado");
+                                                                       //refPrestamos.setValue(prestamo);
+                                                                           Snackbar snackbar= Snackbar.make(root,"Item no devuelto",BaseTransientBottomBar.LENGTH_LONG);
+                                                                           snackbar.show();
+                                                                   }
+                                                                   }
+                                                                   else{
+                                                                       if(historial.size()<10){
+                                                                           historialPrestamo.setFechaPrestamo(fechaDevolucion);
+                                                                           historialPrestamo.setEstadoPrestamo("Prestado");
+                                                                           historial.add(historialPrestamo);
+                                                                           prestamo.setHistorial(historial);
+                                                                           DatabaseReference refPrestamos=database.getReference("Prestamos").child(etcodigo);
+                                                                           refPrestamos.setValue(prestamo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                               @Override
+                                                                               public void onSuccess(Void aVoid) {
+                                                                                   DatabaseReference ref= database.getReference("Items").child(codigoDiv).child("stockDisponible");
+                                                                                   ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                       @Override
+                                                                                       public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                                           ref.setValue(snapshot.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                               @Override
+                                                                                               public void onSuccess(Void aVoid) {
+                                                                                                   Snackbar snackbar= Snackbar.make(root,"Item Prestado Correctamente",BaseTransientBottomBar.LENGTH_LONG);
+                                                                                                   snackbar.show();
+                                                                                               }
+                                                                                           });
+                                                                                       }
 
-                                                                           }
+                                                                                       @Override
+                                                                                       public void onCancelled(@NonNull DatabaseError error) {
 
-                                                                       })
-                                                                       .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                           @Override
-                                                                           public void onClick(DialogInterface dialog, int which) {
-                                                                               dialog.dismiss();
-                                                                           }
+                                                                                       }
+                                                                                   });
 
-                                                                       }).show();
+                                                                               }
+                                                                           });
 
-                                                           }else{
-                                                               Toast.makeText(getContext(), "No existe ese codigo de articulo en la base de datos", Toast.LENGTH_SHORT).show();
+                                                                       }
 
-
-                                                           }
-
-                                                       }
-
-                                                       @Override
-                                                       public void onCancelled(@NonNull DatabaseError error) {
-
-                                                       }
-                                                   });
+                                                                   }
 
 
 
-                                               }else{
-                                                   Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
-                                               }
+
+                                                               }
+
+                                                           })
+                                                           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(DialogInterface dialog, int which) {
+                                                                   dialog.dismiss();
+                                                               }
+
+                                                           }).show();
+
+
+
+
+
 
 
                                            }
@@ -356,11 +398,9 @@ public class EscanerFragment extends DialogFragment {
         btndevolucion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean valid= etcodigo.equals("");
-                if(valid==false){
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(etcodigo).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -398,16 +438,13 @@ public class EscanerFragment extends DialogFragment {
                     });
 
 
-
-                }else{
-                    Toast.makeText(getContext(), "Debe escanear un codigo QR primero", Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
 
         return root;
     }
+
+
     public void escanear(){
         IntentIntegrator intent= IntentIntegrator.forSupportFragment(EscanerFragment.this);
         intent.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
@@ -427,11 +464,35 @@ public class EscanerFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Cancelaste el escaneo", Toast.LENGTH_SHORT).show();
             }else  {
                 etcodigo=result.getContents();
-                etcodigo2=etcodigo.split("-")[0];
-                codigoview.setText(etcodigo);
-                getCode();
-                llOpc.setVisibility(View.VISIBLE);
-                llBtnDev.setVisibility(View.VISIBLE);
+                codigoDiv=etcodigo.split("-")[0];
+                DatabaseReference ref= database.getReference("Items").child(codigoDiv);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            codigoview.setText(etcodigo);
+                            obtenerPrestamo();
+                            getCode();
+                            FrameLayout.LayoutParams params; params = (FrameLayout.LayoutParams) btnLeerCodigo.getLayoutParams();
+                            params.gravity = Gravity.CENTER_HORIZONTAL;
+                            btnLeerCodigo.setLayoutParams(params);
+                            llOpc.setVisibility(View.VISIBLE);
+                            llBtnDev.setVisibility(View.VISIBLE);
+                        }
+
+                        else{
+                            Snackbar snackbar= Snackbar.make(root,"El codigo no existe",BaseTransientBottomBar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
 
             }
         }else {
@@ -441,6 +502,45 @@ public class EscanerFragment extends DialogFragment {
 
 
     }
+
+    private void obtenerPrestamo() {
+        DatabaseReference ref=database.getReference("Prestamos").child(etcodigo);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String estado=snapshot.child("estado").getValue().toString();
+                    List<HistorialPrestamo> historialPrestamos= new ArrayList<>();
+                    for(DataSnapshot ds: snapshot.child("historial").getChildren()){
+                        String nombre=ds.child("nombre").getValue().toString();
+                        String fechaPrestamo=ds.child("fechaPrestamo").toString();
+                        String fechaDevolucion=ds.child("fechaDevolucion").getValue().toString();
+                        String estadoPrestamo=ds.child("estadoPrestamo").getValue().toString();
+                        HistorialPrestamo historialPrestamo=new HistorialPrestamo(nombre,fechaPrestamo,fechaDevolucion,estadoPrestamo);
+                        historialPrestamos.add(historialPrestamo);
+                    }
+                    prestamo=new Prestamo(etcodigo,estado,historialPrestamos);
+
+                }else{
+                    String estado="";
+                    List<HistorialPrestamo> historialPrestamos= new ArrayList<>();
+                    //LLenas los datos correspondientes
+                    prestamo=new Prestamo(etcodigo,estado,historialPrestamos);
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     private void getCode(){
         try {
             imaggeneretor();
