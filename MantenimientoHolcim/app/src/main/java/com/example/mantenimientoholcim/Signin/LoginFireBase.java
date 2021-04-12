@@ -3,10 +3,12 @@ package com.example.mantenimientoholcim.Signin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -49,6 +51,8 @@ public class LoginFireBase extends AppCompatActivity {
     Context context= this;
     InternalStorage storage;
     boolean admin;
+    AlertDialog alert;
+
 
 
 
@@ -58,6 +62,14 @@ public class LoginFireBase extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Iniciando Sesion...");
+        LayoutInflater inflater=LayoutInflater.from(context);
+        View view= inflater.inflate(R.layout.res_carga,null);
+        builder.setView(view);
+        alert = builder.create();
+        storage=new InternalStorage();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_fire_base);
         mAuth= FirebaseAuth.getInstance();
@@ -106,6 +118,7 @@ public class LoginFireBase extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        alert.show();
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GOOGLE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent( data);
@@ -144,14 +157,16 @@ public class LoginFireBase extends AppCompatActivity {
                             }
                         });
 
-                        UsersData data= new UsersData(admin,user.getUid(),user.getDisplayName(), user.getPhotoUrl().toString(),user.getEmail());
+
                         try {
-                            storage.guardarArchivo(data ,context);
+                                UsersData data= new UsersData(admin,user.getUid(),user.getDisplayName(), user.getPhotoUrl().toString(),user.getEmail());
+                             storage.guardarArchivo(data ,this);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                         Intent intent = new Intent(this, MainActivity.class);
+                        alert.dismiss();
                         startActivity(intent);
                         finish();
 

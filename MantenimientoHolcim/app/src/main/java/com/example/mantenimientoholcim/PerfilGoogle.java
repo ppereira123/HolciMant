@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Signin.LoginFireBase;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -76,6 +77,8 @@ public class PerfilGoogle extends Fragment {
                         if (task.isSuccessful()) {
                             Intent loginFireBase = new Intent(getActivity(), LoginFireBase.class);
                             startActivity(loginFireBase);
+                            InternalStorage storage=new InternalStorage();
+                            storage.eliminarArchivo(root.getContext());
                             //PerfilGoogle.finish();
                         } else {
                             Toast.makeText(context, "No se pudo cerrar sesión con google",

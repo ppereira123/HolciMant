@@ -80,10 +80,13 @@ public class InternalStorage {
 
     public void eliminarArchivo(Context context){
         String url="admin.txt";
+
         String archivos[]=context.fileList();
         if(ArchivoExiste(archivos,url)){
-            File fichero = new File("fichero.txt");
-            if(fichero.delete()){
+            File dir = context.getFilesDir(); File file = new File(dir, url);
+
+
+            if(file.delete()){
                 Toast.makeText(context, "Archivo borrado correctamente", Toast.LENGTH_SHORT).show();
             }
             else{

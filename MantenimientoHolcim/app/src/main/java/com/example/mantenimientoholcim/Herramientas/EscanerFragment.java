@@ -511,7 +511,7 @@ public class EscanerFragment extends DialogFragment {
                 etcodigo=result.getContents();
                 codigoDiv=etcodigo.split("-")[0];
                 DatabaseReference ref= database.getReference("Items").child(codigoDiv);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
