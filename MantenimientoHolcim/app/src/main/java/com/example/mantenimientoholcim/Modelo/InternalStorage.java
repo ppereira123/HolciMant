@@ -21,7 +21,7 @@ public class InternalStorage {
 
     }
 
-    public void guardarPresionSemanal(UsersData data,Context context) throws IOException {
+    public void guardarArchivo(UsersData data,Context context) throws IOException {
         String urlArchivo="admin.txt";
         FileOutputStream fos = null;
         try {
@@ -44,7 +44,7 @@ public class InternalStorage {
 
     }
 
-    private boolean ArchivoExiste(String[] archivos, String urlArchivo) {
+    public boolean ArchivoExiste(String[] archivos, String urlArchivo) {
         for(int i=0;i<archivos.length;i++){
             if(urlArchivo.equals(archivos[i])){
                 return true;
@@ -55,7 +55,7 @@ public class InternalStorage {
     }
 
 
-    public UsersData cargarPresionesSemanales(Context context){
+    public UsersData cargarArchivo(Context context){
         String urlArchivo="admin.txt";
         UsersData data=null;
         String archivos[]=context.fileList();
@@ -78,7 +78,7 @@ public class InternalStorage {
         return data;
     }
 
-    public void eliminarPresionSemanal(Context context){
+    public void eliminarArchivo(Context context){
         String url="admin.txt";
         String archivos[]=context.fileList();
         if(ArchivoExiste(archivos,url)){
