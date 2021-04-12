@@ -350,7 +350,7 @@ public class EscanerFragment extends DialogFragment {
                                         //Se setea la lista nueva de historial se pone de estado Prestado y se sube
                                         prestamo.setHistorial(historial);
                                         prestamo.setEstado("Devuelto");
-                                        subirPrestamo(prestamo);
+                                        subirPrestamo(prestamo,false);
                                     }
                                     //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
                                     else {
@@ -363,7 +363,7 @@ public class EscanerFragment extends DialogFragment {
                                         //Se setea la lista nueva de historial se pone de estado Prestado y se sube
                                         prestamo.setHistorial(historial);
                                         prestamo.setEstado("Devuelto");
-                                        subirPrestamo(prestamo);
+                                        subirPrestamo(prestamo,false);
 
                                     }
                                 }
@@ -444,7 +444,7 @@ public class EscanerFragment extends DialogFragment {
                                     historial.add(historialPrestamo1);
                                     prestamo.setHistorial(historial);
                                     prestamo.setEstado("Prestado");
-                                    subirPrestamo(prestamo);
+                                    subirPrestamo(prestamo,true);
                                 }
                                 //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
                                 else{
@@ -455,7 +455,7 @@ public class EscanerFragment extends DialogFragment {
                                     }
                                     prestamo.setHistorial(historialNuevo);
                                     prestamo.setEstado("Prestado");
-                                    subirPrestamo(prestamo);
+                                    subirPrestamo(prestamo,true);
                                 }
                                 //Se setea la lista nueva de historial se pone de estado Prestado y se sube
 
@@ -471,20 +471,20 @@ public class EscanerFragment extends DialogFragment {
                                 historial.add(historialPrestamo1);
                                 prestamo.setHistorial(historial);
                                 prestamo.setEstado("Prestado");
-                                subirPrestamo(prestamo);
+                                subirPrestamo(prestamo,true);
                             }
                             //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
                             else{
                                 historial.add(historialPrestamo1);
                                 prestamo.setHistorial(historial);
-                                subirPrestamo(prestamo);
+                                subirPrestamo(prestamo,true);
                                 List<HistorialPrestamo> historialNuevo=new ArrayList<>();
                                 for(int i=1;i<historial.size();i++){
                                     historialNuevo.add(historial.get(i));
                                 }
                                 prestamo.setHistorial(historialNuevo);
                                 prestamo.setEstado("Prestado");
-                                subirPrestamo(prestamo);
+                                subirPrestamo(prestamo,true);
                             }
                             //Se setea la lista nueva de historial se pone de estado Prestado y se sube
 
@@ -507,7 +507,7 @@ public class EscanerFragment extends DialogFragment {
 
     }
 
-    public void subirPrestamo(Prestamo prestamo){
+    public void subirPrestamo(Prestamo prestamo,boolean prestado){
 
             DatabaseReference refPrestamos=database.getReference("Prestamos").child(etcodigo);
             refPrestamos.setValue(prestamo).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -517,7 +517,14 @@ public class EscanerFragment extends DialogFragment {
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            ref.setValue(snapshot.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            int stock=Integer.parseInt(snapshot.getValue().toString());
+                            if(prestado){
+                                stock--;
+                            }
+                            else{
+                                stock++;
+                            }
+                            ref.setValue(stock).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Snackbar snackbar= Snackbar.make(root,"Subido Correctamente",BaseTransientBottomBar.LENGTH_LONG);
