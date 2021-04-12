@@ -192,21 +192,7 @@ public class EscanerFragment extends DialogFragment {
 
                         }
                     });
-
-
-
-
-
-
-
-
-
             }
-
-
-
-
-
         });
         btnHacerInspecciones.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -432,7 +418,7 @@ public class EscanerFragment extends DialogFragment {
                         //Veo si ya se ha creado una lista de historial
                         if(tamano<0){
                             historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
-                            prestamo.setEstado("Prestado");
+                            prestamo.setEstado("");
                         }
                         //Si no se creo , se crea una nueva lista
                         else{
@@ -456,16 +442,23 @@ public class EscanerFragment extends DialogFragment {
                                 //Si la lista tiene menos de 10 items, se agrega sin problema
                                 if(historial.size()<10){
                                     historial.add(historialPrestamo1);
+                                    prestamo.setHistorial(historial);
+                                    prestamo.setEstado("Prestado");
+                                    subirPrestamo(prestamo);
                                 }
                                 //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
                                 else{
-                                    historial.add(historialPrestamo);
-                                    historial.remove(0);
+                                    historial.add(historialPrestamo1);
+                                    List<HistorialPrestamo> historialNuevo=new ArrayList<>();
+                                    for(int i=1;i<historial.size();i++){
+                                        historialNuevo.add(historial.get(i));
+                                    }
+                                    prestamo.setHistorial(historialNuevo);
+                                    prestamo.setEstado("Prestado");
+                                    subirPrestamo(prestamo);
                                 }
                                 //Se setea la lista nueva de historial se pone de estado Prestado y se sube
-                                prestamo.setHistorial(historial);
-                                prestamo.setEstado("Prestado");
-                                subirPrestamo(prestamo);
+
 
                             }
                         }
@@ -476,16 +469,25 @@ public class EscanerFragment extends DialogFragment {
                             //Si la lista tiene menos de 10 items, se agrega sin problema
                             if(historial.size()<10){
                                 historial.add(historialPrestamo1);
+                                prestamo.setHistorial(historial);
+                                prestamo.setEstado("Prestado");
+                                subirPrestamo(prestamo);
                             }
                             //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
                             else{
-                                historial.remove(0);
-                                historial.add(historialPrestamo);
+                                historial.add(historialPrestamo1);
+                                prestamo.setHistorial(historial);
+                                subirPrestamo(prestamo);
+                                List<HistorialPrestamo> historialNuevo=new ArrayList<>();
+                                for(int i=1;i<historial.size();i++){
+                                    historialNuevo.add(historial.get(i));
+                                }
+                                prestamo.setHistorial(historialNuevo);
+                                prestamo.setEstado("Prestado");
+                                subirPrestamo(prestamo);
                             }
                             //Se setea la lista nueva de historial se pone de estado Prestado y se sube
-                            prestamo.setHistorial(historial);
-                            prestamo.setEstado("Prestado");
-                            subirPrestamo(prestamo);
+
 
                         }
 
