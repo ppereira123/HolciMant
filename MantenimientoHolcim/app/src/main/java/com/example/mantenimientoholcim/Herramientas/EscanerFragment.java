@@ -316,146 +316,195 @@ public class EscanerFragment extends DialogFragment {
         btnprestamo.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-
-                                                   AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                                                   builder2.setTitle("Prestamo de herramienta");
-                                                   builder2.setMessage("Esta seguro que desea prestar la herramienta con codigo:" + etcodigo)
-                                                           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                               @Override
-                                                               public void onClick(DialogInterface dialog, int which) {
-
-                                                                   historial= prestamo.getHistorial();
-                                                                   HistorialPrestamo historialPrestamo;
-                                                                   int tamano=historial.size()-1;
-                                                                   //Veo si ya se ha creado una lista de historial
-                                                                   if(tamano<0){
-                                                                       historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
-                                                                       prestamo.setEstado("Prestado");
-                                                                   }
-                                                                   //Si no se creo , se crea una nueva lista
-                                                                   else{
-                                                                    historialPrestamo= historial.get(historial.size()-1);}
-
-                                                                    //Veo si ya esta prestado elitem
-                                                                   if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
-                                                                       //Si sigue prestado por la misma persona, pide que lo devuelva primero
-                                                                       if(historialPrestamo.getNombre().equals(nombre)){
-                                                                           dialog.dismiss();
-                                                                           Snackbar snackbar= Snackbar.make(root,"Devuelve el item antes de volverlo a prestar",BaseTransientBottomBar.LENGTH_LONG);
-                                                                           snackbar.show();
-                                                                       }
-                                                                        //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
-                                                                       else{
-                                                                       historialPrestamo.setFechaDevolucion(fechaDevolucion);
-                                                                       historialPrestamo.setEstadoPrestamo("No devuelto");
-                                                                       historial.add(historial.size(),historialPrestamo);
-                                                                       HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
-                                                                       //Si la lista tiene menos de 10 items, se agrega sin problema
-                                                                       if(historial.size()<10){
-                                                                           historial.add(historialPrestamo1);
-                                                                       }
-                                                                       //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
-                                                                       else{
-                                                                           historial.remove(0);
-                                                                           historial.add(historialPrestamo);
-                                                                       }
-                                                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
-                                                                       prestamo.setHistorial(historial);
-                                                                       prestamo.setEstado("Prestado");
-                                                                       subirPrestamo(prestamo);
-
-                                                                       }
-                                                                   }
-
-                                                                   //Si el item no tiene el estado prestado, se presta sin problema
-                                                                   else{
-                                                                       HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
-                                                                       //Si la lista tiene menos de 10 items, se agrega sin problema
-                                                                       if(historial.size()<10){
-                                                                           historial.add(historialPrestamo1);
-                                                                       }
-                                                                       //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
-                                                                       else{
-                                                                           historial.remove(0);
-                                                                           historial.add(historialPrestamo);
-                                                                       }
-                                                                       //Se setea la lista nueva de historial se pone de estado Prestado y se sube
-                                                                       prestamo.setHistorial(historial);
-                                                                       prestamo.setEstado("Prestado");
-                                                                       subirPrestamo(prestamo);
-
-                                                                   }
-
-
-
-
-                                                               }
-
-                                                           })
-                                                           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                               @Override
-                                                               public void onClick(DialogInterface dialog, int which) {
-                                                                   dialog.dismiss();
-                                                               }
-
-                                                           }).show();
-
-
-
-
-
-
-
+                                               prestar();
                                            }
                                            
                                        });
         btndevolucion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                builder2.setTitle("Devolucion de herramienta");
+                builder2.setMessage("Esta seguro que desea devolver la herramienta con codigo:" + etcodigo)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                                builder2.setTitle("Devolución de herramienta");
-                                builder2.setMessage("Esta seguro que desea devolver la herramienta con codigo:" + etcodigo)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(getContext(), "Ha devuelto la herramienta: " + etcodigo, Toast.LENGTH_SHORT).show();
-                                            }
+                                historial= prestamo.getHistorial();
+                                HistorialPrestamo historialPrestamo;
+                                int tamano=historial.size()-1;
+                                //Veo si ya se ha creado una lista de historial
+                                if(tamano<0){
+                                    historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
+                                    prestamo.setEstado("Prestado");
+                                }
+                                //Si no se creo , se crea una nueva lista
+                                else{
+                                    historialPrestamo= historial.get(historial.size()-1);}
 
-                                        })
-                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
+                                //Veo si ya esta prestado elitem
+                                if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                                    //Si sigue prestado por la misma persona, se develve sin problema
+                                    if(!historialPrestamo.getNombre().equals(nombre)){
+                                        historialPrestamo.setFechaDevolucion(fechaDevolucion);
+                                        historialPrestamo.setEstadoPrestamo("No devuelto");
+                                        //Si la lista tiene menos de 10 items, se agrega sin problema
+                                        if(historial.size()<10){
+                                            historial.add(historialPrestamo);
+                                        }
+                                        //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                                        else{
+                                            historial.remove(0);
+                                            historial.add(historialPrestamo);
+                                        }
+                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                                        prestamo.setHistorial(historial);
+                                        prestamo.setEstado("Prestado");
+                                        subirPrestamo(prestamo);
+                                    }
+                                    //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
+                                    else{
+                                        historialPrestamo.setFechaDevolucion(fechaDevolucion);
+                                        historialPrestamo.setEstadoPrestamo("No devuelto");
+                                        historial.add(historial.size()-1,historialPrestamo);
+                                        //Si la lista tiene menos de 10 items, se agrega sin problema
+                                        if(historial.size()<10){
+                                            historial.add(historialPrestamo);
+                                        }
+                                        //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                                        else{
+                                            historial.remove(0);
+                                            historial.add(historialPrestamo);
+                                        }
+                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                                        prestamo.setHistorial(historial);
+                                        prestamo.setEstado("Devuelto");
+                                        Snackbar snackbar= Snackbar.make(root,"Item devuelto por usuario distinto al que lo presto",BaseTransientBottomBar.LENGTH_LONG);
+                                        snackbar.show();
+                                        subirPrestamo(prestamo);
 
-                                        }).show();
+                                    }
+                                }
 
-                            }else{
-                                Toast.makeText(getContext(), "No existe ese codigo de articulo en la base de datos", Toast.LENGTH_SHORT).show();
+                                //Si el item no tiene el estado prestado, se presta sin problema
+                                else{
+                                    Snackbar snackbar= Snackbar.make(root,"Item ya devuelto\nDesearias ?",BaseTransientBottomBar.LENGTH_LONG);
+                                    snackbar.setAction("Prestar", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            prestar();
+                                        }
+                                    });
+                                    snackbar.show();
+
+                                }
+
+
 
 
                             }
 
-                        }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                        }).show();
 
 
             }
         });
 
         return root;
+    }
+
+    private void prestar() {
+
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+        builder2.setTitle("Prestamo de herramienta");
+        builder2.setMessage("Esta seguro que desea prestar la herramienta con codigo:" + etcodigo)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        historial= prestamo.getHistorial();
+                        HistorialPrestamo historialPrestamo;
+                        int tamano=historial.size()-1;
+                        //Veo si ya se ha creado una lista de historial
+                        if(tamano<0){
+                            historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
+                            prestamo.setEstado("Prestado");
+                        }
+                        //Si no se creo , se crea una nueva lista
+                        else{
+                            historialPrestamo= historial.get(historial.size()-1);}
+
+                        //Veo si ya esta prestado elitem
+                        if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                            //Si sigue prestado por la misma persona, pide que lo devuelva primero
+                            if(historialPrestamo.getNombre().equals(nombre)){
+                                dialog.dismiss();
+                                Snackbar snackbar= Snackbar.make(root,"Devuelve el item antes de volverlo a prestar",BaseTransientBottomBar.LENGTH_LONG);
+                                snackbar.show();
+                            }
+                            //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
+                            else{
+                                historialPrestamo.setFechaDevolucion(fechaDevolucion);
+                                historialPrestamo.setEstadoPrestamo("No devuelto");
+                                historial.add(historial.size()-1,historialPrestamo);
+                                HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
+                                //Si la lista tiene menos de 10 items, se agrega sin problema
+                                if(historial.size()<10){
+                                    historial.add(historialPrestamo1);
+                                }
+                                //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                                else{
+                                    historial.remove(0);
+                                    historial.add(historialPrestamo1);
+                                }
+                                //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                                prestamo.setHistorial(historial);
+                                prestamo.setEstado("Prestado");
+                                subirPrestamo(prestamo);
+
+                            }
+                        }
+
+                        //Si el item no tiene el estado prestado, se presta sin problema
+                        else{
+                            HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
+                            //Si la lista tiene menos de 10 items, se agrega sin problema
+                            if(historial.size()<10){
+                                historial.add(historialPrestamo1);
+                            }
+                            //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                            else{
+                                historial.remove(0);
+                                historial.add(historialPrestamo);
+                            }
+                            //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                            prestamo.setHistorial(historial);
+                            prestamo.setEstado("Prestado");
+                            subirPrestamo(prestamo);
+
+                        }
+
+
+
+
+                    }
+
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                }).show();
+
     }
 
     public void subirPrestamo(Prestamo prestamo){
