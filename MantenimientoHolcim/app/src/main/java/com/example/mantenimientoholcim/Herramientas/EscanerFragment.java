@@ -15,6 +15,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -264,6 +266,7 @@ public class EscanerFragment extends DialogFragment {
                     myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            obtenerPrestamo();
                             if(snapshot.exists()){
                                 tipo=snapshot.child("tipoInspeccion").getValue().toString();
                                 String[] nombresdeinspeccion =getResources().getStringArray(R.array.combo_inspeccionesNombre);
@@ -329,66 +332,59 @@ public class EscanerFragment extends DialogFragment {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                historial= prestamo.getHistorial();
+                                obtenerPrestamo();
+                                historial = prestamo.getHistorial();
                                 HistorialPrestamo historialPrestamo;
-                                int tamano=historial.size()-1;
-                                //Veo si ya se ha creado una lista de historial
-                                if(tamano<0){
-                                    historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
-                                    prestamo.setEstado("Prestado");
+                                int tamano = historial.size() - 1;
+                                //Veo si ya se ha creado una lista de historial, si no se ha creado
+                                if (tamano < 0) {
+                                    Snackbar snackbar = Snackbar.make(root, "Item no ha sido\nDesearias prestarlo?", BaseTransientBottomBar.LENGTH_LONG);
+                                    snackbar.setAction("Prestar", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            prestar();
+                                        }
+                                    });
+                                    snackbar.show();
                                 }
                                 //Si no se creo , se crea una nueva lista
-                                else{
-                                    historialPrestamo= historial.get(historial.size()-1);}
-
+                                else {
+                                    historialPrestamo = historial.get(historial.size() - 1);
                                 //Veo si ya esta prestado elitem
-                                if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                                if (prestamo.getEstado().equals("Prestado")) {
                                     //Si sigue prestado por la misma persona, se develve sin problema
-                                    if(!historialPrestamo.getNombre().equals(nombre)){
+                                    if (!historialPrestamo.getNombre().equals(nombre)) {
+                                        Snackbar snackbar = Snackbar.make(root, "Item devuelto por usuario distinto al que lo presto", BaseTransientBottomBar.LENGTH_LONG);
+                                        snackbar.show();
                                         historialPrestamo.setFechaDevolucion(fechaDevolucion);
                                         historialPrestamo.setEstadoPrestamo("No devuelto");
                                         //Si la lista tiene menos de 10 items, se agrega sin problema
-                                        if(historial.size()<10){
-                                            historial.add(historialPrestamo);
-                                        }
-                                        //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
-                                        else{
-                                            historial.remove(0);
-                                            historial.add(historialPrestamo);
-                                        }
-                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
-                                        prestamo.setHistorial(historial);
-                                        prestamo.setEstado("Prestado");
-                                        subirPrestamo(prestamo);
-                                    }
-                                    //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
-                                    else{
-                                        historialPrestamo.setFechaDevolucion(fechaDevolucion);
-                                        historialPrestamo.setEstadoPrestamo("No devuelto");
-                                        historial.add(historial.size()-1,historialPrestamo);
-                                        //Si la lista tiene menos de 10 items, se agrega sin problema
-                                        if(historial.size()<10){
-                                            historial.add(historialPrestamo);
-                                        }
-                                        //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
-                                        else{
-                                            historial.remove(0);
-                                            historial.add(historialPrestamo);
-                                        }
+                                        historial.remove(historial.size() - 1);
+                                        historial.add(historial.size() , historialPrestamo);
                                         //Se setea la lista nueva de historial se pone de estado Prestado y se sube
                                         prestamo.setHistorial(historial);
                                         prestamo.setEstado("Devuelto");
-                                        Snackbar snackbar= Snackbar.make(root,"Item devuelto por usuario distinto al que lo presto",BaseTransientBottomBar.LENGTH_LONG);
-                                        snackbar.show();
+                                        subirPrestamo(prestamo);
+                                    }
+                                    //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
+                                    else {
+                                        historialPrestamo.setFechaDevolucion(fechaDevolucion);
+                                        historialPrestamo.setEstadoPrestamo("Devuelto");
+                                        //Si la lista tiene menos de 10 items, se agrega sin problema
+                                            historial.remove(historial.size()-1);
+                                            historial.add(historialPrestamo);
+
+                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                                        prestamo.setHistorial(historial);
+                                        prestamo.setEstado("Devuelto");
                                         subirPrestamo(prestamo);
 
                                     }
                                 }
 
                                 //Si el item no tiene el estado prestado, se presta sin problema
-                                else{
-                                    Snackbar snackbar= Snackbar.make(root,"Item ya devuelto\nDesearias ?",BaseTransientBottomBar.LENGTH_LONG);
+                                else {
+                                    Snackbar snackbar = Snackbar.make(root, "Item ya devuelto\nDesearias ?", BaseTransientBottomBar.LENGTH_LONG);
                                     snackbar.setAction("Prestar", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -398,6 +394,7 @@ public class EscanerFragment extends DialogFragment {
                                     snackbar.show();
 
                                 }
+                            }
 
 
 
@@ -442,7 +439,7 @@ public class EscanerFragment extends DialogFragment {
                             historialPrestamo= historial.get(historial.size()-1);}
 
                         //Veo si ya esta prestado elitem
-                        if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                        if(prestamo.getEstado().equals("Prestado")){
                             //Si sigue prestado por la misma persona, pide que lo devuelva primero
                             if(historialPrestamo.getNombre().equals(nombre)){
                                 dialog.dismiss();
@@ -453,7 +450,8 @@ public class EscanerFragment extends DialogFragment {
                             else{
                                 historialPrestamo.setFechaDevolucion(fechaDevolucion);
                                 historialPrestamo.setEstadoPrestamo("No devuelto");
-                                historial.add(historial.size()-1,historialPrestamo);
+                                historial.remove(historial.size()-1);
+                                historial.add(historial.size(),historialPrestamo);
                                 HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
                                 //Si la lista tiene menos de 10 items, se agrega sin problema
                                 if(historial.size()<10){
@@ -461,8 +459,8 @@ public class EscanerFragment extends DialogFragment {
                                 }
                                 //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
                                 else{
+                                    historial.add(historialPrestamo);
                                     historial.remove(0);
-                                    historial.add(historialPrestamo1);
                                 }
                                 //Se setea la lista nueva de historial se pone de estado Prestado y se sube
                                 prestamo.setHistorial(historial);
@@ -520,8 +518,14 @@ public class EscanerFragment extends DialogFragment {
                             ref.setValue(snapshot.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Snackbar snackbar= Snackbar.make(root,"Item Prestado Correctamente",BaseTransientBottomBar.LENGTH_LONG);
+                                    Snackbar snackbar= Snackbar.make(root,"Subido Correctamente",BaseTransientBottomBar.LENGTH_LONG);
                                     snackbar.show();
+                                    Animation animation= AnimationUtils.loadAnimation(root.getContext() ,R.anim.desplaza_arriba);
+                                    imgcodigo.setAnimation(animation);
+                                    llOpc.setVisibility(View.GONE);
+                                    llBtnDev.setVisibility(View.GONE);
+                                    imgcodigo.setVisibility(View.GONE);
+                                    codigoview.setVisibility(View.GONE);
                                 }
                             });
                         }
@@ -604,7 +608,7 @@ public class EscanerFragment extends DialogFragment {
 
     private void obtenerPrestamo() {
         DatabaseReference ref=database.getReference("Prestamos").child(etcodigo);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -657,6 +661,7 @@ public class EscanerFragment extends DialogFragment {
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
         imgcodigo.setImageBitmap(bitmap);
+        imgcodigo.setVisibility(View.VISIBLE);
 
     }
     public static int posicionEnArreglo(String[] arreglo, String busqueda) {
