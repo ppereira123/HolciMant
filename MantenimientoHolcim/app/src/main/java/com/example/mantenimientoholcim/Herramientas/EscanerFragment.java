@@ -72,6 +72,8 @@ public class EscanerFragment extends DialogFragment {
     private  LayoutInflater mInflater;
     Prestamo prestamo=null;
     FirebaseDatabase database=FirebaseDatabase.getInstance();
+    List<HistorialPrestamo> historial;
+    String fechaDevolucion;
     View root;
 
 
@@ -111,6 +113,11 @@ public class EscanerFragment extends DialogFragment {
         llBtnDev=root.findViewById(R.id.llbtnDevuPres);
         llOpc=root.findViewById(R.id.llbtnopc);
 
+        SimpleDateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar=Calendar.getInstance();
+        Date hoy=calendar.getTime();
+        fechaDevolucion=format.format(hoy);
+
         mInflater=LayoutInflater.from(getContext());
 
 
@@ -118,10 +125,12 @@ public class EscanerFragment extends DialogFragment {
         btnLeerCodigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                escanear();
+
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 nombre=currentUser.getDisplayName();
+                escanear();
+
 
             }
         });
@@ -314,73 +323,66 @@ public class EscanerFragment extends DialogFragment {
                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                @Override
                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                   SimpleDateFormat format= new SimpleDateFormat("dd/MM/yyyy");
-                                                                   Calendar calendar=Calendar.getInstance();
-                                                                   Date hoy=calendar.getTime();
-                                                                   String fechaDevolucion=format.format(hoy);
-                                                                   List<HistorialPrestamo> historial= prestamo.getHistorial();
+
+                                                                   historial= prestamo.getHistorial();
                                                                    HistorialPrestamo historialPrestamo;
                                                                    int tamano=historial.size()-1;
+                                                                   //Veo si ya se ha creado una lista de historial
                                                                    if(tamano<0){
                                                                        historialPrestamo=new HistorialPrestamo(nombre,fechaDevolucion,"","");
                                                                        prestamo.setEstado("Prestado");
                                                                    }
+                                                                   //Si no se creo , se crea una nueva lista
                                                                    else{
                                                                     historialPrestamo= historial.get(historial.size()-1);}
 
+                                                                    //Veo si ya esta prestado elitem
                                                                    if(historialPrestamo.getEstadoPrestamo().equals("Prestado")){
+                                                                       //Si sigue prestado por la misma persona, pide que lo devuelva primero
                                                                        if(historialPrestamo.getNombre().equals(nombre)){
                                                                            dialog.dismiss();
                                                                            Snackbar snackbar= Snackbar.make(root,"Devuelve el item antes de volverlo a prestar",BaseTransientBottomBar.LENGTH_LONG);
                                                                            snackbar.show();
                                                                        }
-
+                                                                        //Si otra persona no lo ha devuelto, se escribe no devuelto y se crea un nuevo historial
                                                                        else{
-
-
                                                                        historialPrestamo.setFechaDevolucion(fechaDevolucion);
                                                                        historialPrestamo.setEstadoPrestamo("No devuelto");
                                                                        historial.add(historial.size(),historialPrestamo);
+                                                                       HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
+                                                                       //Si la lista tiene menos de 10 items, se agrega sin problema
+                                                                       if(historial.size()<10){
+                                                                           historial.add(historialPrestamo1);
+                                                                       }
+                                                                       //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                                                                       else{
+                                                                           historial.remove(0);
+                                                                           historial.add(historialPrestamo);
+                                                                       }
+                                                                        //Se setea la lista nueva de historial se pone de estado Prestado y se sube
                                                                        prestamo.setHistorial(historial);
                                                                        prestamo.setEstado("Prestado");
-                                                                       //refPrestamos.setValue(prestamo);
-                                                                           Snackbar snackbar= Snackbar.make(root,"Item no devuelto",BaseTransientBottomBar.LENGTH_LONG);
-                                                                           snackbar.show();
+                                                                       subirPrestamo(prestamo);
+
                                                                        }
                                                                    }
+
+                                                                   //Si el item no tiene el estado prestado, se presta sin problema
                                                                    else{
+                                                                       HistorialPrestamo historialPrestamo1= new HistorialPrestamo(nombre,fechaDevolucion,"","Prestado");
+                                                                       //Si la lista tiene menos de 10 items, se agrega sin problema
                                                                        if(historial.size()<10){
-                                                                           historialPrestamo.setFechaPrestamo(fechaDevolucion);
-                                                                           historialPrestamo.setEstadoPrestamo("Prestado");
-                                                                           historial.add(historialPrestamo);
-                                                                           prestamo.setHistorial(historial);
-                                                                           DatabaseReference refPrestamos=database.getReference("Prestamos").child(etcodigo);
-                                                                           refPrestamos.setValue(prestamo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                               @Override
-                                                                               public void onSuccess(Void aVoid) {
-                                                                                   DatabaseReference ref= database.getReference("Items").child(codigoDiv).child("stockDisponible");
-                                                                                   ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                                       @Override
-                                                                                       public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                                           ref.setValue(snapshot.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                               @Override
-                                                                                               public void onSuccess(Void aVoid) {
-                                                                                                   Snackbar snackbar= Snackbar.make(root,"Item Prestado Correctamente",BaseTransientBottomBar.LENGTH_LONG);
-                                                                                                   snackbar.show();
-                                                                                               }
-                                                                                           });
-                                                                                       }
-
-                                                                                       @Override
-                                                                                       public void onCancelled(@NonNull DatabaseError error) {
-
-                                                                                       }
-                                                                                   });
-
-                                                                               }
-                                                                           });
-
+                                                                           historial.add(historialPrestamo1);
                                                                        }
+                                                                       //Si la lista ya tiene 10 items, se borra el primero y se agrega al final
+                                                                       else{
+                                                                           historial.remove(0);
+                                                                           historial.add(historialPrestamo);
+                                                                       }
+                                                                       //Se setea la lista nueva de historial se pone de estado Prestado y se sube
+                                                                       prestamo.setHistorial(historial);
+                                                                       prestamo.setEstado("Prestado");
+                                                                       subirPrestamo(prestamo);
 
                                                                    }
 
@@ -454,6 +456,37 @@ public class EscanerFragment extends DialogFragment {
         });
 
         return root;
+    }
+
+    public void subirPrestamo(Prestamo prestamo){
+
+            DatabaseReference refPrestamos=database.getReference("Prestamos").child(etcodigo);
+            refPrestamos.setValue(prestamo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    DatabaseReference ref= database.getReference("Items").child(codigoDiv).child("stockDisponible");
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ref.setValue(snapshot.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Snackbar snackbar= Snackbar.make(root,"Item Prestado Correctamente",BaseTransientBottomBar.LENGTH_LONG);
+                                    snackbar.show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            });
+
+
     }
 
 
