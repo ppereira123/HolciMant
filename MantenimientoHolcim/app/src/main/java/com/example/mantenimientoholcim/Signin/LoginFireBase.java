@@ -1,7 +1,9 @@
 package com.example.mantenimientoholcim.Signin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mantenimientoholcim.MainActivity;
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,7 +29,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class LoginFireBase extends AppCompatActivity {
@@ -36,6 +46,11 @@ public class LoginFireBase extends AppCompatActivity {
     ImageButton imgIniciar;
     ImageView imgHolcim,imgLogo;
     TextView txtIncio;
+    Context context= this;
+    InternalStorage storage;
+    boolean admin;
+
+
 
 
 
@@ -65,6 +80,8 @@ public class LoginFireBase extends AppCompatActivity {
 
 
 
+
+
     }
     private void cerrarSesion() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
@@ -79,13 +96,13 @@ public class LoginFireBase extends AppCompatActivity {
     {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null)
+        /*if (account != null)
         {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
 
-        }
+        }*/
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,9 +116,7 @@ public class LoginFireBase extends AppCompatActivity {
                 Log.w("TAG", "Fallo el inicio de sesión con google.", e);
             }
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
@@ -111,10 +126,41 @@ public class LoginFireBase extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
+
+                        FirebaseDatabase database= FirebaseDatabase.getInstance();
+                        String uid= user.getUid();
+                        DatabaseReference myRef= database.getReference("admins").child(uid);
+                        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    admin=true;
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        UsersData data= new UsersData(admin,user.getUid(),user.getDisplayName(), user.getPhotoUrl().toString(),user.getEmail());
+                        try {
+                            storage.guardarArchivo(data ,context);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+
                     } else {
                         System.out.println("error");
                         updateUI(null);
                     }
+
                 });
     }
     private void updateUI(FirebaseUser user) {
