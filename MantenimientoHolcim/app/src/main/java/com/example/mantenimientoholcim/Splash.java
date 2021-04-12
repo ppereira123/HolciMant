@@ -3,6 +3,7 @@ package com.example.mantenimientoholcim;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -12,12 +13,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Signin.LoginFireBase;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Splash extends Activity {
+    Context context= this;
+    InternalStorage storage;
 
 
     @Override
@@ -25,6 +29,7 @@ public class Splash extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        storage=new InternalStorage();
 
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.desplaza_arriba);
         Animation animation2= AnimationUtils.loadAnimation(this,R.anim.desplaza_abajo);
@@ -41,9 +46,18 @@ public class Splash extends Activity {
         TimerTask tarea= new TimerTask() {
             @Override
             public void run() {
-                Intent intent=new Intent(Splash.this, LoginFireBase.class);
-                startActivity(intent);
-                finish();
+                String archivos[]=context.fileList();
+                if (storage.ArchivoExiste(archivos,"admin.txt")){
+                    Intent intent=new Intent(Splash.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent=new Intent(Splash.this, LoginFireBase.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+
             }
         };
 
