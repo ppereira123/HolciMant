@@ -324,7 +324,7 @@ public class EscanerFragment extends DialogFragment {
                                 int tamano = historial.size() - 1;
                                 //Veo si ya se ha creado una lista de historial, si no se ha creado
                                 if (tamano < 0) {
-                                    Snackbar snackbar = Snackbar.make(root, "Item no ha sido\nDesearias prestarlo?", BaseTransientBottomBar.LENGTH_LONG);
+                                    Snackbar snackbar = Snackbar.make(root, "Item no ha sido prestado\nDesearias prestarlo?", BaseTransientBottomBar.LENGTH_LONG);
                                     snackbar.setAction("Prestar", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
