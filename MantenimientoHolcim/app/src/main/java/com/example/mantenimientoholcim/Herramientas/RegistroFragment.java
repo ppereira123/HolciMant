@@ -50,7 +50,6 @@ public class RegistroFragment extends Fragment {
         fabItem=root.findViewById(R.id.fabItems);
         searchView = root.findViewById(R.id.buscartHerramientas);
         InternalStorage storage=new InternalStorage();
-
         String archivos[]=getContext().fileList();
         if (storage.ArchivoExiste(archivos,"admin.txt")){
             UsersData data= storage.cargarArchivo(root.getContext());
@@ -61,8 +60,6 @@ public class RegistroFragment extends Fragment {
             else{
                 fabItem.setVisibility(View.VISIBLE);
             }
-            Toast.makeText(getContext(), String.valueOf(data.isAdmin()), Toast.LENGTH_SHORT).show();
-
         }
         cargarItems();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -121,12 +118,12 @@ public class RegistroFragment extends Fragment {
                     String descripcion=ds.child("descripcion").getValue().toString();
                     String observacion=ds.child("observacion").getValue().toString();
                     int stock=Integer.parseInt(ds.child("stock").getValue().toString());
+                    int stockdisponible=Integer.parseInt(ds.child("stockDisponible").getValue().toString());
+                    String estante=ds.child("estante").getValue().toString();
                     String ubicacion=ds.child("ubicacion").getValue().toString();
                     int vidaUtil=Integer.parseInt(ds.child("vidaUtil").getValue().toString());
                     String tipoInspeccion=ds.child("tipoInspeccion").getValue().toString();
-
-
-                        Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,ubicacion,vidaUtil,tipoInspeccion,"");
+                        Item item= new Item(codigo,marca,descripcion,observacion,stock,stockdisponible,ubicacion,vidaUtil,tipoInspeccion,estante);
                     if(!items.contains(item)){
                         items.add(item);
                     }

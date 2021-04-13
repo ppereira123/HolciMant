@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mantenimientoholcim.Dialogos.DialogoVerInspeccion;
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
@@ -125,7 +124,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(item.getEnuunciado());
                 View view = mInflater.inflate(R.layout.adaptardorverinspeciones, null);
-                TextView editTextCodigo,fechaInspeccion,fechaProximaInspeccion,rvInspecciones,nombreInspector;
+                TextView editTextCodigo,fechaInspeccion,fechaProximaInspeccion,nombreInspector;
                 ImageView imagInspeccion;
                 ListView rvInspeccionesRv;
                 rvInspeccionesRv=view.findViewById(R.id.rvInspeccionesRv);

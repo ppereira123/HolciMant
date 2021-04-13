@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -51,8 +55,8 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView txtNombreItem,txtStock,txtCodigo;
-        ImageButton btnMas,btnMenos;
+        TextView txtNombreItem,txtStock,txtCodigo,txtStockDisponible,txtubicacion,txtestante;
+        Button btnMas,btnMenos;
         CardView cvItem;
         Item item;
         private View view;
@@ -60,11 +64,30 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
             super(view);
             txtNombreItem=view.findViewById(R.id.txtNombreItem);
             txtStock=view.findViewById(R.id.txtStock);
+            txtStockDisponible=view.findViewById(R.id.txtStockdisponible);
+            txtubicacion=view.findViewById(R.id.txtubicacion);
+            txtestante=view.findViewById(R.id.txtestante);
             txtCodigo=view.findViewById(R.id.txtCodigo);
             btnMas=view.findViewById(R.id.btnMas);
             btnMenos=view.findViewById(R.id.btnMenos);
             cvItem=view.findViewById(R.id.cvPuntoBloqueo);
             this.view=view;
+            InternalStorage storage=new InternalStorage();
+            String archivos[]=view.getContext().fileList();
+            if (storage.ArchivoExiste(archivos,"admin.txt")){
+                UsersData data= storage.cargarArchivo(view.getContext());
+                if (data.isAdmin()==false){
+
+                    btnMas.setVisibility(View.GONE);
+                    btnMenos.setVisibility(View.GONE);
+                }
+                else{
+                    btnMas.setVisibility(View.VISIBLE);
+                    btnMenos.setVisibility(View.VISIBLE);
+                }
+            }
+
+
         }
 
         public void setOnClickListeners() {
@@ -76,15 +99,17 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
         @Override
         public void onClick(View v) {
             FirebaseDatabase database=FirebaseDatabase.getInstance();
-            DatabaseReference refStock=database.getReference("Items").child(item.getCodigo()).child("stock");
+            DatabaseReference refStock=database.getReference("Items").child(item.getCodigo());
+
             switch (v.getId()){
                 case R.id.btnMas:
-                    refStock.setValue(item.getStock()+1);
-
+                    refStock.child("stock").setValue(item.getStock()+1);
+                    refStock.child("stockDisponible").setValue(item.getStockDisponible()+1);
                     break;
 
                 case R.id.btnMenos:
-                    refStock.setValue(item.getStock()-1);
+                    refStock.child("stock").setValue(item.getStock()-1);
+                    refStock.child("stockDisponible").setValue(item.getStockDisponible()-1);
                     break;
 
                 case R.id.cvPuntoBloqueo:
@@ -99,6 +124,10 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
         public void binData(Item item) {
             txtNombreItem.setText(item.getDescripcion());
             txtStock.setText(String.valueOf(item.getStock()));
+            txtStockDisponible.setText(String.valueOf(item.getStockDisponible()));
+            txtubicacion.setText(item.getUbicacion());
+            txtestante.setText(item.getEstante());
+
             txtCodigo.setText(item.getCodigo());
             this.item=item;
             cvItem.setOnLongClickListener(new View.OnLongClickListener() {

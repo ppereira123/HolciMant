@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,22 +49,20 @@ public class LoginFireBase extends AppCompatActivity {
     static final int GOOGLE_SIGN_IN = 123;
     FirebaseAuth mAuth;
     ImageButton imgIniciar;
-    ImageView imgHolcim,imgLogo;
-    TextView txtIncio;
+    static  final String claveholcim="1557";
+
     Context context= this;
     InternalStorage storage;
     boolean admin;
     AlertDialog alert;
-
-
-
-
-
-
+    LayoutInflater mInflater;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_fire_base);
+        imgIniciar=findViewById(R.id.btn_login);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Iniciando Sesion...");
@@ -71,8 +71,7 @@ public class LoginFireBase extends AppCompatActivity {
         builder.setView(view);
         alert = builder.create();
         storage=new InternalStorage();
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_fire_base);
+
         mAuth= FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -109,13 +108,38 @@ public class LoginFireBase extends AppCompatActivity {
     {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        /*if (account != null)
-        {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        mInflater= LayoutInflater.from(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Alerta");
+        View view = mInflater.inflate(R.layout.adaptador_ingreso, null);
+        EditText clave=view.findViewById(R.id.clave);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (clave.getText().toString().equals("")){
+                    Toast.makeText(LoginFireBase.this, "Escriba la clave", Toast.LENGTH_SHORT).show();
 
-        }*/
+                }else {
+                    if (clave.getText().toString().equals(claveholcim)){
+                        imgIniciar.setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+
+                    }
+                    else {
+                        Toast.makeText(LoginFireBase.this, "Clave incorrecta", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+
+
+
+                }
+
+            }
+        });
+        builder.setView(view);
+        builder.show();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,7 +186,7 @@ public class LoginFireBase extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                Toast.makeText(context, String.valueOf(admin), Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override

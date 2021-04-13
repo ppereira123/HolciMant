@@ -2,6 +2,7 @@ package com.example.mantenimientoholcim;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +13,9 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,10 +31,11 @@ public class CrearItem extends AppCompatActivity {
     DatabaseReference refItem;
     String codigo="";
     Item item=null;
-    Button btnGenerar;
+    Button btnGenerar, btnsubirItem;
     int stock=1;
     ArrayAdapter<String> adapterestanteSpinner;
     String estanteSeleccionado="";
+    Context context=this;
 
     public CrearItem(){
 
@@ -50,6 +54,7 @@ public class CrearItem extends AppCompatActivity {
         ubicacionSpinner=findViewById(R.id.spinnerUbicacion);
         tipoInspeccionspinner=findViewById(R.id.spinnerInspeccion);
         estanteSpinner=findViewById(R.id.spinnerEstante);
+        btnsubirItem=findViewById(R.id.subirItem);
         codigoTxt=findViewById(R.id.codigotxt);
         vidaUtilTxt.setMinValue(0);
         vidaUtilTxt.setMaxValue(50);
@@ -58,6 +63,19 @@ public class CrearItem extends AppCompatActivity {
         if(item!=null){
             editarDatos(item);
         }
+        InternalStorage storage=new InternalStorage();
+        String archivos[]=context.fileList();
+        if (storage.ArchivoExiste(archivos,"admin.txt")){
+            UsersData data= storage.cargarArchivo(context);
+            if (data.isAdmin()==false){
+
+                btnsubirItem.setVisibility(View.GONE);
+            }
+            else{
+                btnsubirItem.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
 
