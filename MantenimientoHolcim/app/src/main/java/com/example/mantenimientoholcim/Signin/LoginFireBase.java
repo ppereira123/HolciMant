@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mantenimientoholcim.MainActivity;
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
@@ -148,7 +149,20 @@ public class LoginFireBase extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.exists()){
                                     admin=true;
+
                                 }
+                                else{
+                                    admin=false;
+                                }
+
+                                try {
+                                    UsersData data= new UsersData(admin,user.getUid(),user.getDisplayName(), user.getPhotoUrl().toString(),user.getEmail());
+                                    storage.guardarArchivo(data ,context);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(context, String.valueOf(admin), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -158,12 +172,6 @@ public class LoginFireBase extends AppCompatActivity {
                         });
 
 
-                        try {
-                                UsersData data= new UsersData(admin,user.getUid(),user.getDisplayName(), user.getPhotoUrl().toString(),user.getEmail());
-                             storage.guardarArchivo(data ,this);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
                         Intent intent = new Intent(this, MainActivity.class);
                         alert.dismiss();

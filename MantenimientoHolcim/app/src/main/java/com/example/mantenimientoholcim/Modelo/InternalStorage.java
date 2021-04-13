@@ -66,6 +66,7 @@ public class InternalStorage {
             data = (UsersData) is.readObject();
             is.close();
             fis.close();
+            return data;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

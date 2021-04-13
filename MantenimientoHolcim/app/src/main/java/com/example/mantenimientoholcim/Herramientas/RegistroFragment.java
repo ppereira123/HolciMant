@@ -6,16 +6,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mantenimientoholcim.CrearItem;
 import com.example.mantenimientoholcim.ListAdapterItem;
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -45,7 +49,21 @@ public class RegistroFragment extends Fragment {
         rvItems=root.findViewById(R.id.rvHerramientas);
         fabItem=root.findViewById(R.id.fabItems);
         searchView = root.findViewById(R.id.buscartHerramientas);
+        InternalStorage storage=new InternalStorage();
 
+        String archivos[]=getContext().fileList();
+        if (storage.ArchivoExiste(archivos,"admin.txt")){
+            UsersData data= storage.cargarArchivo(root.getContext());
+            if (data.isAdmin()==false){
+
+                 fabItem.setVisibility(View.GONE);
+            }
+            else{
+                fabItem.setVisibility(View.VISIBLE);
+            }
+            Toast.makeText(getContext(), String.valueOf(data.isAdmin()), Toast.LENGTH_SHORT).show();
+
+        }
         cargarItems();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -128,5 +146,9 @@ public class RegistroFragment extends Fragment {
         });
 
 
+    }
+
+    public boolean isAtLeast(Lifecycle.State state) {
+        return false;
     }
 }

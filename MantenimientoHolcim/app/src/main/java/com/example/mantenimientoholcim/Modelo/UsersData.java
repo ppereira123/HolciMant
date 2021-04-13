@@ -1,6 +1,8 @@
 package com.example.mantenimientoholcim.Modelo;
 
-public class UsersData {
+import java.io.Serializable;
+
+public class UsersData implements Serializable {
     boolean admin;
     String id;
     String name;
