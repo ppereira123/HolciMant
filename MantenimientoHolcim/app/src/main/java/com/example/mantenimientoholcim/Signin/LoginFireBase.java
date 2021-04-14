@@ -156,6 +156,13 @@ public class LoginFireBase extends AppCompatActivity {
         }
 
     }
+    @Override public void onBackPressed(){
+        try {
+            System.exit(0);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
