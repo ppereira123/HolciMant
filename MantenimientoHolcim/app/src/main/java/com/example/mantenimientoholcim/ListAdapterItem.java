@@ -13,14 +13,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
 import com.example.mantenimientoholcim.Modelo.UsersData;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -103,15 +108,49 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
 
             switch (v.getId()){
                 case R.id.btnMas:
-                    refStock.child("stock").setValue(item.getStock()+1);
-                    refStock.child("stockDisponible").setValue(item.getStockDisponible()+1);
-                    txtStock.setText(String.valueOf(item.getStock()+1));
+
+
+                    DatabaseReference myRef= database.getReference("Items").child(item.getCodigo());
+                    myRef.keepSynced(true);
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int stock=Integer.parseInt(snapshot.child("stock").getValue().toString())+1;
+                            int stockdisponible=Integer.parseInt(snapshot.child("stockDisponible").getValue().toString())+1;
+                            refStock.child("stock").setValue(stock);
+                            refStock.child("stockDisponible").setValue(stockdisponible);
+                            txtStock.setText(String.valueOf(stock));
+                            txtStockDisponible.setText(String.valueOf(stockdisponible));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                     break;
 
                 case R.id.btnMenos:
-                    refStock.child("stock").setValue(item.getStock()-1);
-                    refStock.child("stockDisponible").setValue(item.getStockDisponible()-1);
-                    txtStock.setText(String.valueOf(item.getStock()-1));
+
+                    DatabaseReference myRef2= database.getReference("Items").child(item.getCodigo());
+                    myRef2.keepSynced(true);
+                    myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int stock=Integer.parseInt(snapshot.child("stock").getValue().toString())-1;
+                            int stockdisponible=Integer.parseInt(snapshot.child("stockDisponible").getValue().toString())-1;
+                            refStock.child("stock").setValue(String.valueOf(stock));
+                            refStock.child("stockDisponible").setValue(stockdisponible);
+                            txtStock.setText(String.valueOf(stock));
+                            txtStockDisponible.setText(String.valueOf(stockdisponible));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     break;
 
                 case R.id.cvPuntoBloqueo:
@@ -157,6 +196,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
                     return false;
                 }
             });
+
 
         }
     }

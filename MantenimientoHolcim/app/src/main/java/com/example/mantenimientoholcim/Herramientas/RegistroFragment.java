@@ -116,7 +116,7 @@ public class RegistroFragment extends Fragment {
     }
 
     void cargarItems(){
-        swipe.setRefreshing(true);
+
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Items");
         myRef.keepSynced(true);
@@ -157,6 +157,15 @@ public class RegistroFragment extends Fragment {
         });
 
 
+    }
+    void actualizarDatos(){
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        DatabaseReference myRef= database.getReference("Items");
+        myRef.keepSynced(true);
+        /*for (Item i:listitems){
+            if(listitems[i].)
+        }
+*/
     }
 
     public boolean isAtLeast(Lifecycle.State state) {
