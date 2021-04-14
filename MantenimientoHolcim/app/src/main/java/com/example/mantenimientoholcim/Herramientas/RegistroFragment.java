@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import java.util.List;
 public class RegistroFragment extends Fragment {
     private RegistroFragment tab2Home;
     private RecyclerView rvItems;
+    private SwipeRefreshLayout swipe;
     SearchView searchView;
     private FloatingActionButton fabItem;
     View root;
@@ -49,6 +51,15 @@ public class RegistroFragment extends Fragment {
         rvItems=root.findViewById(R.id.rvHerramientas);
         fabItem=root.findViewById(R.id.fabItems);
         searchView = root.findViewById(R.id.buscartHerramientas);
+        swipe=root.findViewById(R.id.swipeRegistros);
+
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarItems();
+            }
+        });
+
         InternalStorage storage=new InternalStorage();
         String archivos[]=getContext().fileList();
         if (storage.ArchivoExiste(archivos,"admin.txt")){
@@ -105,9 +116,11 @@ public class RegistroFragment extends Fragment {
     }
 
     void cargarItems(){
+        swipe.setRefreshing(true);
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Items");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.keepSynced(true);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Item> items=new ArrayList<>();
@@ -134,6 +147,7 @@ public class RegistroFragment extends Fragment {
                 rvItems.setHasFixedSize(true);
                 rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
                 rvItems.setAdapter(li);
+                swipe.setRefreshing(false);
             }
 
             @Override

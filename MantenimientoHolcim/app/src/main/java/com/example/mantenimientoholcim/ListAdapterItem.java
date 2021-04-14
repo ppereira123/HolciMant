@@ -105,11 +105,13 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
                 case R.id.btnMas:
                     refStock.child("stock").setValue(item.getStock()+1);
                     refStock.child("stockDisponible").setValue(item.getStockDisponible()+1);
+                    txtStock.setText(String.valueOf(item.getStock()+1));
                     break;
 
                 case R.id.btnMenos:
                     refStock.child("stock").setValue(item.getStock()-1);
                     refStock.child("stockDisponible").setValue(item.getStockDisponible()-1);
+                    txtStock.setText(String.valueOf(item.getStock()-1));
                     break;
 
                 case R.id.cvPuntoBloqueo:
