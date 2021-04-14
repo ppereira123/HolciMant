@@ -2,8 +2,11 @@ package com.example.mantenimientoholcim;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,12 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
 import com.example.mantenimientoholcim.Modelo.UsersData;
+import com.example.mantenimientoholcim.Signin.LoginFireBase;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,18 +30,22 @@ import java.util.ArrayList;
 
 public class CrearItem extends AppCompatActivity {
     EditText descripcionTxt,marcaTxt,observacionTxt,codigoTxt;
-    Spinner estadoActualSpinner,ubicacionSpinner,tipoInspeccionspinner, estanteSpinner;
+    TextView txtubicacion,txtestante,txttipo;
+    Spinner ubicacionSpinner,tipoInspeccionspinner, estanteSpinner;
     NumberPicker vidaUtilTxt;
-    private String estado="",ubicacion="",tipoInspeccion="";
+    private String ubicacion="",tipoInspeccion="";
     boolean generarCodigo=false;
     DatabaseReference refItem;
     String codigo="";
     Item item=null;
-    Button btnGenerar, btnsubirItem;
+    Button btnGenerar, btnsubirItem, btnotraubicacion;
     int stock=1;
     ArrayAdapter<String> adapterestanteSpinner;
     String estanteSeleccionado="";
     Context context=this;
+
+    AlertDialog alert;
+    LayoutInflater mInflater;
 
     public CrearItem(){
 
@@ -50,15 +60,24 @@ public class CrearItem extends AppCompatActivity {
         btnGenerar=findViewById(R.id.btnGenerar);
         observacionTxt=findViewById(R.id.observacion);
         vidaUtilTxt=findViewById(R.id.vidaUtilNp);
-        estadoActualSpinner=findViewById(R.id.estadoActualSpinner);
+
         ubicacionSpinner=findViewById(R.id.spinnerUbicacion);
         tipoInspeccionspinner=findViewById(R.id.spinnerInspeccion);
         estanteSpinner=findViewById(R.id.spinnerEstante);
         btnsubirItem=findViewById(R.id.subirItem);
+        btnotraubicacion=findViewById(R.id.btnotraubicacion);
+        txtubicacion=findViewById(R.id.seleccionado);
+        txtestante=findViewById(R.id.seleccionadoestante);
+
+        txttipo=findViewById(R.id.seleccionadotipoinspeccion);
         codigoTxt=findViewById(R.id.codigotxt);
         vidaUtilTxt.setMinValue(0);
         vidaUtilTxt.setMaxValue(50);
         cargarSpinners();
+        txtubicacion.setText(ubicacion);
+        txtestante.setText(estanteSeleccionado);
+
+        txttipo.setText(tipoInspeccion);
         item=(Item)getIntent().getSerializableExtra("item");
         if(item!=null){
             editarDatos(item);
@@ -106,15 +125,41 @@ public class CrearItem extends AppCompatActivity {
         ArrayAdapter<String> adapterEstados=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,estados);
         ArrayAdapter<String> adapterUbicaciones=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,ubicaciones);
         ArrayAdapter<String> adapterTipos=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,listanueva);
-        estadoActualSpinner.setAdapter(adapterEstados);
+
         ubicacionSpinner.setAdapter(adapterUbicaciones);
         tipoInspeccionspinner.setAdapter(adapterTipos);
         //cambio
 
                 //Spinner dependiente fin//
-        spinnerEstado();
+
         spinnerTipo();
         spinnerUbicaciones();
+        btnotraubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInflater= LayoutInflater.from(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Ubicación");
+                View view = mInflater.inflate(R.layout.dialog_otro, null);
+                TextInputEditText otro=view.findViewById(R.id.otro);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (otro.getText().toString().equals("")){
+                            Toast.makeText(context, "No ha escrito nada", Toast.LENGTH_SHORT).show();
+
+                        }else {
+                           txtubicacion.setText(otro.getText().toString());
+                            txtestante.setText("N/A");
+
+                        }
+
+                    }
+                });
+                builder.setView(view);
+                builder.show();
+            }
+        });
 
     }
 
@@ -129,25 +174,14 @@ public class CrearItem extends AppCompatActivity {
         codigoTxt.setText(codigo);
     }
 
-    void spinnerEstado(){
-        estadoActualSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                estado=  parent.getItemAtPosition(position).toString();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 
     void spinnerUbicaciones(){
         ubicacionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ubicacion=  parent.getItemAtPosition(position).toString();
+
                 //Spinner dependiente//
                 ArrayList<String> estante= new ArrayList<>();
                 ArrayList<String> bodegaLubricantes= new ArrayList<>();
@@ -202,6 +236,7 @@ public class CrearItem extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         estanteSeleccionado=parent.getItemAtPosition(position).toString();
+
                     }
 
                     @Override
@@ -252,7 +287,7 @@ public class CrearItem extends AppCompatActivity {
         if(error.equals("")){
 
 
-                Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,ubicacion,vidaUtil,tipoInspeccion,estanteSeleccionado);
+                Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,txtubicacion.getText().toString(),vidaUtil,txttipo.getText().toString(),txtestante.getText().toString());
             refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -277,6 +312,9 @@ public class CrearItem extends AppCompatActivity {
         observacionTxt.setText(item.getObservacion());
         vidaUtilTxt.setValue(item.getVidaUtil());
         stock=item.getStock();
+        txtubicacion.setText(item.getUbicacion());
+        txtestante.setText(item.getEstante());
+        txttipo.setText(item.getTipoInspeccion());
 
 
     }
