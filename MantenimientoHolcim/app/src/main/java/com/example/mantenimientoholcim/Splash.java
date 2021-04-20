@@ -43,6 +43,9 @@ public class Splash extends Activity {
         TextView txtSlpash=findViewById(R.id.textViewSplash);
         txtSlpash.setAnimation(animation2);
 
+        TextView txtversion=findViewById(R.id.version);
+        txtversion.setAnimation(animation);
+
         TimerTask tarea= new TimerTask() {
             @Override
             public void run() {
