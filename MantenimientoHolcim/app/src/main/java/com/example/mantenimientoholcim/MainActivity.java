@@ -67,16 +67,20 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+
+
     private void checkVersion() {
 
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference refVersion= database.getReference("Version");
+        DatabaseReference refVersion= database.getReference("Caracterissticas").child("Version");
         refVersion.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 String version=snapshot.getValue().toString();
-                String installedVersion=
+                String installedVersion="1.1";
                 double intVersion=Double.parseDouble(version);
                 double intInstalledVersion= Double.parseDouble(installedVersion);
                 if(intInstalledVersion<intVersion){
