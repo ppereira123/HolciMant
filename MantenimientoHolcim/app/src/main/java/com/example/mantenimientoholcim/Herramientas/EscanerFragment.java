@@ -61,6 +61,7 @@ import java.util.List;
 
 public class EscanerFragment extends DialogFragment {
     String etcodigo="";
+    String etcodigo2="";
     String codigoDiv="";
     Integer codigonumero=-1;
     DatabaseReference refItem;
@@ -143,7 +144,7 @@ public class EscanerFragment extends DialogFragment {
 
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -199,7 +200,7 @@ public class EscanerFragment extends DialogFragment {
             public void onClick(View v) {
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
@@ -249,7 +250,7 @@ public class EscanerFragment extends DialogFragment {
 
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference myRef= database.getReference("Items");
-                    myRef.child(codigoDiv).addValueEventListener(new ValueEventListener() {
+                    myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             obtenerPrestamo();
@@ -259,7 +260,7 @@ public class EscanerFragment extends DialogFragment {
                                 int position=posicionEnArreglo(nombresdeinspeccion,tipo);
                                 if (position!=-1){
                                     Intent intent= new Intent(root.getContext(), buscarInspeccionItem.class);
-                                    intent.putExtra("codigo", etcodigo);
+                                    intent.putExtra("codigo", etcodigo2);
                                     startActivity(intent);
 
 
@@ -531,10 +532,7 @@ public class EscanerFragment extends DialogFragment {
                                     snackbar.show();
                                     Animation animation= AnimationUtils.loadAnimation(root.getContext() ,R.anim.desplaza_arriba);
                                     imgcodigo.setAnimation(animation);
-                                    llOpc.setVisibility(View.GONE);
-                                    llBtnDev.setVisibility(View.GONE);
-                                    imgcodigo.setVisibility(View.GONE);
-                                    codigoview.setVisibility(View.GONE);
+
                                 }
                             });
                         }
@@ -571,13 +569,15 @@ public class EscanerFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Cancelaste el escaneo", Toast.LENGTH_SHORT).show();
             }else  {
                 etcodigo=result.getContents();
+                etcodigo2=etcodigo;
+                etcodigo=etcodigo.replace(".","").replace("/","").replace("$","");
                 codigoDiv=etcodigo.split("-")[0];
                 DatabaseReference ref= database.getReference("Items").child(codigoDiv);
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            codigoview.setText(etcodigo);
+                            codigoview.setText(etcodigo2);
                             obtenerPrestamo();
                             getCode();
                             FrameLayout.LayoutParams params; params = (FrameLayout.LayoutParams) btnLeerCodigo.getLayoutParams();

@@ -268,38 +268,50 @@ public class CrearItem extends AppCompatActivity {
     }
 
     public void subirItem(View view){
-        String descripcion=descripcionTxt.getText().toString();
-        String marca=marcaTxt.getText().toString();
-        String observacion=observacionTxt.getText().toString();
-       int vidaUtil=vidaUtilTxt.getValue();
-        if(!generarCodigo){
-            codigo=codigoTxt.getText().toString();
-            FirebaseDatabase database= FirebaseDatabase.getInstance();
-            refItem=database.getReference("Items").child(codigo);
+        String codigocambio=codigoTxt.getText().toString();
+        boolean cambio=codigocambio.contains("/");
+        boolean cambio2=codigocambio.contains(".");
+        if(cambio==true||cambio2==true){
+            codigoTxt.setText("");
+            Toast.makeText(context, "No puede escribir codigos con '.' o '/'", Toast.LENGTH_SHORT).show();
         }
-        String error="";
-        if(codigo.equals("")){
-            error=error+" Codigo";
-        }
-        if(descripcion.equals("")){
-            error=error+" DESCRIPCION";
-        }
-        if(error.equals("")){
+        else {
+            String descripcion=descripcionTxt.getText().toString();
+            String marca=marcaTxt.getText().toString();
+            String observacion=observacionTxt.getText().toString();
+            int vidaUtil=vidaUtilTxt.getValue();
+            if(!generarCodigo){
+                codigo=codigoTxt.getText().toString();
+                FirebaseDatabase database= FirebaseDatabase.getInstance();
+                refItem=database.getReference("Items").child(codigo);
+            }
+            String error="";
+            if(codigo.equals("")){
+                error=error+" Codigo";
+            }
+            if(descripcion.equals("")){
+                error=error+" DESCRIPCION";
+            }
+            if(error.equals("")){
 
 
                 Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,txtubicacion.getText().toString(),vidaUtil,txttipo.getText().toString(),txtestante.getText().toString());
-            refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(CrearItem.this, "Item creado correctamente", Toast.LENGTH_SHORT).show();
-                }
-            });
+                refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(CrearItem.this, "Item creado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            finish();
+                finish();
+            }
+            else{
+                Toast.makeText(this, "Falta completar:"+error, Toast.LENGTH_LONG).show();
+            }
+
         }
-        else{
-            Toast.makeText(this, "Falta completar:"+error, Toast.LENGTH_LONG).show();
-        }
+
+
 
     }
 
