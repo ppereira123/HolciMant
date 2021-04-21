@@ -181,6 +181,7 @@ public class CrearItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ubicacion=  parent.getItemAtPosition(position).toString();
+                txtubicacion.setText(ubicacion);
 
                 //Spinner dependiente//
                 ArrayList<String> estante= new ArrayList<>();
@@ -236,6 +237,7 @@ public class CrearItem extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         estanteSeleccionado=parent.getItemAtPosition(position).toString();
+                        txtestante.setText(estanteSeleccionado);
 
                     }
 
@@ -258,6 +260,7 @@ public class CrearItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tipoInspeccion=  parent.getItemAtPosition(position).toString();
+                txttipo.setText(tipoInspeccion);
             }
 
             @Override
