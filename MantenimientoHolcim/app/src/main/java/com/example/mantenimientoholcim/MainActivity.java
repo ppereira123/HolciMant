@@ -76,77 +76,77 @@ public class MainActivity extends AppCompatActivity {
     private void checkVersion() {
 
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-<<<<<<< Updated upstream
-        DatabaseReference refVersion= database.getReference("Caracterissticas").child("Version");
-        refVersion.addValueEventListener(new ValueEventListener() {
-=======
-        DatabaseReference myRef= database.getReference("Caracteristicas");
-        myRef.child("Version").addValueEventListener(new ValueEventListener() {
->>>>>>> Stashed changes
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String version=snapshot.getValue().toString();
-<<<<<<< Updated upstream
-                String installedVersion="1.1";
-=======
-                String installedVersion=getVersionName(context);
->>>>>>> Stashed changes
-                double intVersion=Double.parseDouble(version);
-                double intInstalledVersion= Double.parseDouble(installedVersion);
-                if(intInstalledVersion<intVersion){
-                    AlertDialog.Builder builder=new AlertDialog.Builder(context);
-                    builder.setTitle("Existe una nueva version de la aplicacion.");
-                    builder.setMessage("Porfavor actualizala cuanto antes");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Instalar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
-                            DatabaseReference ref= myRef.child("link");
-                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String url=snapshot.getValue().toString();
-                                    Uri uri= Uri.parse(url);
-                                    Intent intent= new Intent(Intent.ACTION_VIEW,uri);
-                                    startActivity(intent);
-                                }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+        DatabaseReference myRef = database.getReference("Caracteristicas");
+        myRef.child("Version").
 
-                                }
-                            });
-                        }
-                    });
+            addValueEventListener(new ValueEventListener() {
 
-                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(MainActivity.this, "Instalar Luego", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-                    });
+                @Override
+                public void onDataChange (@NonNull DataSnapshot snapshot){
 
-                    AlertDialog alertDialog=builder.create();
-                    alertDialog.show();
+                    String version = snapshot.getValue().toString();
+
+                    String installedVersion = getVersionName(context);
+
+                    double intVersion = Double.parseDouble(version);
+                    double intInstalledVersion = Double.parseDouble(installedVersion);
+                    if (intInstalledVersion < intVersion) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Existe una nueva version de la aplicacion.");
+                        builder.setMessage("Porfavor actualizala cuanto antes");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Instalar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                DatabaseReference ref = myRef.child("link");
+                                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String url = snapshot.getValue().toString();
+                                        Uri uri = Uri.parse(url);
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                        startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this, "Instalar Luego", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled (@NonNull DatabaseError error){
 
-            }
-        });
-
-    }
-    public String getVersionName(Context ctx){
-        try {
-            return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "";
+                }
+            });
         }
-    }
+
+
+        public String getVersionName(Context ctx){
+            try {
+                return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
 }
