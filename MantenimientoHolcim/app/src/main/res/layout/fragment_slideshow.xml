@@ -1,22 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.slideshow.SlideshowFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="297dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text=" Esta app esta orientada a facilitar la realización de inventario e inspecciones de las herramientas en el Area de mantenimiento de Materias Primas" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Posee 3 opciones:" />
+
+            <Button
+                android:id="@+id/btnInfperfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/tab"
+                android:text="Perfil"
+                android:textColor="#304FFE"
+                app:icon="@mipmap/usuario"
+                app:iconSize="40dp"
+                app:iconTint="#7C304FFE" />
+
+            <LinearLayout
+                android:id="@+id/LLInfPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="En esta opción se puede ver la información del usuario y salir de la cuenta, apalstando el botón salir." />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:src="@mipmap/perfilinfo" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btninfoHerramienta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/tab"
+                android:text="Herramientas"
+                android:textColor="#304FFE"
+                app:icon="@drawable/ic_menu_manage"
+                app:iconSize="40dp"
+                app:iconTint="#7C304FFE" />
+
+            <LinearLayout
+                android:id="@+id/LLinfoHerramienta"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="En este menu se tiene 3 tabs:" />
+
+                <Button
+                    android:id="@+id/btninfescaner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/tab"
+                    android:text="Escaner"
+
+                    android:textColor="#304FFE" />
+
+                <LinearLayout
+                    android:id="@+id/LLinfrescaner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Aqui se puede scanear los codigos Qr de las herramientas, una vez escaneados validará si el codigo existe en la base de datos, si existe se dezplegara un nuevo menú." />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="500dp"
+                        android:src="@mipmap/escanear"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1: Al presionar este botón se puede hacer prestamo de la herramienta escaneada.\n2: Este botón permito hacer devolución de la herramienta scaneada.\n3: Este botón da información de la herramienta. \n4: Este botón permite realizar inspección a la herramienta.\n 5: Este botón muestra las inspeciones realizadas anterioremente de la herramienta. \n 6: Permite ver el historial de prestamos de la herramienta  " />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btninfregistro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/tab"
+                    android:text="Registro"
+                    android:textColor="#304FFE" />
+
+                <LinearLayout
+                    android:id="@+id/LLinfRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Se tiene 4 botones:" />
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@mipmap/registro" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1:Aqui se puede filtrar la lista de herramientas segun su descripción.\n2: Si eres admin con esta opción se puede crear una nueva herramienta\n3: Con estos botones si puede disminuit y aumentar el stock de las herramientas" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btninfetiquetas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/tab"
+                    android:text="Etiquetas"
+                    android:textColor="#304FFE" />
+
+                <LinearLayout
+                    android:id="@+id/LLinfetiquetas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView28"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Aqui se puede crear los codigos  QR  ingresando el codigo de la herramienta" />
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@mipmap/etiqueta" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnIngfInspec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/tab"
+                android:textColor="#304FFE"
+                app:icon="@drawable/ic_menu_manage"
+                app:iconSize="40dp"
+                app:iconTint="#7C304FFE"
+                android:text="Inspeciones" />
+
+            <LinearLayout
+                android:id="@+id/LLinforInspeciones"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aqui se tiene dos tabs:" />
+
+                <Button
+                    android:id="@+id/bntinfGenerar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/tab"
+                    android:text="Generar"
+
+                    android:textColor="#304FFE" />
+
+                <LinearLayout
+                    android:id="@+id/LLinfgenerar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView30"
+                        android:layout_width="match_parent"
+                        android:layout_height="86dp"
+                        android:text="En generar se tiene una lista con las inspeciones que se pueden realizar, al precionar una de estas opciones se abre la plantilla de la inspección que tiene opción para generar excel y para guardar." />
+
+                    <ImageView
+                        android:id="@+id/imageView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@mipmap/inspecion1" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btninfGuardadas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/tab"
+                    android:text="Guardadas"
+                    android:textColor="#304FFE" />
+
+                <LinearLayout
+                    android:id="@+id/LLinfGuardadas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        android:layout_width="match_parent"
+                        android:layout_height="86dp"
+                        android:text="Aqui se puede ver las inspeciones ya realizadas, con el botón 1 se genera un excel de esta inspeción y con el botón 2 se puede visualizar directamente la isnpeción" />
+
+                    <ImageView
+                        android:id="@+id/imageView17"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@mipmap/guardadas" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

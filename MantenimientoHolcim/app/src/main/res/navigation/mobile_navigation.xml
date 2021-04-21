@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/perfilGoogle"
         android:name="com.example.mantenimientoholcim.PerfilGoogle"
-        android:label="fragment_perfil_google"
+        android:label="@string/perfil"
         tools:layout="@layout/fragment_perfil_google" />
 
 </navigation>

@@ -3,6 +3,7 @@ package com.example.mantenimientoholcim;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        checkVersion();
     }
 
     @Override
@@ -74,13 +76,22 @@ public class MainActivity extends AppCompatActivity {
     private void checkVersion() {
 
         FirebaseDatabase database= FirebaseDatabase.getInstance();
+<<<<<<< Updated upstream
         DatabaseReference refVersion= database.getReference("Caracterissticas").child("Version");
         refVersion.addValueEventListener(new ValueEventListener() {
+=======
+        DatabaseReference myRef= database.getReference("Caracteristicas");
+        myRef.child("Version").addValueEventListener(new ValueEventListener() {
+>>>>>>> Stashed changes
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 String version=snapshot.getValue().toString();
+<<<<<<< Updated upstream
                 String installedVersion="1.1";
+=======
+                String installedVersion=getVersionName(context);
+>>>>>>> Stashed changes
                 double intVersion=Double.parseDouble(version);
                 double intInstalledVersion= Double.parseDouble(installedVersion);
                 if(intInstalledVersion<intVersion){
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            DatabaseReference ref= database.getReference("Url");
+                            DatabaseReference ref= myRef.child("link");
                             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,5 +140,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public String getVersionName(Context ctx){
+        try {
+            return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
