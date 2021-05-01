@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,7 @@ public class Splash extends Activity {
 
 
         TextView txtversion=findViewById(R.id.version);
+        txtversion.setText("Version"+getVersionName(context));
         txtversion.setAnimation(animation);
 
 
@@ -74,5 +76,13 @@ public class Splash extends Activity {
 
         Timer tiempo= new Timer();
         tiempo.schedule(tarea,2000);
+    }
+    public String getVersionName(Context ctx){
+        try {
+            return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

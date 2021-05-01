@@ -105,8 +105,17 @@ public class PlantillasInspeccion extends AppCompatActivity {
         btnGenerar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardar();
-                crearExcel(inspeccionTipo1);
+                String codigocambio=editTextCodigo.getText().toString();
+                boolean cambio=codigocambio.contains("/");
+                boolean cambio2=codigocambio.contains(".");
+                if(cambio==true||cambio2==true){
+                    editTextCodigo.setText("");
+                    Toast.makeText(context, "No puede escribir codigos con '.' o '/'", Toast.LENGTH_SHORT).show();
+                }else {
+                    guardar();
+                    crearExcel(inspeccionTipo1);
+                }
+
             }
         });
         cargarInspecciones();
@@ -128,6 +137,10 @@ public class PlantillasInspeccion extends AppCompatActivity {
         Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
         imagInspeccion.setImageDrawable(imagen);
         editTextCodigo.setText(codigo);
+
+
+
+
 
 
         String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);
@@ -838,59 +851,70 @@ public class PlantillasInspeccion extends AppCompatActivity {
     }
 
     public  void guardar(){
-        String inspector="";
-        String fechaI="";
-        String proxima="";
-        String codigo="";
-        String error="";
+        String codigocambio=editTextCodigo.getText().toString();
+        boolean cambio=codigocambio.contains("/");
+        boolean cambio2=codigocambio.contains(".");
+        if(cambio==true||cambio2==true){
+            editTextCodigo.setText("");
+            Toast.makeText(context, "No puede escribir codigos con '.' o '/'", Toast.LENGTH_SHORT).show();
+        }else {
+            String inspector="";
+            String fechaI="";
+            String proxima="";
+            String codigo="";
+            String error="";
 
-        HashMap<String, ElementInspeccion> valores=li.getValores();
-        inspector=nombreInspector.getText().toString();
-        fechaI=fechaInspeccion.getText().toString();
-        proxima=fechaProximaInspeccion.getText().toString();
-        codigo=editTextCodigo.getText().toString();
+            HashMap<String, ElementInspeccion> valores=li.getValores();
+            inspector=nombreInspector.getText().toString();
+            fechaI=fechaInspeccion.getText().toString();
+            proxima=fechaProximaInspeccion.getText().toString();
+            codigo=editTextCodigo.getText().toString();
 
-        if(inspector.equals("")){
-            error=error+"Nombre Inspector";
+            if(inspector.equals("")){
+                error=error+"Nombre Inspector";
+            }
+
+            if(fechaI.equals("")){
+                error=error+"Fecha de inspeccion";
+            }
+
+            if(proxima.equals("")){
+                error=error+"Fecha proxima inspeccion";
+            }
+
+            if(codigo.equals("")){
+                error=error+"Codigo";
+            }
+
+            int diferencia=tipoInspecciones.get(posicion).size()-valores.size();
+            if(diferencia!=0){
+                error=error+"Completar "+String.valueOf(diferencia)+" parametros de inspeccion";
+            }
+
+            if(error.equals("")){
+                inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
+                FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+                DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
+                ref1.keepSynced(true);
+                DatabaseReference ref2=ref1.push();
+                ref2.keepSynced(true);
+                ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                finish();
+            }
+
+            else{
+                Toast.makeText(context, "Falta completar: "+error, Toast.LENGTH_LONG).show();
+            }
+
+
         }
 
-        if(fechaI.equals("")){
-            error=error+"Fecha de inspeccion";
-        }
-
-        if(proxima.equals("")){
-            error=error+"Fecha proxima inspeccion";
-        }
-
-        if(codigo.equals("")){
-            error=error+"Codigo";
-        }
-
-        int diferencia=tipoInspecciones.get(posicion).size()-valores.size();
-        if(diferencia!=0){
-            error=error+"Completar "+String.valueOf(diferencia)+" parametros de inspeccion";
-        }
-
-        if(error.equals("")){
-            inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
-            FirebaseDatabase database= FirebaseDatabase.getInstance();
-
-            DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
-            ref1.keepSynced(true);
-            DatabaseReference ref2=ref1.push();
-            ref2.keepSynced(true);
-            ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
-                }
-            });
-            finish();
-        }
-
-        else{
-            Toast.makeText(context, "Falta completar: "+error, Toast.LENGTH_LONG).show();
-        }
 
     }
 

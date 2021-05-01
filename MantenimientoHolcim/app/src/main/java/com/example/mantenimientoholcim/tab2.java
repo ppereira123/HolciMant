@@ -95,19 +95,15 @@ public class tab2 extends Fragment {
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Inspecciones");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<InspeccionTipo1> listitems=new ArrayList<>();
                 if(snapshot.exists()) {
-
-
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         if(ds.exists()) {
                             for (DataSnapshot ds2 : ds.getChildren()) {
                                 String p=ds2.getValue().toString();
-
                                 String enunciado = ds2.child("enuunciado").getValue().toString();
                                 String nombreInspector = ds2.child("nombreInspector").getValue().toString();
                                 String fechaInspeccion = ds2.child("fechaInspeccion").getValue().toString();
@@ -120,7 +116,6 @@ public class tab2 extends Fragment {
                                     String ok=ds3.child("ok").getValue().toString();
                                     ElementInspeccion itemInspeccion=new ElementInspeccion(enun,ok);
                                     valores.put(key,itemInspeccion);
-
                                 }
                                 buscarlist=listitems;
                                 InspeccionTipo1 item= new InspeccionTipo1(enunciado,nombreInspector,fechaInspeccion,proximaInspeccion,codigo,valores);

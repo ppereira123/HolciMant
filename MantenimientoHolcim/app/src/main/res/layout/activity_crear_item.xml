@@ -19,14 +19,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/titulotxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:gravity="center"
                 android:text="Crear Nuevo item"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#3F51B5" />
+                android:textColor="#3F51B5"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -34,14 +35,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Descripcion: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/descripciontxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:hint="Ingresar descripción del item"
                 android:inputType="textPersonName" />
@@ -52,22 +55,25 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Codigo: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/codigotxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:hint="Ingresar codigo del item"
                 android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/btnGenerar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:onClick="generarCodigo"
                 android:text="Generar Codigo" />
@@ -78,14 +84,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Marca"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/marcatxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:hint="Ingresar marca"
                 android:inputType="text" />
@@ -96,14 +104,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Observación:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/observacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:hint="Ingresar observación del item"
                 android:inputType="text" />
@@ -113,9 +123,12 @@
                 android:id="@+id/txtposicion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
+
                 android:text="Tipo de Inspección: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -123,7 +136,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textViewu"
+                    android:id="@+id/selec1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -144,13 +157,14 @@
                 android:layout_margin="10dp" />
 
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Ubicación: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,7 +173,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/selec2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -211,7 +225,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.80" />
+                        app:layout_constraintGuide_percent="0.70" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -219,9 +233,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Estante: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -229,7 +245,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/selec3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -253,9 +269,11 @@
                 android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Vida Util: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
 
             <NumberPicker

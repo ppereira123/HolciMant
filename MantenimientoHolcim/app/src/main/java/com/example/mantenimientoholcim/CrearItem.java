@@ -26,14 +26,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.apache.poi.hssf.util.HSSFColor;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class CrearItem extends AppCompatActivity {
     EditText descripcionTxt,marcaTxt,observacionTxt,codigoTxt;
-    TextView txtubicacion,txtestante,txttipo;
+    TextView txtubicacion,txtestante,txttipo,titulotxt,selc1,selc2,selc3;
     Spinner ubicacionSpinner,tipoInspeccionspinner, estanteSpinner;
     NumberPicker vidaUtilTxt;
-    private String ubicacion="",tipoInspeccion="";
+    private String ubicacion="Bodega de Herramientas",tipoInspeccion="ARNÉS DE CUERPO ENTERO";
     boolean generarCodigo=false;
     DatabaseReference refItem;
     String codigo="";
@@ -68,12 +71,18 @@ public class CrearItem extends AppCompatActivity {
         btnotraubicacion=findViewById(R.id.btnotraubicacion);
         txtubicacion=findViewById(R.id.seleccionado);
         txtestante=findViewById(R.id.seleccionadoestante);
+        titulotxt=findViewById(R.id.titulotxt);
+
+
+        selc1=findViewById(R.id.selec1);
+        selc2=findViewById(R.id.selec2);
+        selc3=findViewById(R.id.selec3);
 
         txttipo=findViewById(R.id.seleccionadotipoinspeccion);
         codigoTxt=findViewById(R.id.codigotxt);
         vidaUtilTxt.setMinValue(0);
         vidaUtilTxt.setMaxValue(50);
-        cargarSpinners();
+
         txtubicacion.setText(ubicacion);
         txtestante.setText(estanteSeleccionado);
 
@@ -82,13 +91,37 @@ public class CrearItem extends AppCompatActivity {
         if(item!=null){
             editarDatos(item);
         }
+        cargarSpinners();
         InternalStorage storage=new InternalStorage();
         String archivos[]=context.fileList();
         if (storage.ArchivoExiste(archivos,"admin.txt")){
             UsersData data= storage.cargarArchivo(context);
             if (data.isAdmin()==false){
-
+                titulotxt.setText("Datos del item");
                 btnsubirItem.setVisibility(View.GONE);
+                descripcionTxt.setKeyListener(null);
+                marcaTxt.setKeyListener(null);
+                observacionTxt.setKeyListener(null);
+                ubicacionSpinner.setVisibility(View.GONE);
+                tipoInspeccionspinner.setVisibility(View.GONE);
+                estanteSpinner.setVisibility(View.GONE);
+                btnGenerar.setVisibility(View.GONE);
+                btnsubirItem.setVisibility(View.GONE);
+                btnotraubicacion.setVisibility(View.GONE);
+                vidaUtilTxt.setEnabled(false);
+                selc1.setVisibility(View.GONE);
+                selc2.setVisibility(View.GONE);
+                selc3.setVisibility(View.GONE);
+                txtubicacion.setTextColor(getResources().getColor(R.color.black));
+                txtestante.setTextColor(getResources().getColor(R.color.black));
+                txttipo.setTextColor(getResources().getColor(R.color.black));
+                txtestante.setTextSize(18);
+                txtubicacion.setTextSize(18);
+                txttipo.setTextSize(18);
+
+
+
+
             }
             else{
                 btnsubirItem.setVisibility(View.VISIBLE);
@@ -109,6 +142,7 @@ public class CrearItem extends AppCompatActivity {
         ubicaciones.add(2,"Bodega Lubricantes");
         ubicaciones.add(3,"Bodega.");
         ubicaciones.add(4,"Bodega de llantas y componentes grandes");
+        ubicaciones.add(5,"");
 
         estados.add(0,"N/A");
         estados.add(1,"En uso");
@@ -133,7 +167,7 @@ public class CrearItem extends AppCompatActivity {
                 //Spinner dependiente fin//
 
         spinnerTipo();
-        spinnerUbicaciones();
+        spinnerUbicaciones(ubicaciones);
         btnotraubicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,7 +199,7 @@ public class CrearItem extends AppCompatActivity {
 
     public void generarCodigo(View view){
         generarCodigo=true;
-        codigoTxt.setEnabled(false);
+        codigoTxt.setKeyListener(null);
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference ref= database.getReference("Items");
         ref.keepSynced(true);
@@ -176,21 +210,21 @@ public class CrearItem extends AppCompatActivity {
 
 
 
-    void spinnerUbicaciones(){
+    void spinnerUbicaciones(List<String> ubicaciones){
         ubicacionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ubicacion=  parent.getItemAtPosition(position).toString();
+                ubicacion = parent.getItemAtPosition(position).toString();
                 txtubicacion.setText(ubicacion);
 
                 //Spinner dependiente//
-                ArrayList<String> estante= new ArrayList<>();
-                ArrayList<String> bodegaLubricantes= new ArrayList<>();
+                ArrayList<String> estante = new ArrayList<>();
+                ArrayList<String> bodegaLubricantes = new ArrayList<>();
 
                 bodegaLubricantes.add("Aceite");
                 bodegaLubricantes.add("Grasas");
                 bodegaLubricantes.add("Refigerante");
-                ArrayList<String> bodegaHerramientas= new ArrayList<>();
+                ArrayList<String> bodegaHerramientas = new ArrayList<>();
                 bodegaHerramientas.add("1A");
                 bodegaHerramientas.add("1B");
                 bodegaHerramientas.add("1C");
@@ -208,35 +242,47 @@ public class CrearItem extends AppCompatActivity {
                 bodegaHerramientas.add("2P");
                 bodegaHerramientas.add("3P");
                 bodegaHerramientas.add("4P");
-                ArrayList<String> bodegaMateriales= new ArrayList<>();
+                ArrayList<String> bodegaMateriales = new ArrayList<>();
                 bodegaMateriales.add("N/A");
-                ArrayList<String> bodega= new ArrayList<>();
+                ArrayList<String> bodega = new ArrayList<>();
                 bodega.add("N/A");
-                ArrayList<String> bodegaLlantas= new ArrayList<>();
+                ArrayList<String> bodegaLlantas = new ArrayList<>();
                 bodegaLlantas.add("N/A");
-                if(position==0){
-                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
+                if (position == 0) {
+                    adapterestanteSpinner = new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line, bodegaHerramientas);
+                    estanteSpinner.setSelection(bodegaHerramientas.indexOf(estanteSeleccionado));
 
+                } else if (position == 1) {
+                    adapterestanteSpinner = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaMateriales);
+                    estanteSpinner.setSelection(bodegaMateriales.indexOf(estanteSeleccionado));
+                } else if (position == 2) {
+                    adapterestanteSpinner = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLubricantes);
+                    estanteSpinner.setSelection(bodegaLubricantes.indexOf(estanteSeleccionado));
+                } else if (position == 3) {
+                    adapterestanteSpinner = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodega);
+                    estanteSpinner.setSelection(bodega.indexOf(estanteSeleccionado));
+                } else if (position == 4) {
+                    adapterestanteSpinner = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLlantas);
+                    estanteSpinner.setSelection(bodegaLlantas.indexOf(estanteSeleccionado));
+                } else {
+                    ArrayList<String> vacio = new ArrayList<>();
+                    if (item == null) {
+                        vacio.add(estanteSeleccionado);
+                    } else {
+                        txtestante.setText(item.getEstante());
+                        txtubicacion.setText(item.getUbicacion());
+                        estanteSeleccionado = item.getEstante();
+                        vacio.add(estanteSeleccionado);
+                    }
+                    adapterestanteSpinner = new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line, vacio);
+                    estanteSpinner.setSelection(vacio.indexOf(estanteSeleccionado));
                 }
-                else if(position==1){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaMateriales);
-                }
-                else if(position==2){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLubricantes);
-                }
-                else if(position==3){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodega);
-                }
-                else if(position==4){
-                    adapterestanteSpinner= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, bodegaLlantas);
-                }
-                else
-                    adapterestanteSpinner=new ArrayAdapter<>(CrearItem.this, android.R.layout.simple_dropdown_item_1line,bodegaHerramientas);
                 estanteSpinner.setAdapter(adapterestanteSpinner);
+                if(item==null){
                 estanteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        estanteSeleccionado=parent.getItemAtPosition(position).toString();
+                        estanteSeleccionado = parent.getItemAtPosition(position).toString();
                         txtestante.setText(estanteSeleccionado);
 
                     }
@@ -247,12 +293,26 @@ public class CrearItem extends AppCompatActivity {
                     }
                 });
             }
+                else{
+                    estanteSeleccionado=item.getEstante();
+                    txtestante.setText(estanteSeleccionado);
+                }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+        if(ubicaciones.contains(ubicacion)){
+        ubicacionSpinner.setSelection(ubicaciones.indexOf(ubicacion));}
+
+        else{
+            ubicacionSpinner.setSelection(ubicaciones.indexOf(""));
+            txtubicacion.setText(ubicacion);
+            txtestante.setText(item.getEstante());
+
+        }
     }
 
     void spinnerTipo(){
@@ -319,10 +379,15 @@ public class CrearItem extends AppCompatActivity {
     }
 
     public void editarDatos(Item item){
+        titulotxt.setText("Editar item");
+        estanteSeleccionado=item.getEstante();
+        ubicacion=item.getUbicacion();
+        codigo=item.getCodigo();
+        tipoInspeccion=item.getTipoInspeccion();
         descripcionTxt.setText(item.getDescripcion());
         codigoTxt.setText(item.getCodigo());
-        codigoTxt.setEnabled(false);
-        btnGenerar.setEnabled(false);
+        codigoTxt.setKeyListener(null);
+        btnGenerar.setVisibility(View.GONE);
         marcaTxt.setText(item.getMarca());
         observacionTxt.setText(item.getObservacion());
         vidaUtilTxt.setValue(item.getVidaUtil());

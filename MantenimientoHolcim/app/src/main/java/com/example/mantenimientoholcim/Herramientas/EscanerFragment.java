@@ -61,7 +61,7 @@ import java.util.List;
 
 public class EscanerFragment extends DialogFragment {
     String etcodigo="";
-    String etcodigo2="";
+
     String codigoDiv="";
     Integer codigonumero=-1;
     DatabaseReference refItem;
@@ -165,7 +165,7 @@ public class EscanerFragment extends DialogFragment {
                                 marcatv.setText(snapshot.child("marca").getValue().toString());
                                 tipotxt.setText(snapshot.child("tipoInspeccion").getValue().toString());
                                 ubicaciontv.setText(snapshot.child("ubicacion").getValue().toString());
-                                estantetv.setText("A1");
+                                estantetv.setText(snapshot.child("estante").getValue().toString());
                                 vidautiltv.setText(snapshot.child("vidaUtil").getValue().toString());
                                 observaciontv.setText(snapshot.child("observacion").getValue().toString());
                                 builder.setView(view);
@@ -260,7 +260,7 @@ public class EscanerFragment extends DialogFragment {
                                 int position=posicionEnArreglo(nombresdeinspeccion,tipo);
                                 if (position!=-1){
                                     Intent intent= new Intent(root.getContext(), buscarInspeccionItem.class);
-                                    intent.putExtra("codigo", etcodigo2);
+                                    intent.putExtra("codigo", etcodigo);
                                     startActivity(intent);
 
 
@@ -569,7 +569,7 @@ public class EscanerFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Cancelaste el escaneo", Toast.LENGTH_SHORT).show();
             }else  {
                 etcodigo=result.getContents();
-                etcodigo2=etcodigo;
+
                 etcodigo=etcodigo.replace(".","").replace("/","").replace("$","");
                 codigoDiv=etcodigo.split("-")[0];
                 DatabaseReference ref= database.getReference("Items").child(codigoDiv);
@@ -577,7 +577,7 @@ public class EscanerFragment extends DialogFragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            codigoview.setText(etcodigo2);
+                            codigoview.setText(etcodigo);
                             obtenerPrestamo();
                             getCode();
                             FrameLayout.LayoutParams params; params = (FrameLayout.LayoutParams) btnLeerCodigo.getLayoutParams();
