@@ -30,6 +30,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+
 public class LoginFireBase extends AppCompatActivity {
     //Varibales públicas
     GoogleSignInClient mGoogleSignInClient;
@@ -54,7 +58,7 @@ public class LoginFireBase extends AppCompatActivity {
     Context context= this;
     InternalStorage storage;
     boolean admin;
-    AlertDialog alert;
+    AlertDialog alert,alertDialog;
     LayoutInflater mInflater;
 
 
@@ -66,6 +70,7 @@ public class LoginFireBase extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Iniciando Sesion...");
+
         LayoutInflater inflater=LayoutInflater.from(context);
         View view= inflater.inflate(R.layout.res_carga,null);
         builder.setView(view);
@@ -111,22 +116,28 @@ public class LoginFireBase extends AppCompatActivity {
         mInflater= LayoutInflater.from(context);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Alerta");
+        builder.setCancelable(false);
         View view = mInflater.inflate(R.layout.adaptador_ingreso, null);
         EditText clave=view.findViewById(R.id.clave);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        clave.setInputType(	TYPE_CLASS_NUMBER);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (clave.getText().toString().equals("")){
                     Toast.makeText(LoginFireBase.this, "Escriba la clave", Toast.LENGTH_SHORT).show();
 
+
                 }else {
                     if (clave.getText().toString().equals(claveholcim)){
+                       Snackbar snackbar= Snackbar.make(findViewById(R.id.lllogin),"Ingreso exitoso", BaseTransientBottomBar.LENGTH_SHORT);
+                       snackbar.show();
                         imgIniciar.setVisibility(View.VISIBLE);
-                        dialog.dismiss();
+                        //dialog.dismiss();
 
                     }
                     else {
-                        Toast.makeText(LoginFireBase.this, "Clave incorrecta", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar= Snackbar.make(findViewById(R.id.lllogin),"Clave incorrecta", BaseTransientBottomBar.LENGTH_SHORT);
+                        snackbar.show();
 
 
                     }
@@ -139,7 +150,8 @@ public class LoginFireBase extends AppCompatActivity {
             }
         });
         builder.setView(view);
-        builder.show();
+        alertDialog=builder.create();
+        alertDialog.show();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
