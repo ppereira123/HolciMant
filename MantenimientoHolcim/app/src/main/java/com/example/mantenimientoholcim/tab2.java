@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
@@ -25,8 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-
+import java.util.List;
 
 
 public class tab2 extends Fragment {
@@ -35,7 +37,8 @@ public class tab2 extends Fragment {
     private AdaptadorInspeccionesRealizadas adaptador;
     SearchView searchView;
     ArrayList<InspeccionTipo1> buscarlist=new ArrayList<>();
-
+    String[] meses={"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
+    List<String> listmeses=new ArrayList<>();
     TextView txtPrueba;
 
 
@@ -95,6 +98,9 @@ public class tab2 extends Fragment {
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Inspecciones");
+        DatabaseReference refitems=database.getReference("Items");
+
+        myRef.keepSynced(false);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -104,11 +110,64 @@ public class tab2 extends Fragment {
                         if(ds.exists()) {
                             for (DataSnapshot ds2 : ds.getChildren()) {
                                 String p=ds2.getValue().toString();
+
                                 String enunciado = ds2.child("enuunciado").getValue().toString();
                                 String nombreInspector = ds2.child("nombreInspector").getValue().toString();
                                 String fechaInspeccion = ds2.child("fechaInspeccion").getValue().toString();
                                 String proximaInspeccion = ds2.child("proximaInspeccion").getValue().toString();
                                 String codigo = ds2.child("codigo").getValue().toString();
+                                String ubicacion = ds2.child("ubicacion").getValue().toString();
+                                /*
+                                String[] partscodigo = codigo.split("-");
+
+                                refitems.child(partscodigo[0]).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()){
+
+                                            String ubicacionCodigo=snapshot.child("ubicacion").getValue().toString();
+                                            if(!ubicacionCodigo.equals("")){
+                                                myRef.child(ds.getKey()).child(ds2.getKey()).child("ubicacion").setValue(ubicacionCodigo);
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+
+                                    }
+                                });
+
+
+ */
+
+                                /*
+                                listmeses= Arrays.asList(meses);
+                                String[] parts = fechaInspeccion.split("/");
+
+                                if(parts.length==3){
+
+                                    if(listmeses.contains(parts[1])){
+                                        int mes=listmeses.indexOf(parts[1])+1;
+                                        fechaInspeccion=parts[0]+"/"+mes+"/"+parts[2];
+                                        myRef.child(ds.getKey()).child(ds2.getKey()).child("fechaInspeccion").setValue(fechaInspeccion);
+
+                                    }
+                                    String[] parts2 = proximaInspeccion.split("/");
+                                    if(listmeses.contains(parts2[1])){
+                                        int mes=listmeses.indexOf(parts2[1])+1;
+                                        proximaInspeccion=parts2[0]+"/"+mes+"/"+parts2[2];
+                                        myRef.child(ds.getKey()).child(ds2.getKey()).child("proximaInspeccion").setValue(proximaInspeccion);
+                                    }
+
+                                }else {
+                                    Toast.makeText(root.getContext(), ds.getKey(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                 */
                                 HashMap<String,ElementInspeccion> valores= new HashMap<>();
                                 for(DataSnapshot ds3:ds2.child("valores").getChildren()){
                                     String key=ds3.getKey();
@@ -118,7 +177,7 @@ public class tab2 extends Fragment {
                                     valores.put(key,itemInspeccion);
                                 }
                                 buscarlist=listitems;
-                                InspeccionTipo1 item= new InspeccionTipo1(enunciado,nombreInspector,fechaInspeccion,proximaInspeccion,codigo,valores);
+                                InspeccionTipo1 item= new InspeccionTipo1(enunciado,nombreInspector,fechaInspeccion,proximaInspeccion,codigo,ubicacion,valores);
                                 if(!listitems.contains(item)){
                                   listitems.add(item);
 

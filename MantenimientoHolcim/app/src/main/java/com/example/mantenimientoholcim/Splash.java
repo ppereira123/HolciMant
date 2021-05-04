@@ -46,11 +46,6 @@ public class Splash extends Activity {
 
 
 
-
-
-
-
-
         TextView txtversion=findViewById(R.id.version);
         txtversion.setText("Version"+getVersionName(context));
         txtversion.setAnimation(animation);

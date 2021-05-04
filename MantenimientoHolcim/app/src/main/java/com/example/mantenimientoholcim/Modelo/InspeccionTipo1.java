@@ -11,6 +11,7 @@ public class InspeccionTipo1 implements Serializable {
     String fechaInspeccion;
     String proximaInspeccion;
     String codigo;
+    String ubicacion;
     HashMap<String, ElementInspeccion> valores;
 
     public InspeccionTipo1(String enuunciado, String nombreInspector, String fechaInspeccion, String codigo) {
@@ -41,6 +42,24 @@ public class InspeccionTipo1 implements Serializable {
         this.enuunciado = enuunciado;
         this.nombreInspector = nombreInspector;
         this.valores = valores;
+    }
+
+    public InspeccionTipo1(String enuunciado, String nombreInspector, String fechaInspeccion, String proximaInspeccion, String codigo, String ubicacion, HashMap<String, ElementInspeccion> valores) {
+        this.enuunciado = enuunciado;
+        this.nombreInspector = nombreInspector;
+        this.fechaInspeccion = fechaInspeccion;
+        this.proximaInspeccion = proximaInspeccion;
+        this.codigo = codigo;
+        this.ubicacion = ubicacion;
+        this.valores = valores;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     public String getEnuunciado() {

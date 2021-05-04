@@ -124,7 +124,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(item.getEnuunciado());
                 View view = mInflater.inflate(R.layout.adaptardorverinspeciones, null);
-                TextView editTextCodigo,fechaInspeccion,fechaProximaInspeccion,nombreInspector;
+                TextView editTextCodigo,fechaInspeccion,fechaProximaInspeccion,nombreInspector,txtubicacionIR;
                 ImageView imagInspeccion;
                 ListView rvInspeccionesRv;
                 rvInspeccionesRv=view.findViewById(R.id.rvInspeccionesRv);
@@ -133,6 +133,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
                 fechaProximaInspeccion=view.findViewById(R.id.txtProximaInspeccion);
                 nombreInspector=view.findViewById(R.id.txtNombreInspeccion);
                 imagInspeccion=view.findViewById(R.id.imgInspeccionRv);
+                txtubicacionIR=view.findViewById(R.id.txtubicacionIR);
 
                 Resources res = context.getResources();
                 String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
@@ -155,6 +156,7 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
                 fechaInspeccion.setText("Fecha Inspeccion: "+item.getFechaInspeccion());
                 fechaProximaInspeccion.setText("Fecha Proxima Inspeccion: "+item.getProximaInspeccion());
                 editTextCodigo.setText("Codigo articulo: "+item.getCodigo());
+                txtubicacionIR.setText("Ubicación: "+item.getUbicacion());
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -295,6 +297,15 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         cell.setCellValue(inspecion.getCodigo());
         cell.setCellStyle(styles.get("item_left"));
         sheet.addMergedRegion(CellRangeAddress.valueOf("$C$5:$F$5"));
+        row = sheet.createRow(5);
+        cell = row.createCell(0);
+        cell.setCellValue("Ubicación: ");
+        cell.setCellStyle(styles.get("item_left1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$6:$B$6"));
+        cell = row.createCell(2);
+        cell.setCellValue(inspecion.getUbicacion());
+        cell.setCellStyle(styles.get("item_left"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$C$6:$F$6"));
 
 
         row = sheet.createRow(6);

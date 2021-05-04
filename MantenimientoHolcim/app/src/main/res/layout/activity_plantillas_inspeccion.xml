@@ -60,64 +60,85 @@
                 </LinearLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:boxStrokeColor="#FFFFFF">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nombreInspector"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="40dp"
-                        android:hint="Nombre:" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:startIconDrawable="@drawable/ingeniero">
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fechaInspección"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nombreInspector"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nombre:" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="40dp"
-                        android:hint="Fecha de inspección:" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:startIconDrawable="@drawable/calendario">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fechaproximaInspeccion"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/fechaInspección"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Fecha de inspección:" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="40dp"
-                        android:hint="Proxima inspección:" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:startIconDrawable="@drawable/calendario">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/fechaproximaInspeccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Proxima inspección:" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextCodigoInspeccion"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="40dp"
-                        android:hint="Codigo del articulo:" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:startIconDrawable="@drawable/codigo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextCodigoInspeccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Codigo del articulo:" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:startIconDrawable="@drawable/ubicacion">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextubicacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Ubicación:" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
 
 
                 <TextView

@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -49,6 +49,13 @@
                 android:text="Codigo del articulo: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="12sp" />
+            <TextView
+                android:id="@+id/txtubicacionIR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ubicación: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -65,7 +72,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp">
@@ -112,7 +119,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:scrollbarStyle="outsideOverlay" />
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

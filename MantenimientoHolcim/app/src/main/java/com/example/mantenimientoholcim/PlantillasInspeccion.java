@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +49,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +68,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
     Context context=this;
     List<List<String>> tipoInspecciones= new ArrayList<>();
     ListAdapterInspeccion li;
-    EditText editTextCodigo,nombreInspector,fechaInspeccion,fechaProximaInspeccion;
+    EditText editTextCodigo,nombreInspector;
+    TextInputEditText fechaInspeccion,fechaProximaInspeccion,editTextubicacion;
     TextView txtnombreInspecciones;
     ImageView imagInspeccion, img_tiposinspecciones;
     String nombreInspeccion="";
@@ -89,12 +95,13 @@ public class PlantillasInspeccion extends AppCompatActivity {
         //SACAMOS LA FECHA COMPLETA
         fechaInspeccion=findViewById(R.id.fechaInspección);
         img_tiposinspecciones= findViewById(R.id.img_tipoinspeccion);
-        SimpleDateFormat fecc=new SimpleDateFormat("d/MMMM/yyyy");
+        SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
         String monthString  = (String) DateFormat.format("MM",d);
         String fechacComplString = fecc.format(d);
         fechaInspeccion.setText(fechacComplString);
         fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccion);
         btnGuardar=findViewById(R.id.btnGuardar);
+        editTextubicacion=findViewById(R.id.editTextubicacion);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,257 +142,24 @@ public class PlantillasInspeccion extends AppCompatActivity {
         String uri =imagenInspeccion;
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
+        try {
+            proximafecha();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         imagInspeccion.setImageDrawable(imagen);
         editTextCodigo.setText(codigo);
 
-
-
-
-
-
-        String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);
-        boolean existeSemestral= existeEnArreglo(tipodeinspeccionSemestral,nombreInspeccion);
-        String[] tipodeinspeccionAnual = res.getStringArray(R.array.Anual);
-        boolean existeAnual= existeEnArreglo(tipodeinspeccionAnual,nombreInspeccion);
-        String[] tipodeinspeccionMensual = res.getStringArray(R.array.Mensual);
-        boolean existeMensual= existeEnArreglo(tipodeinspeccionMensual,nombreInspeccion);
-        String[] tipodeinspeccionTrimestral = res.getStringArray(R.array.Trimestral);
-        boolean existeTrimestral= existeEnArreglo(tipodeinspeccionTrimestral,nombreInspeccion);
-        String[] tipodeinspeccionQuinquenal = res.getStringArray(R.array.Quinquenal);
-        boolean existeQuinquenal= existeEnArreglo(tipodeinspeccionQuinquenal,nombreInspeccion);
-        String[] tipodeinspeccionHss102 = res.getStringArray(R.array.HSS_102);
-        boolean existeHSS102= existeEnArreglo(tipodeinspeccionHss102,nombreInspeccion);
-        String[] tipodeinspeccionHss103 = res.getStringArray(R.array.HSS_103);
-        boolean existeHSS103= existeEnArreglo(tipodeinspeccionHss103,nombreInspeccion);
-        String[] tipodeinspeccionHss105 = res.getStringArray(R.array.HSS_105);
-        boolean existeHSS105= existeEnArreglo(tipodeinspeccionHss105,nombreInspeccion);
-        String[] tipodeinspeccionHss106 = res.getStringArray(R.array.HSS_106);
-        boolean existeHSS106= existeEnArreglo(tipodeinspeccionHss106,nombreInspeccion);
-        String[] tipodeinspeccionHss107 = res.getStringArray(R.array.HSS_107);
-        boolean existeHSS107= existeEnArreglo(tipodeinspeccionHss107,nombreInspeccion);
-        String[] tipodeinspeccionHss108 = res.getStringArray(R.array.HSS_108);
-        boolean existeHSS108= existeEnArreglo(tipodeinspeccionHss108,nombreInspeccion);
-        String[] tipodeinspeccionsemestre1 = res.getStringArray(R.array.semestre1);
-        boolean existeSemestre1= existeEnArreglo(tipodeinspeccionsemestre1,monthString);
-        String[] tipodeinspeccionsemestre2 = res.getStringArray(R.array.semestre2);
-        boolean existeSemestre2= existeEnArreglo(tipodeinspeccionsemestre2,monthString);
-        String[] tipodeinspecciontrimestre1 = res.getStringArray(R.array.trimestre1);
-        boolean existetrimestre1= existeEnArreglo(tipodeinspecciontrimestre1,monthString);
-        String[] tipodeinspecciontrimestre2 = res.getStringArray(R.array.trimestre2);
-        boolean existetrimestre2= existeEnArreglo(tipodeinspecciontrimestre2,monthString);
-        String[] tipodeinspecciontrimestre3 = res.getStringArray(R.array.trimestre3);
-        boolean existetrimestre3= existeEnArreglo(tipodeinspecciontrimestre3,monthString);
-        String[] tipodeinspecciontrimestre4 = res.getStringArray(R.array.trimestre4);
-        boolean existetrimestre4= existeEnArreglo(tipodeinspecciontrimestre4,monthString);
-
-        if(existeSemestral){
-            Date fechaFinal = variarFecha(d, Calendar.MONTH, 6);
-            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
-            String fechacComplString2 = fecc2.format(fechaFinal);
-            fechaProximaInspeccion.setText(fechacComplString2);
-
-            if(existeHSS102&&existeSemestre1){
-                String uri2 ="@mipmap/hss102naranja";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-            else if(existeHSS102&&existeSemestre2){
-                String uri2 ="@mipmap/hss102morado";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-            if(existeHSS108&&existeSemestre1){
-                String uri2 ="@mipmap/hss108naranja";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-            else if(existeHSS108&&existeSemestre2){
-                String uri2 ="@mipmap/hss108morado";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-
-        }
-        else if(existeAnual){
-            Date fechaFinal = variarFecha(d, Calendar.MONTH, 12);
-            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
-            String fechacComplString2 = fecc2.format(fechaFinal);
-            fechaProximaInspeccion.setText(fechacComplString2);
-            if(existeHSS102){
-                String uri2 ="@mipmap/hss102negro";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-            else if(existeHSS103){
-                String uri2 ="@mipmap/hss103negro";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-            else if(existeHSS105){
-                String uri2 ="@mipmap/hss105negro";
-                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                img_tiposinspecciones.setImageDrawable(imagen2);
-            }
-
-
-        }
-        else if(existeTrimestral){
-            Date fechaFinal = variarFecha(d, Calendar.MONTH, 3);
-            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
-            String fechacComplString2 = fecc2.format(fechaFinal);
-            fechaProximaInspeccion.setText(fechacComplString2);
-            if(nombreInspeccion.equals("Extintor Portátil")){
-                if(existetrimestre1){
-                    String uri2 ="@mipmap/extintorrojo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if(existetrimestre2){
-                    String uri2 ="@mipmap/extintorverde";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if(existetrimestre3){
-                    String uri2 ="@mipmap/extintorazul";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if(existetrimestre4){
-                    String uri2 ="@mipmap/extintoramarillo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-
-            }
-            else if(existeHSS105) {
-                if (existetrimestre1) {
-                    String uri2 = "@mipmap/hss105rojo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre2) {
-                    String uri2 = "@mipmap/hss105verde";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre3) {
-                    String uri2 = "@mipmap/hss105azul";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre4) {
-                    String uri2 = "@mipmap/hss105amarillo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-            }
-            else if(existeHSS107) {
-                if (existetrimestre1) {
-                    String uri2 = "@mipmap/hss107rojo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre2) {
-                    String uri2 = "@mipmap/hss107verde";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre3) {
-                    String uri2 = "@mipmap/hss107azul";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre4) {
-                    String uri2 = "@mipmap/hss107amarillo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-            }
-
-
-
-
-
-
-
-        }
-        else if(existeMensual){
-            Date fechaFinal = variarFecha(d, Calendar.MONTH, 1);
-            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
-            String fechacComplString2 = fecc2.format(fechaFinal);
-            fechaProximaInspeccion.setText(fechacComplString2);
-            if(existeHSS106){
-                if (existetrimestre1) {
-                    String uri2 = "@mipmap/hss106rojo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre2) {
-                    String uri2 = "@mipmap/hss106verde";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre3) {
-                    String uri2 = "@mipmap/hss106azul";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-                else if (existetrimestre4) {
-                    String uri2 = "@mipmap/hss106amarillo";
-                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
-                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
-                    img_tiposinspecciones.setImageDrawable(imagen2);
-                }
-            }
-
-
-
-        }
-        else if(existeQuinquenal){
-            Date fechaFinal = variarFecha(d, Calendar.MONTH, 5);
-            SimpleDateFormat fecc2=new SimpleDateFormat("d/MMMM/yyyy");
-            String fechacComplString2 = fecc2.format(fechaFinal);
-            fechaProximaInspeccion.setText(fechacComplString2);
-
-        }
-        else{
-            fechaProximaInspeccion.setText("N/A");
-        }
-
-
         txtnombreInspecciones=findViewById(R.id.txtPI1);
-
-
-
-
-
         li= new ListAdapterInspeccion(tipoInspecciones.get(posicion),this);
         rvInspecciones.setHasFixedSize(true);
         rvInspecciones.setLayoutManager(new LinearLayoutManager(context));
         rvInspecciones.setAdapter(li);
         txtnombreInspecciones.setText(nombreInspeccion);
+        configFecha(fechaInspeccion);
+        fechaInspeccion.setKeyListener(null);
+        fechaProximaInspeccion.setKeyListener(null);
+
     }
     public static boolean existeEnArreglo(String[] arreglo, String busqueda) {
         for (int x = 0; x < arreglo.length; x++) {
@@ -863,12 +637,14 @@ public class PlantillasInspeccion extends AppCompatActivity {
             String proxima="";
             String codigo="";
             String error="";
+            String ubicacion="";
 
             HashMap<String, ElementInspeccion> valores=li.getValores();
             inspector=nombreInspector.getText().toString();
             fechaI=fechaInspeccion.getText().toString();
             proxima=fechaProximaInspeccion.getText().toString();
             codigo=editTextCodigo.getText().toString();
+            ubicacion=editTextubicacion.getText().toString();
 
             if(inspector.equals("")){
                 error=error+"Nombre Inspector";
@@ -885,6 +661,9 @@ public class PlantillasInspeccion extends AppCompatActivity {
             if(codigo.equals("")){
                 error=error+"Codigo";
             }
+            if(ubicacion.equals("")){
+                error=error+"Ubicación";
+            }
 
             int diferencia=tipoInspecciones.get(posicion).size()-valores.size();
             if(diferencia!=0){
@@ -892,7 +671,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
             }
 
             if(error.equals("")){
-                inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,valores);
+                inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,ubicacion,valores);
                 FirebaseDatabase database= FirebaseDatabase.getInstance();
 
                 DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
@@ -919,6 +698,240 @@ public class PlantillasInspeccion extends AppCompatActivity {
     }
 
     /// crear excel
+    public void proximafecha() throws ParseException {
+        Date d=convertStringaDate(fechaInspeccion.getText().toString());
+        String monthString= (String) DateFormat.format("MM",d);
+        Resources res = getResources();
+        String[] tipodeinspeccionSemestral = res.getStringArray(R.array.Semestral);
+        boolean existeSemestral= existeEnArreglo(tipodeinspeccionSemestral,nombreInspeccion);
+        String[] tipodeinspeccionAnual = res.getStringArray(R.array.Anual);
+        boolean existeAnual= existeEnArreglo(tipodeinspeccionAnual,nombreInspeccion);
+        String[] tipodeinspeccionMensual = res.getStringArray(R.array.Mensual);
+        boolean existeMensual= existeEnArreglo(tipodeinspeccionMensual,nombreInspeccion);
+        String[] tipodeinspeccionTrimestral = res.getStringArray(R.array.Trimestral);
+        boolean existeTrimestral= existeEnArreglo(tipodeinspeccionTrimestral,nombreInspeccion);
+        String[] tipodeinspeccionQuinquenal = res.getStringArray(R.array.Quinquenal);
+        boolean existeQuinquenal= existeEnArreglo(tipodeinspeccionQuinquenal,nombreInspeccion);
+        String[] tipodeinspeccionHss102 = res.getStringArray(R.array.HSS_102);
+        boolean existeHSS102= existeEnArreglo(tipodeinspeccionHss102,nombreInspeccion);
+        String[] tipodeinspeccionHss103 = res.getStringArray(R.array.HSS_103);
+        boolean existeHSS103= existeEnArreglo(tipodeinspeccionHss103,nombreInspeccion);
+        String[] tipodeinspeccionHss105 = res.getStringArray(R.array.HSS_105);
+        boolean existeHSS105= existeEnArreglo(tipodeinspeccionHss105,nombreInspeccion);
+        String[] tipodeinspeccionHss106 = res.getStringArray(R.array.HSS_106);
+        boolean existeHSS106= existeEnArreglo(tipodeinspeccionHss106,nombreInspeccion);
+        String[] tipodeinspeccionHss107 = res.getStringArray(R.array.HSS_107);
+        boolean existeHSS107= existeEnArreglo(tipodeinspeccionHss107,nombreInspeccion);
+        String[] tipodeinspeccionHss108 = res.getStringArray(R.array.HSS_108);
+        boolean existeHSS108= existeEnArreglo(tipodeinspeccionHss108,nombreInspeccion);
+        String[] tipodeinspeccionsemestre1 = res.getStringArray(R.array.semestre1);
+        boolean existeSemestre1= existeEnArreglo(tipodeinspeccionsemestre1,monthString);
+        String[] tipodeinspeccionsemestre2 = res.getStringArray(R.array.semestre2);
+        boolean existeSemestre2= existeEnArreglo(tipodeinspeccionsemestre2,monthString);
+        String[] tipodeinspecciontrimestre1 = res.getStringArray(R.array.trimestre1);
+        boolean existetrimestre1= existeEnArreglo(tipodeinspecciontrimestre1,monthString);
+        String[] tipodeinspecciontrimestre2 = res.getStringArray(R.array.trimestre2);
+        boolean existetrimestre2= existeEnArreglo(tipodeinspecciontrimestre2,monthString);
+        String[] tipodeinspecciontrimestre3 = res.getStringArray(R.array.trimestre3);
+        boolean existetrimestre3= existeEnArreglo(tipodeinspecciontrimestre3,monthString);
+        String[] tipodeinspecciontrimestre4 = res.getStringArray(R.array.trimestre4);
+        boolean existetrimestre4= existeEnArreglo(tipodeinspecciontrimestre4,monthString);
+
+        if(existeSemestral){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 6);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+            if(existeHSS102&&existeSemestre1){
+                String uri2 ="@mipmap/hss102naranja";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+            else if(existeHSS102&&existeSemestre2){
+                String uri2 ="@mipmap/hss102morado";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+            if(existeHSS108&&existeSemestre1){
+                String uri2 ="@mipmap/hss108naranja";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+            else if(existeHSS108&&existeSemestre2){
+                String uri2 ="@mipmap/hss108morado";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+
+        }
+        else if(existeAnual){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 12);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+            if(existeHSS102){
+                String uri2 ="@mipmap/hss102negro";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+            else if(existeHSS103){
+                String uri2 ="@mipmap/hss103negro";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+            else if(existeHSS105){
+                String uri2 ="@mipmap/hss105negro";
+                int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                img_tiposinspecciones.setImageDrawable(imagen2);
+            }
+
+
+        }
+        else if(existeTrimestral){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 3);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+            if(nombreInspeccion.equals("Extintor Portátil")){
+                if(existetrimestre1){
+                    String uri2 ="@mipmap/extintorrojo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if(existetrimestre2){
+                    String uri2 ="@mipmap/extintorverde";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if(existetrimestre3){
+                    String uri2 ="@mipmap/extintorazul";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if(existetrimestre4){
+                    String uri2 ="@mipmap/extintoramarillo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+
+            }
+            else if(existeHSS105) {
+                if (existetrimestre1) {
+                    String uri2 = "@mipmap/hss105rojo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre2) {
+                    String uri2 = "@mipmap/hss105verde";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre3) {
+                    String uri2 = "@mipmap/hss105azul";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre4) {
+                    String uri2 = "@mipmap/hss105amarillo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+            }
+            else if(existeHSS107) {
+                if (existetrimestre1) {
+                    String uri2 = "@mipmap/hss107rojo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre2) {
+                    String uri2 = "@mipmap/hss107verde";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre3) {
+                    String uri2 = "@mipmap/hss107azul";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre4) {
+                    String uri2 = "@mipmap/hss107amarillo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+            }
+
+
+
+
+
+
+
+        }
+        else if(existeMensual){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 1);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+            if(existeHSS106){
+                if (existetrimestre1) {
+                    String uri2 = "@mipmap/hss106rojo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre2) {
+                    String uri2 = "@mipmap/hss106verde";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre3) {
+                    String uri2 = "@mipmap/hss106azul";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+                else if (existetrimestre4) {
+                    String uri2 = "@mipmap/hss106amarillo";
+                    int imageResource2 = getResources().getIdentifier(uri2, null, getPackageName());
+                    Drawable imagen2 = ContextCompat.getDrawable(getApplicationContext(), imageResource2);
+                    img_tiposinspecciones.setImageDrawable(imagen2);
+                }
+            }
+
+
+
+        }
+        else if(existeQuinquenal){
+            Date fechaFinal = variarFecha(d, Calendar.MONTH, 5);
+            SimpleDateFormat fecc2=new SimpleDateFormat("d/MM/yyyy");
+            String fechacComplString2 = fecc2.format(fechaFinal);
+            fechaProximaInspeccion.setText(fechacComplString2);
+
+        }
+
+
+    }
 
     public void crearExcel(InspeccionTipo1 inspecion){
 
@@ -1149,6 +1162,60 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
 
     ///fin crear excel
+    private void configFecha(TextInputEditText tietFecha) {
+        Calendar calendar= Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        tietFecha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String date= day+"/"+month+"/"+year;
+                        tietFecha.setText(date);
+                        tietFecha.clearFocus();
+                        try {
+                            proximafecha();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                },year,month,day);
+                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_NEGATIVE) {
+                            dialog.dismiss();
+                            tietFecha.clearFocus();
+
+                        }
+
+                    }
+                });
+
+                if(hasFocus){
+                    datePickerDialog.show();
+                }
+                else{
+                    datePickerDialog.dismiss();
+                    tietFecha.clearFocus();
+                }
+
+            }
+        });
+    }
+    public static Date convertStringaDate(String fecha) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date date= format.parse(fecha);
+        return  date;
+    }
 
 
 
