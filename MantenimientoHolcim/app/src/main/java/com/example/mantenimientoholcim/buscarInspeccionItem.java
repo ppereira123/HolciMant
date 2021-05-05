@@ -79,7 +79,7 @@ public class buscarInspeccionItem extends AppCompatActivity {
                                 buscarlist=listitems;
                                 InspeccionTipo1 item= new InspeccionTipo1(enunciado,nombreInspector,fechaInspeccion,proximaInspeccion,codigo,valores);
                                 if(!listitems.contains(item)){
-                                    if(item.getCodigo().contains(codigoInspeccion)){
+                                    if(item.getCodigo().equals(codigoInspeccion)){
                                         listitems.add(item);
                                     }
 

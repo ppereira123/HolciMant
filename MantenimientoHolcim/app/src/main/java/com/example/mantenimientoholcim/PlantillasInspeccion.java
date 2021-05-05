@@ -1,11 +1,15 @@
 package com.example.mantenimientoholcim;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,14 +27,18 @@ import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.example.mantenimientoholcim.Modelo.RealizacionInspeccion;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -78,6 +86,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
     InspeccionTipo1 inspeccionTipo1;
     Button btnGenerar,btnGuardar;
     int posicion;
+    boolean x=false;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -105,6 +114,8 @@ public class PlantillasInspeccion extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 guardar();
             }
         });
@@ -119,8 +130,79 @@ public class PlantillasInspeccion extends AppCompatActivity {
                     editTextCodigo.setText("");
                     Toast.makeText(context, "No puede escribir codigos con '.' o '/'", Toast.LENGTH_SHORT).show();
                 }else {
-                    guardar();
-                    crearExcel(inspeccionTipo1);
+                    String inspector="";
+                    String fechaI="";
+                    String proxima="";
+                    String codigo="";
+                    String error="";
+                    String ubicacion="";
+
+                    HashMap<String, ElementInspeccion> valores=li.getValores();
+                    inspector=nombreInspector.getText().toString();
+                    fechaI=fechaInspeccion.getText().toString();
+                    proxima=fechaProximaInspeccion.getText().toString();
+                    codigo=editTextCodigo.getText().toString();
+                    ubicacion=editTextubicacion.getText().toString();
+
+                    if(inspector.equals("")){
+                        error=error+"Nombre Inspector";
+                    }
+
+                    if(fechaI.equals("")){
+                        error=error+"Fecha de inspeccion";
+                    }
+
+                    if(proxima.equals("")){
+                        error=error+"Fecha proxima inspeccion";
+                    }
+
+                    if(codigo.equals("")){
+                        error=error+"Codigo";
+                    }
+                    if(ubicacion.equals("")){
+                        error=error+"Ubicación";
+                    }
+
+                    int diferencia=tipoInspecciones.get(posicion).size()-valores.size();
+                    if(diferencia!=0){
+                        error=error+"Completar "+String.valueOf(diferencia)+" parametros de inspeccion";
+                    }
+
+                    if(error.equals("")){
+
+
+                        if(contieneNOOK()){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Calificación");
+                            builder.setIcon(R.drawable.cancelar);
+                            builder.setMessage("Esta inspección no cumple con los requerimientos, no puede pegar la etiqueta de inspección hasta que el objeto inspeccionado cumpla con todos los parametros de inspección.");
+                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).setNegativeButton("Corregir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }else {
+                            existeinspeccionReciente(fechaInspeccion.getText().toString(), editTextCodigo.getText().toString());
+                            if(!x){
+                                guardar();
+                                crearExcel(inspeccionTipo1);
+                            }
+
+                        }
+
+                    }
+
+                    else{
+                        Toast.makeText(context, "Falta completar: "+error, Toast.LENGTH_LONG).show();
+                    }
+
+
                 }
 
             }
@@ -128,7 +210,9 @@ public class PlantillasInspeccion extends AppCompatActivity {
         cargarInspecciones();
         posicion=getIntent().getIntExtra("posicion",0);
         codigo= getIntent().getStringExtra("codigo");
-
+        if(codigo==null){
+            codigo="";
+        }
 
         Resources res = getResources();
         String[] nombre_inspecciones = res.getStringArray(R.array.combo_inspeccionesNombre);
@@ -159,6 +243,11 @@ public class PlantillasInspeccion extends AppCompatActivity {
         configFecha(fechaInspeccion);
         fechaInspeccion.setKeyListener(null);
         fechaProximaInspeccion.setKeyListener(null);
+
+        if(!codigo.equals("")){
+            existeinspeccionReciente(fechaInspeccion.getText().toString(), editTextCodigo.getText().toString());
+        }
+
 
     }
     public static boolean existeEnArreglo(String[] arreglo, String busqueda) {
@@ -671,20 +760,50 @@ public class PlantillasInspeccion extends AppCompatActivity {
             }
 
             if(error.equals("")){
-                inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,ubicacion,valores);
-                FirebaseDatabase database= FirebaseDatabase.getInstance();
 
-                DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
-                ref1.keepSynced(true);
-                DatabaseReference ref2=ref1.push();
-                ref2.keepSynced(true);
-                ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
+
+                if(contieneNOOK()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Calificación");
+                    builder.setIcon(R.drawable.cancelar);
+                    builder.setMessage("Esta inspección no cumple con los requerimientos, no puede pegar la etiqueta de inspección hasta que el objeto inspeccionado cumpla con todos los parametros de inspección");
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setNegativeButton("Corregir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }else {
+                    existeinspeccionReciente(fechaInspeccion.getText().toString(), editTextCodigo.getText().toString());
+                    if(!x){
+                        inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,ubicacion,valores);
+                        FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+                        DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
+                        DatabaseReference refitems=database.getReference("RealizacionInspecciones");
+                        RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proxima);
+                        refitems.child(codigo).setValue(objeto);
+                        ref1.keepSynced(true);
+                        DatabaseReference ref2=ref1.push();
+                        ref2.keepSynced(true);
+                        ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        finish();
+
                     }
-                });
-                finish();
+
+
+                }
+
             }
 
             else{
@@ -1215,6 +1334,78 @@ public class PlantillasInspeccion extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date date= format.parse(fecha);
         return  date;
+    }
+    //confirmar presencia de inspeccion
+    void existeinspeccionReciente(String fechahoy, String codigoInspeccion){
+        x=false;
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        DatabaseReference myRef= database.getReference("RealizacionInspecciones");
+        myRef.keepSynced(true);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        if(ds.exists()) {
+                            if(ds.child("codigo").getValue().toString().equals(codigoInspeccion)){
+                                String fecha=ds.child("siguientefecha").getValue().toString();
+                                int dias=0;
+                                try {
+                                    dias=diferenciaDias(fecha, fechahoy);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if(dias>10){
+                                    x=true;
+                                    AlertDialog builder = new AlertDialog.Builder(context).create();
+                                    builder.setCanceledOnTouchOutside(false);
+                                    builder.setTitle("Alerta");
+                                    builder.setIcon(R.drawable.advertencia);
+                                    builder.setMessage("Esta inspección ya fue realizada para este periodo, faltan "+dias+" días para que llegue la fecha de la siguiente inspección pero puede ser realizada hasta 10 días antes del "+fecha);
+                                    builder.setCancelable(false);
+
+                                    builder.setButton(AlertDialog.BUTTON_POSITIVE, "ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
+                                    builder.show();
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static int diferenciaDias(String fecha1,String fecha2) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1= format.parse(fecha1);
+        Date date2=format.parse(fecha2);
+        int dias = (int) ((date1.getTime() - date2.getTime()) / 86400000);
+        return  dias;
+
+    }
+    public boolean contieneNOOK(){
+        boolean x=false;
+        HashMap<String, ElementInspeccion> valores=li.getValores();
+        for (ElementInspeccion valor:valores.values()){
+            if(valor.getOk().equals("NO OK")){
+                x=true;
+            }
+        }
+        return x;
     }
 
 

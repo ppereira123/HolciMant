@@ -19,6 +19,7 @@ import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.Modelo.RealizacionInspeccion;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,10 +98,12 @@ public class tab2 extends Fragment {
 
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Inspecciones");
-        DatabaseReference refitems=database.getReference("Items");
 
-        myRef.keepSynced(false);
+        DatabaseReference myRef= database.getReference("Inspecciones");
+
+      // DatabaseReference refitems=database.getReference("RealizacionInspecciones");
+
+        myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -117,6 +120,9 @@ public class tab2 extends Fragment {
                                 String proximaInspeccion = ds2.child("proximaInspeccion").getValue().toString();
                                 String codigo = ds2.child("codigo").getValue().toString();
                                 String ubicacion = ds2.child("ubicacion").getValue().toString();
+                                /*
+                                RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proximaInspeccion);
+                                refitems.child(codigo).setValue(objeto);
                                 /*
                                 String[] partscodigo = codigo.split("-");
 
