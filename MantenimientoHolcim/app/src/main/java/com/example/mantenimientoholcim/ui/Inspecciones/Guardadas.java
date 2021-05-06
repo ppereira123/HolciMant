@@ -18,6 +18,7 @@ import com.example.mantenimientoholcim.Adaptadores.AdaptadorInspeccionesRealizad
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 
+import com.example.mantenimientoholcim.Modelo.RealizacionInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -99,7 +100,7 @@ public class Guardadas extends Fragment {
 
         DatabaseReference myRef= database.getReference("Inspecciones");
 
-      // DatabaseReference refitems=database.getReference("RealizacionInspecciones");
+    //  DatabaseReference refitems=database.getReference("RealizacionInspecciones");
 
         myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
@@ -118,8 +119,8 @@ public class Guardadas extends Fragment {
                                 String proximaInspeccion = ds2.child("proximaInspeccion").getValue().toString();
                                 String codigo = ds2.child("codigo").getValue().toString();
                                 String ubicacion = ds2.child("ubicacion").getValue().toString();
-                                /*
-                                RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proximaInspeccion);
+/*
+                                RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proximaInspeccion,enunciado);
                                 refitems.child(codigo).setValue(objeto);
                                 /*
                                 String[] partscodigo = codigo.split("-");

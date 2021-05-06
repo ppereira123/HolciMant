@@ -784,7 +784,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
                         DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
                         DatabaseReference refitems=database.getReference("RealizacionInspecciones");
-                        RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proxima);
+                        RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proxima,nombreInspeccion);
                         refitems.child(codigo).setValue(objeto);
                         ref1.keepSynced(true);
                         DatabaseReference ref2=ref1.push();
@@ -1339,7 +1339,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("RealizacionInspecciones");
         myRef.keepSynced(true);
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
