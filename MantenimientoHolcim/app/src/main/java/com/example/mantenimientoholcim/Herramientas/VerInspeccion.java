@@ -1,22 +1,14 @@
-package com.example.mantenimientoholcim.Dialogos;
+package com.example.mantenimientoholcim.Herramientas;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,47 +24,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class DialogoVerInspeccion extends DialogFragment {
+public class VerInspeccion extends AppCompatActivity {
     RecyclerView rvInspecciones;
-    Activity activity;
+    Context context=this;
     List<List<String>> tipoInspecciones= new ArrayList<>();
     ListadaptaritemsInspeccionesRealizadas li;
     EditText editTextCodigo,nombreInspector,fechaInspeccion,fechaProximaInspeccion;
     TextView txtnombreInspecciones;
-    InspeccionTipo1 inspeccionTipo1;
     ImageView imagInspeccion;
     String imagenInspeccion="";
-    View context;
+    InspeccionTipo1 inspeccionTipo1;
 
 
-    public DialogoVerInspeccion() {
-        // Required empty public constructor
-    }
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return crearDialogoVerInspeccion();
-    }
-    private AlertDialog crearDialogoVerInspeccion(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.fragment_dialogo_ver_inspeccion, null);
-        builder.setView(v);
-
-        inspeccionTipo1= (InspeccionTipo1) activity.getIntent().getSerializableExtra("inspeccion");
-        editTextCodigo=v.findViewById(R.id.editTextCodigoInspeccionRv);
-        fechaInspeccion=v.findViewById(R.id.fechaInspecciónRv);
-        fechaProximaInspeccion=v.findViewById(R.id.fechaproximaInspeccionRv);
-        rvInspecciones=v.findViewById(R.id.rvInspeccionesRv);
-        imagInspeccion=v.findViewById(R.id.imgInspeccionRv);
-        nombreInspector=v.findViewById(R.id.nombreInspectorRv);
-        txtnombreInspecciones=v.findViewById(R.id.txtPI1Rv);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_ver_inspeccion);
+        inspeccionTipo1= (InspeccionTipo1) getIntent().getSerializableExtra("inspeccion");
+        editTextCodigo=findViewById(R.id.editTextCodigoInspeccionRv);
+        fechaInspeccion=findViewById(R.id.fechaInspecciónRv);
+        fechaProximaInspeccion=findViewById(R.id.fechaproximaInspeccionRv);
+        rvInspecciones=findViewById(R.id.rvInspeccionesRv);
+        nombreInspector=findViewById(R.id.nombreInspectorRv);
+        imagInspeccion=findViewById(R.id.imgInspeccionRv);
+        txtnombreInspecciones=findViewById(R.id.txtPI1Rv);
         cargar(inspeccionTipo1);
-        return builder.create();
-
     }
     public void cargar(InspeccionTipo1 inspecion){
         Resources res = getResources();
@@ -80,12 +56,12 @@ public class DialogoVerInspeccion extends DialogFragment {
         String[] imagenesdeinspeccion = res.getStringArray(R.array.combo_inspeccionesImagenes);
         int posicion=posicionexisteEnArreglo(nombre_inspecciones, inspecion.getEnuunciado());
         if (posicion==-1){
-            Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
         }else{
             imagenInspeccion= imagenesdeinspeccion[posicion];
             String uri =imagenInspeccion;
-            int imageResource = getResources().getIdentifier(uri, null, activity.getPackageName());
-            Drawable imagen = ContextCompat.getDrawable(activity.getApplicationContext(), imageResource);
+            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+            Drawable imagen = ContextCompat.getDrawable(getApplicationContext(), imageResource);
             imagInspeccion.setImageDrawable(imagen);
         }
 
@@ -96,9 +72,9 @@ public class DialogoVerInspeccion extends DialogFragment {
 
 
 
-        li= new ListadaptaritemsInspeccionesRealizadas(hashToList(inspecion.getValores()),activity);
+        li= new ListadaptaritemsInspeccionesRealizadas(hashToList(inspecion.getValores()),this);
         rvInspecciones.setHasFixedSize(true);
-        rvInspecciones.setLayoutManager(new LinearLayoutManager(activity));
+        rvInspecciones.setLayoutManager(new LinearLayoutManager(context));
         rvInspecciones.setAdapter(li);
 
 
@@ -119,17 +95,5 @@ public class DialogoVerInspeccion extends DialogFragment {
         }
         return list;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity) {
-            this.activity= (Activity) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
 
 }

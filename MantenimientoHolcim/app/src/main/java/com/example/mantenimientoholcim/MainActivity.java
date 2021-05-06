@@ -1,15 +1,20 @@
 package com.example.mantenimientoholcim;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mantenimientoholcim.Alarma.AlarmReceiver;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -30,6 +35,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     Context context=this;
 
@@ -54,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         checkVersion();
+
+
     }
 
     @Override
@@ -139,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
 
 
         public String getVersionName(Context ctx){

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mantenimientoholcim.CrearItem;
 import com.example.mantenimientoholcim.Modelo.HistorialPrestamo;
-import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
 import com.example.mantenimientoholcim.Modelo.Prestamo;
-import com.example.mantenimientoholcim.PlantillasInspeccion;
+import com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspeccion;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
-import com.example.mantenimientoholcim.VistaHistorialPrestamos;
-import com.example.mantenimientoholcim.buscarInspeccionItem;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;

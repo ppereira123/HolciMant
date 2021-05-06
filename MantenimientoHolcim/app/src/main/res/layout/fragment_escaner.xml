@@ -17,7 +17,7 @@
         android:layout_marginTop="116dp"
         android:backgroundTint="#becde9"
         android:elevation="8dp"
-        android:text="Escanear codgio QR"
+        android:text="Escanear codigo QR"
         android:textColor="#005da6"
         app:icon="@mipmap/scan"
         app:iconSize="50dp"
