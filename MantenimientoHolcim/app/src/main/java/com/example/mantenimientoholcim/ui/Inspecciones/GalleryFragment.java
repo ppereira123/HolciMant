@@ -20,7 +20,7 @@ public class GalleryFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private TabItem tab1, tab2;
+    private TabItem tab1, tab2, tab3;
     private PagerAdapter pagerAdapter;
     private GalleryViewModel galleryViewModel;
 
@@ -41,10 +41,11 @@ public class GalleryFragment extends Fragment {
         tabLayout= (TabLayout) root.findViewById(R.id.tablayout);
         tab1 = (TabItem) root.findViewById(R.id.tab1);
         tab2 = (TabItem) root.findViewById(R.id.tab2);
+        tab2 = (TabItem) root.findViewById(R.id.tab3);
         viewPager = root.findViewById(R.id.viewpager);
 
 
-        pagerAdapter= new PagerAdapter (getActivity().getSupportFragmentManager(), 2);
+        pagerAdapter= new PagerAdapter (getActivity().getSupportFragmentManager(), 3);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

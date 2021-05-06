@@ -24,7 +24,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0: return new Generar();
             case 1: return new Guardadas();
-          
+            case 2: return new Pendientes();
             default: return null;}
     }
 

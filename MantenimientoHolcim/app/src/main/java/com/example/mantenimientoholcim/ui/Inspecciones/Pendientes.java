@@ -2,65 +2,109 @@ package com.example.mantenimientoholcim.ui.Inspecciones;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.mantenimientoholcim.Adaptadores.AdaptadorInspeccionesRealizadas;
+import com.example.mantenimientoholcim.Adaptadores.AdaptadorListPendientes;
+import com.example.mantenimientoholcim.Modelo.InspeccionTipo1;
+import com.example.mantenimientoholcim.Modelo.PendientesInspeciones;
+import com.example.mantenimientoholcim.Modelo.RealizacionInspeccion;
 import com.example.mantenimientoholcim.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Pendientes#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+
+import static com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspeccion.diferenciaDias;
+
+
 public class Pendientes extends Fragment {
+    View root;
+    ListView listPendientes;
+    TextView txtaviso;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public Pendientes() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Pendientes.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Pendientes newInstance(String param1, String param2) {
-        Pendientes fragment = new Pendientes();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pendientes, container, false);
+        root=inflater.inflate(R.layout.fragment_pendientes, container, false);
+        listPendientes=root.findViewById(R.id.listPendientes);
+        txtaviso=root.findViewById(R.id.txtaviso);
+        Date d=new Date();
+        SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
+        String fechacActual = fecc.format(d);
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        DatabaseReference myRef=database.getReference("RealizacionInspecciones");
+        myRef.keepSynced(true);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<RealizacionInspeccion> listitems=new ArrayList<>();
+                if(snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        GenericTypeIndicator<RealizacionInspeccion> t = new GenericTypeIndicator<RealizacionInspeccion>() {};
+                        RealizacionInspeccion m = ds.getValue(t);
+                        try {
+                            if (diferenciaDias(m.getSiguientefecha(),fechacActual)<=15){
+                                listitems.add(m);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Collections.sort(listitems, new Comparator<RealizacionInspeccion>() {
+                            @Override
+                            public int compare(RealizacionInspeccion o1, RealizacionInspeccion o2) {
+                                int x=0;
+
+                                try {
+                                     x=diferenciaDias(o1.getSiguientefecha(),o2.getSiguientefecha());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                return x;
+                            }
+
+
+                        });
+
+                        AdaptadorListPendientes adaptador= new AdaptadorListPendientes(root.getContext(), listitems );
+                        listPendientes.setAdapter(adaptador);
+                        if(listitems.size()>0){
+                            txtaviso.setVisibility(View.GONE);
+                        }
+
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        return root;
     }
 }
