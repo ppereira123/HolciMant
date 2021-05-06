@@ -14,10 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.mantenimientoholcim.CrearItem;
-import com.example.mantenimientoholcim.ListAdapterItem;
+import com.example.mantenimientoholcim.Adaptadores.ListAdapterItem;
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
 import com.example.mantenimientoholcim.Modelo.UsersData;

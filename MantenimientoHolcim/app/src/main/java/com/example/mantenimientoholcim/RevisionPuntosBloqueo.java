@@ -7,28 +7,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
+import com.example.mantenimientoholcim.Adaptadores.ListAdapterPuntosDeBloqueo;
 import com.example.mantenimientoholcim.Modelo.PuntoBloqueo;
 import com.example.mantenimientoholcim.Modelo.RevisionPuntoBloqueo;
+import com.example.mantenimientoholcim.ui.Inspecciones.CrearPuntodeBloqueo;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.mantenimientoholcim.PlantillasInspeccion.variarFecha;
+import static com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspeccion.variarFecha;
 
 public class RevisionPuntosBloqueo extends AppCompatActivity {
     RecyclerView rvPuntosBloqueo;
@@ -95,7 +92,7 @@ public class RevisionPuntosBloqueo extends AppCompatActivity {
     }
 
     public void maspuntodebloqueo(View view){
-        Intent intent= new Intent(context,CrearPuntodeBloqueo.class);
+        Intent intent= new Intent(context, CrearPuntodeBloqueo.class);
 
         nombre=txtNombre.getText().toString();
         fecha=txtFecha.getText().toString();

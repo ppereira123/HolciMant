@@ -5,6 +5,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
+    <!--permisos de alarma-->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- MAKE ALARMS RESTART ON REBOOT -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -22,9 +34,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
-        <activity android:name=".VistaHistorialPrestamos" android:screenOrientation="portrait"></activity>
-        <activity android:name=".buscarInspeccionItem" android:screenOrientation="portrait"/>
-        <activity android:name=".Splash" android:screenOrientation="portrait">
+        <activity android:name=".Herramientas.VistaHistorialPrestamos" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Herramientas.buscarInspeccionItem" android:screenOrientation="portrait"/>
+        <activity android:name=".Signin.Splash" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,12 +58,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".VerInspeccion" android:screenOrientation="portrait"/>
-        <activity android:name=".CrearPuntodeBloqueo" android:screenOrientation="portrait"/>
+        <activity android:name=".Herramientas.VerInspeccion" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Inspecciones.CrearPuntodeBloqueo" android:screenOrientation="portrait"/>
         <activity android:name=".Signin.LoginFireBase" android:screenOrientation="portrait"></activity>
         <activity android:name=".RevisionPuntosBloqueo"  android:screenOrientation="portrait"/>
-        <activity android:name=".PlantillasInspeccion" android:screenOrientation="portrait"/>
-        <activity android:name=".CrearItem" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Inspecciones.PlantillasInspeccion" android:screenOrientation="portrait"/>
+        <activity android:name=".Herramientas.CrearItem" android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
