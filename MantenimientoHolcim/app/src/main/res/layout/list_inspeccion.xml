@@ -51,11 +51,33 @@
                     android:gravity="center"
                     android:text="NO OK" />
 
-                <TextView
-                    android:id="@+id/txtNum"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_observacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtobservacion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Agregar observación"
+                            android:textColor="#304FFE" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 

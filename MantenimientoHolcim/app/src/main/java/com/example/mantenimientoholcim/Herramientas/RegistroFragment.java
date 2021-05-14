@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.mantenimientoholcim.Adaptadores.ListAdapterItem;
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Item;
+import com.example.mantenimientoholcim.Modelo.RealizacionInspeccion;
 import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,8 +28,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspeccion.diferenciaDias;
 
 
 public class RegistroFragment extends Fragment {
@@ -108,6 +114,12 @@ public class RegistroFragment extends Fragment {
             }
 
         }
+        Collections.sort(listitems, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return (o1.getDescripcion().compareTo(o2.getDescripcion()));
+            }
+        });
         ListAdapterItem adapterItem= new ListAdapterItem(milista, root.getContext());
         rvItems.setAdapter(adapterItem);
 
@@ -141,6 +153,12 @@ public class RegistroFragment extends Fragment {
                 }
                 listitems=items;
                 rvItems=root.findViewById(R.id.rvHerramientas);
+                Collections.sort(items, new Comparator<Item>() {
+                    @Override
+                    public int compare(Item o1, Item o2) {
+                        return (o1.getDescripcion().compareTo(o2.getDescripcion()));
+                    }
+                });
                 ListAdapterItem li= new ListAdapterItem(items,root.getContext());
                 rvItems.setHasFixedSize(true);
                 rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -156,15 +174,7 @@ public class RegistroFragment extends Fragment {
 
 
     }
-    void actualizarDatos(){
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Items");
-        myRef.keepSynced(true);
-        /*for (Item i:listitems){
-            if(listitems[i].)
-        }
-*/
-    }
+ 
 
     public boolean isAtLeast(Lifecycle.State state) {
         return false;

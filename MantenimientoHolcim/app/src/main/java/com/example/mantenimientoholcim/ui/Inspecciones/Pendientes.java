@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import static com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspecci
 public class Pendientes extends Fragment {
     View root;
     ListView listPendientes;
+    private SwipeRefreshLayout swipe;
     TextView txtaviso;
 
 
@@ -49,6 +51,19 @@ public class Pendientes extends Fragment {
         root=inflater.inflate(R.layout.fragment_pendientes, container, false);
         listPendientes=root.findViewById(R.id.listPendientes);
         txtaviso=root.findViewById(R.id.txtaviso);
+        swipe=root.findViewById(R.id.swipePedientes);
+       cargarItems();
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarItems();
+            }
+        });
+
+
+        return root;
+    }
+    public void cargarItems(){
         Date d=new Date();
         SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
         String fechacActual = fecc.format(d);
@@ -64,7 +79,7 @@ public class Pendientes extends Fragment {
                         GenericTypeIndicator<RealizacionInspeccion> t = new GenericTypeIndicator<RealizacionInspeccion>() {};
                         RealizacionInspeccion m = ds.getValue(t);
                         try {
-                            if (diferenciaDias(m.getSiguientefecha(),fechacActual)<=15){
+                            if (diferenciaDias(m.getSiguientefecha(),fechacActual)<=30){
                                 listitems.add(m);
                             }
                         } catch (ParseException e) {
@@ -76,7 +91,7 @@ public class Pendientes extends Fragment {
                                 int x=0;
 
                                 try {
-                                     x=diferenciaDias(o1.getSiguientefecha(),o2.getSiguientefecha());
+                                    x=diferenciaDias(o1.getSiguientefecha(),o2.getSiguientefecha());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -91,6 +106,7 @@ public class Pendientes extends Fragment {
                         if(listitems.size()>0){
                             txtaviso.setVisibility(View.GONE);
                         }
+                        swipe.setRefreshing(false);
 
 
 
@@ -103,8 +119,5 @@ public class Pendientes extends Fragment {
 
             }
         });
-
-
-        return root;
     }
 }

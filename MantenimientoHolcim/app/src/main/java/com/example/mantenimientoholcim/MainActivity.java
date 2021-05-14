@@ -2,19 +2,25 @@ package com.example.mantenimientoholcim;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Alarma.AlarmReceiver;
+import com.example.mantenimientoholcim.Alarma.ExampleJobService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Context context=this;
 
     private AppBarConfiguration mAppBarConfiguration;
+    private  static final String TAG= MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
         checkVersion();
 
 
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,6 +158,39 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+/*
+    //tareas por cronograma
+    public void scheduleJob(){
+        ComponentName componentName=new ComponentName(this, ExampleJobService.class);
+        JobInfo info = new JobInfo.Builder(123,componentName)
+                .setRequiresCharging(true)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler=(JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode=scheduler.schedule(info);
+        if(resultCode==JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG,"Job schelued");
+
+
+        }else{
+            Log.d(TAG,"Job scheduling failed");
+
+        }
+
+    }
+    public void cancelJob(){
+        JobScheduler scheduler= (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(123);
+        Log.d(TAG,"Job cancel");
+
+
+    }
+
+*/
+
+    //tareas por cronograma
 
 
 

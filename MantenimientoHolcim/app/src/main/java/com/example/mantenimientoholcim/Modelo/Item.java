@@ -19,6 +19,7 @@ public class Item implements Serializable {
     public Item() {
     }
 
+
     public Item(String codigo, String marca, String descripcion, String observacion, int stock, int stockDisponible, String ubicacion, int vidaUtil, String tipoInspeccion, String estante) {
         this.codigo = codigo;
         this.marca = marca;

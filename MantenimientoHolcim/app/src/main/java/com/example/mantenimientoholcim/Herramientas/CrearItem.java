@@ -1,10 +1,12 @@
 package com.example.mantenimientoholcim.Herramientas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +25,17 @@ import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CrearItem extends AppCompatActivity {
     EditText descripcionTxt,marcaTxt,observacionTxt,codigoTxt;
@@ -39,7 +47,9 @@ public class CrearItem extends AppCompatActivity {
     DatabaseReference refItem;
     String codigo="";
     Item item=null;
-    Button btnGenerar, btnsubirItem, btnotraubicacion;
+    boolean x=true;
+
+    Button btnsubirItem, btnotraubicacion;
     int stock=1;
     ArrayAdapter<String> adapterestanteSpinner;
     String estanteSeleccionado="";
@@ -48,9 +58,7 @@ public class CrearItem extends AppCompatActivity {
     AlertDialog alert;
     LayoutInflater mInflater;
 
-    public CrearItem(){
 
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +66,7 @@ public class CrearItem extends AppCompatActivity {
         setContentView(R.layout.activity_crear_item);
         descripcionTxt=findViewById(R.id.descripciontxt);
         marcaTxt=findViewById(R.id.marcatxt);
-        btnGenerar=findViewById(R.id.btnGenerar);
+
         observacionTxt=findViewById(R.id.observacion);
         vidaUtilTxt=findViewById(R.id.vidaUtilNp);
 
@@ -103,7 +111,7 @@ public class CrearItem extends AppCompatActivity {
                 ubicacionSpinner.setVisibility(View.GONE);
                 tipoInspeccionspinner.setVisibility(View.GONE);
                 estanteSpinner.setVisibility(View.GONE);
-                btnGenerar.setVisibility(View.GONE);
+
                 btnsubirItem.setVisibility(View.GONE);
                 btnotraubicacion.setVisibility(View.GONE);
                 vidaUtilTxt.setEnabled(false);
@@ -332,60 +340,102 @@ public class CrearItem extends AppCompatActivity {
         String codigocambio=codigoTxt.getText().toString();
         boolean cambio=codigocambio.contains("/");
         boolean cambio2=codigocambio.contains(".");
-        if(cambio==true||cambio2==true){
-            codigoTxt.setText("");
-            Toast.makeText(context, "No puede escribir codigos con '.' o '/'", Toast.LENGTH_SHORT).show();
+        boolean cambio3=codigocambio.contains("-");
+        boolean net=!isOnlineNet();
+
+        if(item!=null){
+            cambio3=true;
+            net=false;
         }
-        else {
-            String descripcion=descripcionTxt.getText().toString();
-            String marca=marcaTxt.getText().toString();
-            String observacion=observacionTxt.getText().toString();
-            int vidaUtil=vidaUtilTxt.getValue();
-            if(!generarCodigo){
-                codigo=codigoTxt.getText().toString();
-                FirebaseDatabase database= FirebaseDatabase.getInstance();
-                refItem=database.getReference("Items").child(codigo);
-            }
-            String error="";
-            if(codigo.equals("")){
-                error=error+" Codigo";
-            }
-            if(descripcion.equals("")){
-                error=error+" DESCRIPCION";
-            }
-            if(error.equals("")){
+        if(net){
+            Toast.makeText(context, "No existe conexión a internet, busque un punto con acceso a internet o intentelo más tarde ", Toast.LENGTH_SHORT).show();
+        }else{
+            if((cambio || cambio2 || cambio3) == true){
+                codigoTxt.setText("");
+                Toast.makeText(context, "No puede escribir codigos con '-','.' o '/'", Toast.LENGTH_SHORT).show();
+
+            }else if(comprobarcodigo()){
+
+                Toast.makeText(context, "Codigo ya existe en la base de datos", Toast.LENGTH_SHORT).show();
+
+            } else {
+                String descripcion=descripcionTxt.getText().toString();
+                String marca=marcaTxt.getText().toString();
+                String observacion=observacionTxt.getText().toString();
+                int vidaUtil=vidaUtilTxt.getValue();
+                if(!generarCodigo){
+                    codigo=codigoTxt.getText().toString();
+                    FirebaseDatabase database= FirebaseDatabase.getInstance();
+                    refItem=database.getReference("Items").child(codigo);
+                }
+                String error="";
+                if(codigo.equals("")){
+                    error=error+" Codigo";
+                }
+                if(descripcion.equals("")){
+                    error=error+" DESCRIPCION";
+                }
+                if(error.equals("")){
 
 
-                Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,txtubicacion.getText().toString(),vidaUtil,txttipo.getText().toString(),txtestante.getText().toString());
-                refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(CrearItem.this, "Item creado correctamente", Toast.LENGTH_SHORT).show();
+                    Item item= new Item(codigo,marca,descripcion,observacion,stock,stock,txtubicacion.getText().toString(),vidaUtil,txttipo.getText().toString(),txtestante.getText().toString());
+                    refItem.setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(CrearItem.this, "Item creado correctamente", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    finish();
+                }
+                else{
+                    Toast.makeText(this, "Falta completar:"+error, Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+        }
+
+
+
+
+
+    }
+    public boolean comprobarcodigo(){
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        DatabaseReference myRef= database.getReference("Items");
+        myRef.keepSynced(true);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        String codigo= ds.child("codigo").getValue().toString();
+                        if (codigoTxt.getText().toString().equals(codigo)){
+                            x=false;
+                        }
                     }
-                });
+                }
 
-                finish();
             }
-            else{
-                Toast.makeText(this, "Falta completar:"+error, Toast.LENGTH_LONG).show();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
-
-        }
-
-
-
+        });
+        return x;
     }
 
     public void editarDatos(Item item){
         titulotxt.setText("Editar item");
         estanteSeleccionado=item.getEstante();
         ubicacion=item.getUbicacion();
-        codigo=item.getCodigo();
+        codigo=item.getCodigo().toString();
         tipoInspeccion=item.getTipoInspeccion();
         descripcionTxt.setText(item.getDescripcion());
         codigoTxt.setText(item.getCodigo());
         codigoTxt.setKeyListener(null);
-        btnGenerar.setVisibility(View.GONE);
+
         marcaTxt.setText(item.getMarca());
         observacionTxt.setText(item.getObservacion());
         vidaUtilTxt.setValue(item.getVidaUtil());
@@ -395,5 +445,20 @@ public class CrearItem extends AppCompatActivity {
         txttipo.setText(item.getTipoInspeccion());
 
 
+    }
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

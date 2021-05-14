@@ -1359,7 +1359,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
                                     builder.setCanceledOnTouchOutside(false);
                                     builder.setTitle("Alerta");
                                     builder.setIcon(R.drawable.advertencia);
-                                    builder.setMessage("Esta inspección ya fue realizada para este periodo, faltan "+dias+" días para que llegue la fecha de la siguiente inspección pero puede ser realizada hasta 10 días antes del "+fecha);
+                                    builder.setMessage("Esta inspección ya fue realizada para este periodo, faltan "+dias+" días para que llegue la fecha de la siguiente inspección pero puede ser realizada hasta 15 días antes del "+fecha);
                                     builder.setCancelable(false);
 
                                     builder.setButton(AlertDialog.BUTTON_POSITIVE, "ok", new DialogInterface.OnClickListener() {
