@@ -14,6 +14,9 @@ public class InspeccionTipo1 implements Serializable {
     String ubicacion;
     HashMap<String, ElementInspeccion> valores;
 
+    public InspeccionTipo1() {
+    }
+
     public InspeccionTipo1(String enuunciado, String nombreInspector, String fechaInspeccion, String codigo) {
         this.enuunciado = enuunciado;
         this.nombreInspector = nombreInspector;

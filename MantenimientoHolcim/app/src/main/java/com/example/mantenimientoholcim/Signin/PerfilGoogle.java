@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.Signin.LoginFireBase;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -25,6 +26,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -38,12 +46,16 @@ public class PerfilGoogle extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
     Context context;
+    InternalStorage storage;
+    boolean admin;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root =inflater.inflate(R.layout.fragment_perfil_google, container, false);
+        storage=new InternalStorage();
+        context=root.getContext();
 
         txt_id = root.findViewById(R.id.txt_userId);
         txt_name = root.findViewById(R.id.txt_nombre);
@@ -88,6 +100,55 @@ public class PerfilGoogle extends Fragment {
                 });
             }
         });
+
+
+
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        String uid= currentUser.getUid();
+        String correo=currentUser.getEmail();
+        DatabaseReference myRef= database.getReference("admins").child(uid);
+        myRef.keepSynced(true);
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.child("correo").exists()){
+
+                        if(snapshot.child("correo").getValue().toString().equals(correo)){
+                            if(snapshot.child("tipo").exists()){
+                                if(snapshot.child("tipo").getValue().toString().equals("admin")){
+                                    Toast.makeText(context, "vale", Toast.LENGTH_SHORT).show();
+                                    admin=true;
+                                }else {
+
+                                    admin=false;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                try {
+                    UsersData data= new UsersData(admin,currentUser.getUid(),currentUser.getDisplayName(), currentUser.getPhotoUrl().toString(),currentUser.getEmail());
+                    storage.guardarArchivo(data,getContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
         return root;
     }
+
 }

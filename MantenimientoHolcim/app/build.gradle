@@ -22,7 +22,7 @@ android {
         minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
-        versionName "1.12"
+        versionName "1.121"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -86,10 +86,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     compileOnly 'com.google.android.wearable:wearable:2.6.0'
 
-
-
-
     //Google drive
+
 
 
 }

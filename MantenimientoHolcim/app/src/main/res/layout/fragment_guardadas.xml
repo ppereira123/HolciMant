@@ -23,11 +23,24 @@
 
         </androidx.appcompat.widget.SearchView>
 
-        <ListView
-            android:id="@+id/listInspeccionesrealizadas"
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeGuardadas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbarStyle="outsideOverlay" />
+            android:layout_height="wrap_content">
+
+
+            <ListView
+                android:id="@+id/listInspeccionesrealizadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarStyle="outsideOverlay" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
     </LinearLayout>
 
 </LinearLayout>
