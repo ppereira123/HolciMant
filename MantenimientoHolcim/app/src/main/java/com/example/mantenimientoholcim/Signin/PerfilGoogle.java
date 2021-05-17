@@ -106,7 +106,7 @@ public class PerfilGoogle extends Fragment {
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         String uid= currentUser.getUid();
         String correo=currentUser.getEmail();
-        DatabaseReference myRef= database.getReference("admins").child(uid);
+        DatabaseReference myRef= database.getReference("Taller").child("admins").child(uid);
         myRef.keepSynced(true);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {

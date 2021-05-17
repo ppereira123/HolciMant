@@ -4,6 +4,7 @@ public class RealizacionInspeccion {
     String codigo;
     String siguientefecha;
     String tipoInspeccion;
+    String tipo;
 
     public RealizacionInspeccion() {
     }
@@ -12,6 +13,21 @@ public class RealizacionInspeccion {
         this.codigo = codigo;
         this.siguientefecha = siguientefecha;
         this.tipoInspeccion = tipoInspeccion;
+    }
+
+    public RealizacionInspeccion(String codigo, String siguientefecha, String tipoInspeccion, String tipo) {
+        this.codigo = codigo;
+        this.siguientefecha = siguientefecha;
+        this.tipoInspeccion = tipoInspeccion;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getTipoInspeccion() {

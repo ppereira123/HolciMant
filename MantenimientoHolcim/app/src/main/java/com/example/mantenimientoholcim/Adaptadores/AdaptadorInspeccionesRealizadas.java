@@ -244,7 +244,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
 
 
         //title row
-        Row titleRow = sheet.createRow(0);
+        int nRow=0;
+        Row titleRow = sheet.createRow(nRow);
         titleRow.setHeightInPoints(20);
         Cell titleCell = titleRow.createCell(0);
         titleCell.setCellValue(inspecion.getEnuunciado());
@@ -252,7 +253,9 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$K$1"));
 
 
-        Row row = sheet.createRow(1);
+
+        nRow=nRow+1;
+        Row row = sheet.createRow(nRow);
         Cell cell = row.createCell(0);
         cell.setCellValue("Empresa: ");
         cell.setCellStyle(styles.get("item_left1"));
@@ -262,7 +265,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         cell.setCellStyle(styles.get("item_left"));
         sheet.addMergedRegion(CellRangeAddress.valueOf("$C$2:$D$2"));
 
-        row = sheet.createRow(2);
+        nRow=nRow+1;
+        row = sheet.createRow(nRow);
         cell = row.createCell(0);
         cell.setCellValue("Fecha: ");
         cell.setCellStyle(styles.get("item_left1"));
@@ -273,7 +277,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         sheet.addMergedRegion(CellRangeAddress.valueOf("$C$3:$F$3"));
 
 
-        row = sheet.createRow(3);
+        nRow=nRow+1;
+        row = sheet.createRow(nRow);
         cell = row.createCell(0);
         cell.setCellValue("Inspector: ");
         cell.setCellStyle(styles.get("item_left1"));
@@ -284,7 +289,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         sheet.addMergedRegion(CellRangeAddress.valueOf("$C$4:$F$4"));
 
 
-        row = sheet.createRow(4);
+        nRow=nRow+1;
+        row = sheet.createRow(nRow);
         cell = row.createCell(0);
         cell.setCellValue("Código: ");
         cell.setCellStyle(styles.get("item_left1"));
@@ -293,7 +299,8 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         cell.setCellValue(inspecion.getCodigo());
         cell.setCellStyle(styles.get("item_left"));
         sheet.addMergedRegion(CellRangeAddress.valueOf("$C$5:$F$5"));
-        row = sheet.createRow(5);
+        nRow=nRow+1;
+        row = sheet.createRow(nRow);
         cell = row.createCell(0);
         cell.setCellValue("Ubicación: ");
         cell.setCellStyle(styles.get("item_left1"));
@@ -321,6 +328,16 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
         cell = row.createCell(10);
         cell.setCellValue("NO OK");
         cell.setCellStyle(styles.get("header"));
+
+        cell = row.createCell(11);
+        cell.setCellValue("Obervación");
+        cell.setCellStyle(styles.get("header"));
+        sheet.addMergedRegion(new CellRangeAddress(
+                6, //first row (0-based)
+                6, //last row  (0-based)
+                11, //first column (0-based)
+                12 //last column  (0-based)
+        ));
 
 
         ///item
@@ -371,6 +388,21 @@ public class AdaptadorInspeccionesRealizadas extends BaseAdapter {
                 //no ok
 
             }
+            cell.setCellStyle(styles.get("cell"));
+            cell = row.createCell(11);
+            cell.setCellValue(entry.getValue().getObservacion());
+            cell.setCellStyle(styles.get("cell"));
+            cell = row.createCell(12);
+            cell.setCellStyle(styles.get("cell"));
+            sheet.addMergedRegion(new CellRangeAddress(
+                    i + 7, //first row (0-based)
+                    i + 7, //last row  (0-based)
+                    11, //first column (0-based)
+                    12 //last column  (0-based)
+            ));
+
+
+
             i=i+1;
 
         }

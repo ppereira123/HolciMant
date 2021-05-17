@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
@@ -56,10 +57,16 @@ public class AdapterList_verInspeccion extends BaseAdapter {
         }
         ElementInspeccion currentItem = (ElementInspeccion) getItem(position);
         TextView enunciadoTv= (TextView) convertView.findViewById(R.id.txtenunciado);
+        TextView txtobservacion= convertView.findViewById(R.id.txtobservacionVista);
+        LinearLayout vistaobsrvacion=convertView.findViewById(R.id.linearlayoutvista);
         CheckBox ok,nook;
         ok= convertView.findViewById(R.id.ok);
         nook=convertView.findViewById(R.id.nok);
         enunciadoTv.setText(currentItem.getEnunciado());
+        if(!currentItem.getObservacion().equals("")){
+            vistaobsrvacion.setVisibility(View.VISIBLE);
+            txtobservacion.setText("Observación:"+currentItem.getObservacion());
+        }
         if (currentItem.getOk().equals("OK")){
             ok.setChecked(true);
             ok.setEnabled(false);

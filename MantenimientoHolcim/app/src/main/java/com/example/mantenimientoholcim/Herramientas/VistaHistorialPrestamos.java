@@ -59,7 +59,7 @@ public class VistaHistorialPrestamos extends AppCompatActivity {
 
         String codigo= getIntent().getStringExtra("codigo");
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference ref=database.getReference("Prestamos").child(codigo);
+        DatabaseReference ref=database.getReference("Taller").child("Prestamos").child(codigo);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        DatabaseReference myRef = database.getReference("Caracteristicas");
+        DatabaseReference myRef = database.getReference("Taller").child("Caracteristicas");
         myRef.child("Version").
 
             addValueEventListener(new ValueEventListener() {

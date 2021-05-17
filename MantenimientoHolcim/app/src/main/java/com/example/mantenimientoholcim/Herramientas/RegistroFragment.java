@@ -128,7 +128,7 @@ public class RegistroFragment extends Fragment {
     void cargarItems(){
 
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Items");
+        DatabaseReference myRef= database.getReference("Taller").child("Items");
         myRef.keepSynced(true);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -138,7 +138,7 @@ public class EscanerFragment extends DialogFragment {
             public void onClick(View v) {
 
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference myRef= database.getReference("Items");
+                    DatabaseReference myRef= database.getReference("Taller").child("Items");
                     myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -194,7 +194,7 @@ public class EscanerFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference myRef= database.getReference("Items");
+                    DatabaseReference myRef= database.getReference("Taller").child("Items");
                     myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -244,7 +244,7 @@ public class EscanerFragment extends DialogFragment {
             public void onClick(View v) {
 
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference myRef= database.getReference("Items");
+                    DatabaseReference myRef= database.getReference("Taller").child("Items");
                     myRef.child(codigoDiv).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -505,11 +505,11 @@ public class EscanerFragment extends DialogFragment {
 
     public void subirPrestamo(Prestamo prestamo,boolean prestado){
 
-            DatabaseReference refPrestamos=database.getReference("Prestamos").child(etcodigo);
+            DatabaseReference refPrestamos=database.getReference("Taller").child("Prestamos").child(etcodigo);
             refPrestamos.setValue(prestamo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    DatabaseReference ref= database.getReference("Items").child(codigoDiv).child("stockDisponible");
+                    DatabaseReference ref= database.getReference("Taller").child("Items").child(codigoDiv).child("stockDisponible");
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -567,7 +567,7 @@ public class EscanerFragment extends DialogFragment {
 
                 etcodigo=etcodigo.replace(".","").replace("/","").replace("$","");
                 codigoDiv=etcodigo.split("-")[0];
-                DatabaseReference ref= database.getReference("Items").child(codigoDiv);
+                DatabaseReference ref= database.getReference("Taller").child("Items").child(codigoDiv);
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -611,7 +611,7 @@ public class EscanerFragment extends DialogFragment {
     }
 
     private void obtenerPrestamo() {
-        DatabaseReference ref=database.getReference("Prestamos").child(etcodigo);
+        DatabaseReference ref=database.getReference("Taller").child("Prestamos").child(etcodigo);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
