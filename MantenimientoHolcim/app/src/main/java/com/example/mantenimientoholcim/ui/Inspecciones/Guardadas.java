@@ -100,9 +100,9 @@ public class Guardadas extends Fragment {
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
 
-        DatabaseReference myRef= database.getReference("Inspecciones");
+        DatabaseReference myRef= database.getReference("Taller").child("Inspecciones");
 
-    //  DatabaseReference refitems=database.getReference("RealizacionInspecciones");
+      //DatabaseReference refitems=database.getReference("Taller").child("RealizacionInspecciones");
 
 
         myRef.keepSynced(true);
@@ -130,7 +130,7 @@ public class Guardadas extends Fragment {
                                     String codigo = ds2.child("codigo").getValue().toString();
                                     String ubicacion = ds2.child("ubicacion").getValue().toString();
 /*
-                                RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proximaInspeccion,enunciado);
+                                RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proximaInspeccion,enunciado,"rutinaria");
                                 refitems.child(codigo).setValue(objeto);
                                 /*
                                 String[] partscodigo = codigo.split("-");
@@ -189,8 +189,9 @@ public class Guardadas extends Fragment {
                                         String key = ds3.getKey();
                                         String enun = ds3.child("enunciado").getValue().toString();
                                         String ok = ds3.child("ok").getValue().toString();
+                                        String observacion=ds3.child("observacion").getValue().toString();
                                         //myRef.child(ds.getKey()).child(ds2.getKey()).child("valores").child(key).child("observacion").setValue("");
-                                        ElementInspeccion itemInspeccion = new ElementInspeccion(enun, ok);
+                                        ElementInspeccion itemInspeccion = new ElementInspeccion(enun, ok,observacion);
                                         valores.put(key, itemInspeccion);
                                     }
                                     buscarlist = listitems;

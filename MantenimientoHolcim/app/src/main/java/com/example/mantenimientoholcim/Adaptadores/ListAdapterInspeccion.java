@@ -1,20 +1,26 @@
 package com.example.mantenimientoholcim.Adaptadores;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mantenimientoholcim.Modelo.ElementInspeccion;
 import com.example.mantenimientoholcim.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +30,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
     private LayoutInflater mInflater;
     private Context context;
     private HashMap<String, ElementInspeccion> valores= new HashMap<String, ElementInspeccion>();
+    String comentario3;
+
 
 
     public ListAdapterInspeccion(List<String> itemList, Context context){
@@ -56,6 +64,9 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        String comentario="";
+        String ok="";
+
         LinearLayout layou_observacion;
         TextView txtEnunciado,txtNum,txtobservacion;
         CheckBox checkOk,checkNOOK;
@@ -67,7 +78,7 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
             checkOk=view.findViewById(R.id.checkOK);
             checkNOOK=view.findViewById(R.id.checkNOOK);
             layou_observacion=view.findViewById(R.id.layout_observacion);
-            txtobservacion=view.findViewById(R.id.layout_observacion);
+            txtobservacion=view.findViewById(R.id.txtobservacion);
             this.view=view;
         }
 
@@ -99,7 +110,8 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 @Override
                 public void onClick(View v) {
                     checkNOOK.setChecked(false);
-                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"OK");
+                    ok="OK";
+                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,ok,comentario);
                     valores.put(pos,elementInspeccion);
                 }
             });
@@ -108,13 +120,22 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 @Override
                 public void onClick(View v) {
                     checkOk.setChecked(false);
-                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,"NO OK");
-                    valores.put(pos,elementInspeccion);
+                    ok="NO OK";
+                    comentario=AgregarComentario(comentario,ok,item,txtobservacion,pos,checkNOOK);
                 }
             });
             layou_observacion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(ok.equals("")){
+                        Toast.makeText(context, "Para agregar debe marcar 'OK' o 'NO OK' primero", Toast.LENGTH_SHORT).show();
+                    }else {
+
+                        comentario=AgregarComentario(comentario,ok,item,txtobservacion,pos,checkNOOK);
+
+                    }
+
+
 
 
                 }
@@ -125,5 +146,54 @@ public class ListAdapterInspeccion extends RecyclerView.Adapter<ListAdapterInspe
                 
 
         }
+    }
+    public String AgregarComentario(String comentario, String ok,String item,TextView txtobservacion,String pos, CheckBox checkNOOK){
+        comentario3="";
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        View view = mInflater.inflate(R.layout.dialog_comentarios, null);
+        TextInputEditText editcomentario;
+        TextView txtanterior;
+        editcomentario= view.findViewById(R.id.editobservacion);
+        txtanterior=view.findViewById(R.id.txtanterior);
+        builder.setTitle("Observación");
+        if(!comentario.equals("")){
+            txtanterior.setVisibility(View.VISIBLE);
+            txtanterior.setText("Comentario anterior: "+comentario);
+            builder.setTitle("Modificar Observación");
+        }
+        builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String comentario2= editcomentario.getText().toString();
+                if(comentario2.equals("")){
+                    checkNOOK.setChecked(false);
+                    Toast.makeText(context, "No hay nignun comentario", Toast.LENGTH_SHORT).show();
+                    comentario3=comentario;
+                }else {
+                    comentario3=comentario2;
+
+                    txtobservacion.setText("Modificar Observación");
+                    ElementInspeccion elementInspeccion= new ElementInspeccion(item,ok,comentario2);
+                    valores.put(pos,elementInspeccion);
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                checkNOOK.setChecked(false);
+                dialog.dismiss();
+            }
+        });
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+        return comentario3;
+
     }
 }

@@ -68,7 +68,7 @@ public class Pendientes extends Fragment {
         SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
         String fechacActual = fecc.format(d);
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef=database.getReference("RealizacionInspecciones");
+        DatabaseReference myRef=database.getReference("Taller").child("RealizacionInspecciones");
         myRef.keepSynced(true);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

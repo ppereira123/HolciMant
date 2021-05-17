@@ -267,7 +267,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
     void cargarInspecciones(){
         List<String> inspeccion0= new ArrayList<>();
-        inspeccion0.add("Inspeccione hebillas_anillas de cuerpo_broches_dedales y almohadillas. No hay distorsión, o tienen bordes agudos, ruidos, fracturas, o partes desgastadas.");
+        inspeccion0.add("Inspeccione hebillas-anillas de cuerpo-broches-dedales y almohadillas. No hay distorsión, o tienen bordes agudos, ruidos, fracturas, o partes desgastadas.");
         inspeccion0.add("Las hebillas trabajan libremente");
         inspeccion0.add("Revisar las costuras no deben existir hilos que se desprendan, sobre todo en los sitios de remate de hilo.");
         inspeccion0.add("Revise que las partes plásticas no presenten deformaciones o rotura");
@@ -759,15 +759,17 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
             if(error.equals("")){
 
-
-                if(contieneNOOK()){
+                if(contieneNOOK()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Calificación");
                     builder.setIcon(R.drawable.cancelar);
-                    builder.setMessage("Esta inspección no cumple con los requerimientos, no puede pegar la etiqueta de inspección hasta que el objeto inspeccionado cumpla con todos los parametros de inspección");
+                    builder.setMessage("Esta inspección no cumple con los requerimientos, no puede pegar la etiqueta de inspección hasta que el objeto inspeccionado cumpla con todos los parametros de inspección, una vez corregido los errores porfavor volver a realizar el checklist de inspección");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            crearInspeccion(true);
+
+
                             finish();
                         }
                     }).setNegativeButton("Corregir", new DialogInterface.OnClickListener() {
@@ -777,30 +779,11 @@ public class PlantillasInspeccion extends AppCompatActivity {
                         }
                     }).show();
                 }else {
-                    existeinspeccionReciente(fechaInspeccion.getText().toString(), editTextCodigo.getText().toString());
-                    if(!x){
-                        inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,ubicacion,valores);
-                        FirebaseDatabase database= FirebaseDatabase.getInstance();
-
-                        DatabaseReference ref1=database.getReference("Inspecciones").child(nombreInspeccion);
-                        DatabaseReference refitems=database.getReference("RealizacionInspecciones");
-                        RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proxima,nombreInspeccion);
-                        refitems.child(codigo).setValue(objeto);
-                        ref1.keepSynced(true);
-                        DatabaseReference ref2=ref1.push();
-                        ref2.keepSynced(true);
-                        ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        finish();
-
-                    }
-
+                    crearInspeccion(false);
 
                 }
+
+
 
             }
 
@@ -812,6 +795,50 @@ public class PlantillasInspeccion extends AppCompatActivity {
         }
 
 
+    }
+    void crearInspeccion(boolean corregir){
+        String inspector="";
+        String fechaI="";
+        String proxima="";
+        String codigo="";
+        String error="";
+        String ubicacion="";
+
+        HashMap<String, ElementInspeccion> valores=li.getValores();
+        inspector=nombreInspector.getText().toString();
+        fechaI=fechaInspeccion.getText().toString();
+        proxima=fechaProximaInspeccion.getText().toString();
+        codigo=editTextCodigo.getText().toString();
+        ubicacion=editTextubicacion.getText().toString();
+        existeinspeccionReciente(fechaInspeccion.getText().toString(), editTextCodigo.getText().toString());
+        if(!x){
+            inspeccionTipo1= new InspeccionTipo1(nombreInspeccion,inspector,fechaI,proxima,codigo,ubicacion,valores);
+            FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+            DatabaseReference ref1=database.getReference("Taller").child("Inspecciones").child(nombreInspeccion);
+            DatabaseReference refitems=database.getReference("Taller").child("RealizacionInspecciones");
+            String tipo="rutinaria";
+
+            if (corregir){
+                proxima=fechaInspeccion.getText().toString();
+                tipo="correccion";
+
+            }
+
+            RealizacionInspeccion objeto=new RealizacionInspeccion(codigo,proxima,nombreInspeccion,tipo);
+            refitems.child(codigo).setValue(objeto);
+            ref1.keepSynced(true);
+            DatabaseReference ref2=ref1.push();
+            ref2.keepSynced(true);
+            ref2.setValue(inspeccionTipo1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(context, "Se creo correctamente la inspeccion de: "+nombreInspeccion, Toast.LENGTH_SHORT).show();
+                }
+            });
+            finish();
+
+        }
     }
 
     /// crear excel
@@ -1337,7 +1364,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
     void existeinspeccionReciente(String fechahoy, String codigoInspeccion){
         x=false;
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("RealizacionInspecciones");
+        DatabaseReference myRef= database.getReference("Taller").child("RealizacionInspecciones");
         myRef.keepSynced(true);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

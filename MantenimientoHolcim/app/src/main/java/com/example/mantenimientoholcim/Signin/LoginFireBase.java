@@ -186,7 +186,7 @@ public class LoginFireBase extends AppCompatActivity {
 
                         FirebaseDatabase database= FirebaseDatabase.getInstance();
                         String uid= user.getUid();
-                        DatabaseReference myRef= database.getReference("admins").child(uid);
+                        DatabaseReference myRef= database.getReference("Taller").child("admins").child(uid);
                         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {

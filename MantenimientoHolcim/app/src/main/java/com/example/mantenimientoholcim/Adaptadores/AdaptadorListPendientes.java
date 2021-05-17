@@ -3,6 +3,7 @@ package com.example.mantenimientoholcim.Adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,9 @@ public class AdaptadorListPendientes extends BaseAdapter {
         txttipoinspeccion.setText(currentItem.getTipoInspeccion());
         txtultimainspeccion.setText(currentItem.getSiguientefecha());
         txtcdItem.setText(currentItem.getCodigo());
+        if(currentItem.getTipo().equals("correccion")){
+            txtcdItem.setBackgroundColor(Color.parseColor("#D32F2F"));
+        }
         Date d=new Date();
         SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
         String fechacActual = fecc.format(d);

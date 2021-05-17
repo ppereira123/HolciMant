@@ -43,7 +43,7 @@ public class buscarInspeccionItem extends AppCompatActivity {
     }
     void cargarItems(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Inspecciones");
+        DatabaseReference myRef= database.getReference("Taller").child("Inspecciones");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

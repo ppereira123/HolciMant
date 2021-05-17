@@ -207,7 +207,7 @@ public class CrearItem extends AppCompatActivity {
         generarCodigo=true;
         codigoTxt.setKeyListener(null);
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference ref= database.getReference("Items");
+        DatabaseReference ref= database.getReference("Taller").child("Items");
         ref.keepSynced(true);
         refItem=ref.push();
         codigo=refItem.getKey();
@@ -403,7 +403,7 @@ public class CrearItem extends AppCompatActivity {
     }
     public boolean comprobarcodigo(){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("Items");
+        DatabaseReference myRef= database.getReference("Taller").child("Items");
         myRef.keepSynced(true);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
