@@ -22,7 +22,7 @@ public class PagerAdapterhome extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return EscanerFragment.newInstance();
+            case 0: return new EscanerFragment();
             case 1: return new RegistroFragment();
             case 2: return new GeneradorQR();
             default: return null;}

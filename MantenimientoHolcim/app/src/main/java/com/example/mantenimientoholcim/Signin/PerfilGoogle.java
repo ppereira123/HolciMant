@@ -47,7 +47,7 @@ public class PerfilGoogle extends Fragment {
     private GoogleSignInOptions gso;
     Context context;
     InternalStorage storage;
-    boolean admin;
+    boolean admin=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,7 +118,6 @@ public class PerfilGoogle extends Fragment {
                         if(snapshot.child("correo").getValue().toString().equals(correo)){
                             if(snapshot.child("tipo").exists()){
                                 if(snapshot.child("tipo").getValue().toString().equals("admin")){
-                                    Toast.makeText(context, "vale", Toast.LENGTH_SHORT).show();
                                     admin=true;
                                 }else {
 
