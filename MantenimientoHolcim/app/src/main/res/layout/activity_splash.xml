@@ -21,8 +21,8 @@
 
     <TextView
         android:id="@+id/textViewSplash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="15dp"
         android:text="By"
         android:textColor="#959595"
         android:textSize="12sp"

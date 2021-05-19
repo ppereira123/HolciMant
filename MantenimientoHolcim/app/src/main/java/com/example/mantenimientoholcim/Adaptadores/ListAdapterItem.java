@@ -103,13 +103,13 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
         @Override
         public void onClick(View v) {
             FirebaseDatabase database=FirebaseDatabase.getInstance();
-            DatabaseReference refStock=database.getReference("Items").child(item.getCodigo());
+            DatabaseReference refStock=database.getReference("Taller").child("Items").child(item.getCodigo());
 
             switch (v.getId()){
                 case R.id.btnMas:
 
 
-                    DatabaseReference myRef= database.getReference("Items").child(item.getCodigo());
+                    DatabaseReference myRef= database.getReference("Taller").child("Items").child(item.getCodigo());
                     myRef.keepSynced(true);
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -132,7 +132,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
 
                 case R.id.btnMenos:
 
-                    DatabaseReference myRef2= database.getReference("Items").child(item.getCodigo());
+                    DatabaseReference myRef2= database.getReference("Taller").child("Items").child(item.getCodigo());
                     myRef2.keepSynced(true);
                     myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -178,7 +178,7 @@ public class ListAdapterItem extends RecyclerView.Adapter<ListAdapterItem.ViewHo
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK button
                             FirebaseDatabase database=FirebaseDatabase.getInstance();
-                            DatabaseReference refStock=database.getReference("Items").child(item.getCodigo());
+                            DatabaseReference refStock=database.getReference("Taller").child("Items").child(item.getCodigo());
                             refStock.removeValue();
                         }
                     });

@@ -57,6 +57,7 @@ public class CrearItem extends AppCompatActivity {
 
     AlertDialog alert;
     LayoutInflater mInflater;
+    ArrayList<String> listanueva;
 
 
 
@@ -154,7 +155,7 @@ public class CrearItem extends AppCompatActivity {
         estados.add(1,"En uso");
         estados.add(2,"Repuesto");
         String[] listanombre=getResources().getStringArray(R.array.combo_inspeccionesNombre);
-        ArrayList<String> listanueva = new ArrayList<String>();
+        listanueva = new ArrayList<String>();
         listanueva.add("N/A");
         for(int cnt=0;cnt<listanombre.length;cnt++)
         {
@@ -203,16 +204,6 @@ public class CrearItem extends AppCompatActivity {
 
     }
 
-    public void generarCodigo(View view){
-        generarCodigo=true;
-        codigoTxt.setKeyListener(null);
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference ref= database.getReference("Taller").child("Items");
-        ref.keepSynced(true);
-        refItem=ref.push();
-        codigo=refItem.getKey();
-        codigoTxt.setText(codigo);
-    }
 
 
 
@@ -334,6 +325,7 @@ public class CrearItem extends AppCompatActivity {
 
             }
         });
+        tipoInspeccionspinner.setSelection(listanueva.indexOf(tipoInspeccion));
     }
 
     public void subirItem(View view){
@@ -344,13 +336,15 @@ public class CrearItem extends AppCompatActivity {
         boolean net=!isOnlineNet();
 
         if(item!=null){
-            cambio3=true;
+            cambio3=false;
+            cambio2=false;
+            cambio=false;
             net=false;
         }
         if(net){
             Toast.makeText(context, "No existe conexión a internet, busque un punto con acceso a internet o intentelo más tarde ", Toast.LENGTH_SHORT).show();
         }else{
-            if((cambio || cambio2 || cambio3) == true){
+            if(cambio || cambio2 || cambio3){
                 codigoTxt.setText("");
                 Toast.makeText(context, "No puede escribir codigos con '-','.' o '/'", Toast.LENGTH_SHORT).show();
 
@@ -366,7 +360,7 @@ public class CrearItem extends AppCompatActivity {
                 if(!generarCodigo){
                     codigo=codigoTxt.getText().toString();
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    refItem=database.getReference("Items").child(codigo);
+                    refItem=database.getReference("Taller").child(("Items")).child(codigo);
                 }
                 String error="";
                 if(codigo.equals("")){
@@ -402,6 +396,7 @@ public class CrearItem extends AppCompatActivity {
 
     }
     public boolean comprobarcodigo(){
+        x=false;
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef= database.getReference("Taller").child("Items");
         myRef.keepSynced(true);
@@ -412,7 +407,7 @@ public class CrearItem extends AppCompatActivity {
                     for(DataSnapshot ds:snapshot.getChildren()){
                         String codigo= ds.child("codigo").getValue().toString();
                         if (codigoTxt.getText().toString().equals(codigo)){
-                            x=false;
+                            x=true;
                         }
                     }
                 }

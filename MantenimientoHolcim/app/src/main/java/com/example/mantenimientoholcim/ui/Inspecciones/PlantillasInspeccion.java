@@ -1380,7 +1380,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                if(dias>10){
+                                if(dias>15){
                                     x=true;
                                     AlertDialog builder = new AlertDialog.Builder(context).create();
                                     builder.setCanceledOnTouchOutside(false);
