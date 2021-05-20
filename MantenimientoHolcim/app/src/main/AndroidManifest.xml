@@ -30,10 +30,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
-        <activity android:name=".prueba">
-
-
-        </activity>
+        <activity android:name=".prueba"></activity>
         <activity
             android:name=".Herramientas.VistaHistorialPrestamos"
             android:screenOrientation="portrait" />
@@ -48,7 +45,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <meta-data

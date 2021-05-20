@@ -27,5 +27,10 @@
         android:name="com.example.mantenimientoholcim.Signin.PerfilGoogle"
         android:label="@string/perfil"
         tools:layout="@layout/fragment_perfil_google" />
+    <fragment
+        android:id="@+id/tareasFragment"
+        android:name="com.example.mantenimientoholcim.ui.Tareas.TareasFragment"
+        android:label="fragment_tareas"
+        tools:layout="@layout/fragment_tareas" />
 
 </navigation>
