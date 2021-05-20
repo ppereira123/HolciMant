@@ -17,6 +17,10 @@
             android:icon="@android:drawable/ic_menu_edit"
             android:title="@string/menu_gallery" />
         <item
+            android:id="@+id/tareasFragment"
+            android:icon="@drawable/tareasgeneral"
+            android:title="Tareas" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@android:drawable/ic_menu_help"
             android:title="@string/menu_slideshow" />
