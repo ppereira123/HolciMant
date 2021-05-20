@@ -57,6 +57,7 @@ public class CrearItem extends AppCompatActivity {
 
     AlertDialog alert;
     LayoutInflater mInflater;
+    ArrayList<String> listanueva;
 
 
 
@@ -154,7 +155,7 @@ public class CrearItem extends AppCompatActivity {
         estados.add(1,"En uso");
         estados.add(2,"Repuesto");
         String[] listanombre=getResources().getStringArray(R.array.combo_inspeccionesNombre);
-        ArrayList<String> listanueva = new ArrayList<String>();
+        listanueva = new ArrayList<String>();
         listanueva.add("N/A");
         for(int cnt=0;cnt<listanombre.length;cnt++)
         {
@@ -324,6 +325,7 @@ public class CrearItem extends AppCompatActivity {
 
             }
         });
+        tipoInspeccionspinner.setSelection(listanueva.indexOf(tipoInspeccion));
     }
 
     public void subirItem(View view){
