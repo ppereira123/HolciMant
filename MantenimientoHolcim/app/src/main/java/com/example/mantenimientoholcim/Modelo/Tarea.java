@@ -1,8 +1,9 @@
 package com.example.mantenimientoholcim.Modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tarea {
+public class Tarea implements Serializable {
     String codigo;
     String descripcion;
     String fechalimite;
@@ -33,13 +34,7 @@ public class Tarea {
         this.fechadeEnvio = fechadeEnvio;
     }
 
-    public String getEncargadosString(){
-        String encargadosjuntos="";
-        for (String encargado:encargados){
-            encargadosjuntos=encargadosjuntos+encargado+"\n";
-        }
-        return encargadosjuntos;
-    }
+
 
     public String getFechadeEnvio() {
         return fechadeEnvio;

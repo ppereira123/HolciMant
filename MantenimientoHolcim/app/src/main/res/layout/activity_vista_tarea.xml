@@ -35,7 +35,7 @@
                 android:id="@+id/editFechaLimitVistaTarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Fecha Limite" />
+                android:hint="Fecha Limite:" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,24 +51,29 @@
                 android:id="@+id/editEncargadosVistaTarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Encargados" />
+                android:hint="Encargados:" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+
+            android:id="@+id/textinputEstado"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:hint="Estado:"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
-            app:startIconDrawable="@drawable/descripcion">
+            app:startIconDrawable="@drawable/proceso">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editDescripcionVistaTarea"
+            <AutoCompleteTextView
+                android:id="@+id/autocompleteSpinnerEstado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descripción:" />
+                android:backgroundTint="@color/white" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <TextView
@@ -83,6 +88,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcComentarios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/rl"
@@ -115,7 +121,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#D8D5D5"
-                    app:cardCornerRadius="20dp"
+                    app:cardCornerRadius="15dp"
                     app:contentPadding="5dp">
 
                     <LinearLayout
@@ -133,7 +139,7 @@
                         </EditText>
 
                         <ImageButton
-                            android:id="@+id/imageButton"
+                            android:id="@+id/imgEnviarComentario"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/enviar" />

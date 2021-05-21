@@ -81,6 +81,7 @@ public class tareasporhacerFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        tareas.clear();
         database= FirebaseDatabase.getInstance();
         tareasdb=database.getReference("Taller").child("Tareas");
         tareasdb.keepSynced(true);
@@ -91,8 +92,6 @@ public class tareasporhacerFragment extends Fragment {
                 tarea.setCodigo(snapshot.getKey());
                 tareas.add(tarea);
                 displayTareas(tareas);
-
-
 
             }
 
