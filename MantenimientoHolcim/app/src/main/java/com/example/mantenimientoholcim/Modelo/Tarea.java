@@ -33,6 +33,14 @@ public class Tarea {
         this.fechadeEnvio = fechadeEnvio;
     }
 
+    public String getEncargadosString(){
+        String encargadosjuntos="";
+        for (String encargado:encargados){
+            encargadosjuntos=encargadosjuntos+encargado+"\n";
+        }
+        return encargadosjuntos;
+    }
+
     public String getFechadeEnvio() {
         return fechadeEnvio;
     }

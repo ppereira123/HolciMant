@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/purple_200"
+        app:cardBackgroundColor="@color/purple_700"
         app:cardCornerRadius="10dp"
         app:cardElevation="8dp">
 
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/estadotxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -33,7 +33,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/txtfechalimite"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -41,10 +41,10 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/estadotxt" />
 
                 <TextView
-                    android:id="@+id/textView31"
+                    android:id="@+id/txtresponsable"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -52,7 +52,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtfechalimite" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline7"
@@ -73,7 +73,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/txtdescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
