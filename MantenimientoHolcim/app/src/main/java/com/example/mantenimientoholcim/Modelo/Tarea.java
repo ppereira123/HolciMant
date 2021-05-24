@@ -1,8 +1,9 @@
 package com.example.mantenimientoholcim.Modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tarea {
+public class Tarea implements Serializable {
     String codigo;
     String descripcion;
     String fechalimite;
@@ -32,6 +33,8 @@ public class Tarea {
         this.comentarios = comentarios;
         this.fechadeEnvio = fechadeEnvio;
     }
+
+
 
     public String getFechadeEnvio() {
         return fechadeEnvio;

@@ -57,20 +57,12 @@
             android:clickable="true"
             android:src="@android:drawable/ic_input_add" />
 
-
-    </LinearLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRegistros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerviewTareas"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
