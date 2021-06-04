@@ -7,7 +7,14 @@ public class ComentarioTarea implements Serializable {
     String autor;
     String key;
 
+
     public ComentarioTarea() {
+    }
+
+
+    public ComentarioTarea(String comentario, String autor) {
+        this.comentario = comentario;
+        this.autor = autor;
     }
 
     public ComentarioTarea(String comentario, String autor, String key) {

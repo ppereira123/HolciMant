@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Adaptadores.AdapterTareas;
 import com.example.mantenimientoholcim.Modelo.ComentarioTarea;
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Tarea;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -57,6 +59,7 @@ public class tareasporhacerFragment extends Fragment {
     AdapterTareas tareasadapter;
     FirebaseDatabase database;
     DatabaseReference tareasdb;
+    UsersData userdata;
 
 
 
@@ -68,6 +71,7 @@ public class tareasporhacerFragment extends Fragment {
         context=root.getContext();
         recyclerView=root.findViewById(R.id.recyclerviewTareas);
         fabItem=root.findViewById(R.id.fabTareas);
+        userdata=new InternalStorage().cargarArchivo(context);
         fabItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,9 +196,12 @@ public class tareasporhacerFragment extends Fragment {
                 if(!editDescripcion.getText().toString().equals("")){
                     FirebaseDatabase database= FirebaseDatabase.getInstance();
                     DatabaseReference ref=database.getReference("Taller").child("Tareas");
+
                     ref.keepSynced(true);
                     DatabaseReference refId=ref.push();
                     String codigo=refId.getKey();
+
+
                     Tarea objeto= new Tarea(codigo,editDescripcion.getText().toString(),editFecha.getText().toString(),slectEncargados, "Pendiente","");
                     ref.child(codigo).setValue(objeto);
                     dialog.dismiss();
