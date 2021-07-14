@@ -59,6 +59,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
             holder.messageCV.setCardBackgroundColor(Color.parseColor("#1E88E5"));
             holder.tvtitle.setTextColor(Color.parseColor("#FFFFFF"));
             holder.tvname.setTextColor(Color.parseColor("#FFFFFF"));
+        }else {
+            holder.tvname.setText(message.getAutor());
         }
         holder.tvname.setText(message.getAutor());
         holder.tvtitle.setText(message.getComentario());

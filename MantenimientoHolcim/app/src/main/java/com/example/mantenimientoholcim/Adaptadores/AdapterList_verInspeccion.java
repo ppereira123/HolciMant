@@ -66,13 +66,24 @@ public class AdapterList_verInspeccion extends BaseAdapter {
         if(!currentItem.getObservacion().equals("")){
             vistaobsrvacion.setVisibility(View.VISIBLE);
             txtobservacion.setText("Observación:"+currentItem.getObservacion());
+        }else{
+            vistaobsrvacion.setVisibility(View.INVISIBLE);
+
         }
         if (currentItem.getOk().equals("OK")){
             ok.setChecked(true);
+            nook.setChecked(false);
             ok.setEnabled(false);
             nook.setEnabled(false);
-        }else {
+        }else if(currentItem.getOk().equals("NO OK")) {
             nook.setChecked(true);
+            ok.setChecked(false);
+            nook.setEnabled(false);
+            ok.setEnabled(false);
+
+        }else {
+            nook.setChecked(false);
+            ok.setChecked(false);
             nook.setEnabled(false);
             ok.setEnabled(false);
 

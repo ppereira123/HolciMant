@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         DatabaseReference myRef = database.getReference("Taller").child("Caracteristicas");
+        myRef.keepSynced(true);
         myRef.child("Version").
 
             addValueEventListener(new ValueEventListener() {
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 DatabaseReference ref = myRef.child("link");
+                                ref.keepSynced(true);
                                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {

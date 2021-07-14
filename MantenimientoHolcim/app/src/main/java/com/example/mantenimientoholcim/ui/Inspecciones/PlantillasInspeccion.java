@@ -703,7 +703,17 @@ public class PlantillasInspeccion extends AppCompatActivity {
         inspeccion34.add("El tomacorriente de 110/220 Vac:\n1.- Posee doble tapa\n2.- Posee la conexión a tierra\n3.- Las conexiones poseen prensacables");
         inspeccion34.add("Los tomacorrientes están  protegidos por un dispositivo de corriente residual aprobado, valorado a una corriente de desconexión de 30mA.");
         tipoInspecciones.add(inspeccion34);
-
+        List<String> inspeccion35= new ArrayList<>();
+        inspeccion35.add("No existen piezas desgastadas, agrietadas o distorsionadas tales como pasadores, rodamientos, ruedas, ejes, engranajes, rodillos, de bloqueo y dispositivos de sujeción, parachoques, y paradas");
+        inspeccion35.add("No existen miembros agrietados, deformes, corroídos");
+        inspeccion35.add("No existen pernos flojos o faltantes, tuercas, pernos, remaches");
+        inspeccion35.add("No existe polea y tambor agrietadas o desgastadas");
+        inspeccion35.add("No existe desgaste excesivo de las piezas del sistema de frenos");
+        inspeccion35.add("No existe desgaste excesivo de las ruedas dentadas de la cadena de transmisión y cadena de estiramiento unidad excesiva");
+        inspeccion35.add("No existe deterioro de los controladores, interruptores maestros, contactos, finales de carrera");
+        inspeccion35.add("Todas las señales de funciones, instrucción, precaución, y las etiquetas de advertencia o placas están legibles y en el equipo");
+        inspeccion35.add("Cable sin corrosión, aplastamiento permanente ni cables rotos");
+        tipoInspecciones.add(inspeccion35);
 
     }
 
@@ -1237,7 +1247,7 @@ public class PlantillasInspeccion extends AppCompatActivity {
 
 
     }
-    private static Map<String, CellStyle> createStyles(Workbook wb){
+    public static Map<String, CellStyle> createStyles(Workbook wb){
         Map<String, CellStyle> styles = new HashMap<>();
         CellStyle style;
         Font titleFont = wb.createFont();

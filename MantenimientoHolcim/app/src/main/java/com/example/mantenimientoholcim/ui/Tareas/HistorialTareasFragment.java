@@ -1,66 +1,145 @@
 package com.example.mantenimientoholcim.ui.Tareas;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mantenimientoholcim.Adaptadores.AdapterTareas;
+import com.example.mantenimientoholcim.Modelo.InternalStorage;
+import com.example.mantenimientoholcim.Modelo.Tarea;
+import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistorialTareasFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class HistorialTareasFragment extends Fragment {
+    View root;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    RecyclerView recyclerView;
 
-    public HistorialTareasFragment() {
-        // Required empty public constructor
-    }
+    Context context;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HistorialTareasFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HistorialTareasFragment newInstance(String param1, String param2) {
-        HistorialTareasFragment fragment = new HistorialTareasFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    List<Tarea> tareas=new ArrayList<>();
+    AdapterTareas tareasadapter;
+    FirebaseDatabase database;
+    DatabaseReference tareasdb;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_historial_tareas, container, false);
+        root=inflater.inflate(R.layout.fragment_historial_tareas, container, false);
+        context=root.getContext();
+        recyclerView=root.findViewById(R.id.recyclerviewTareasHistorial);
+        return  root;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        tareas.clear();
+        database= FirebaseDatabase.getInstance();
+        tareasdb=database.getReference("Taller").child("Tareas");
+        tareasdb.keepSynced(true);
+        tareasdb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Tarea tarea=snapshot.getValue(Tarea.class);
+                tarea.setCodigo(snapshot.getKey());
+                if(tarea.getEstado().equals("Finalizada")){
+                    tareas.add(tarea);
+                    displayTareas(tareas);
+                }
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Tarea tarea=snapshot.getValue(Tarea.class);
+                tarea.setCodigo(snapshot.getKey());
+                if(tarea.getEstado().equals("Finalizada")){
+                    List<Tarea> nuevasTareas=new ArrayList<>();
+                    for(Tarea m:tareas)
+                    {
+                        if(m.getCodigo().equals(tarea.getCodigo())){
+                            nuevasTareas.add(tarea);
+                        }
+                        else {
+                            nuevasTareas.add(m);
+                        }
+
+                    }
+
+                    tareas=nuevasTareas;
+
+                    displayTareas(tareas);
+
+                }
+
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Tarea tarea=snapshot.getValue(Tarea.class);
+
+                tarea.setCodigo(snapshot.getKey());
+                if(tarea.getEstado().equals("Finalizada")){
+                    List<Tarea> nuevasTareas=new ArrayList<>();
+                    for(Tarea m:tareas)
+                    {
+                        if(!m.getCodigo().equals(tarea.getCodigo())){
+                            nuevasTareas.add(m);
+                        }
+
+
+                    }
+                    tareas=nuevasTareas;
+
+                    displayTareas(tareas);
+                }
+
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+    private void displayTareas(List<Tarea> tareas){
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        tareasadapter= new AdapterTareas(context,tareas,tareasdb);
+        recyclerView.setAdapter(tareasadapter);
     }
 }

@@ -94,8 +94,11 @@ public class tareasporhacerFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Tarea tarea=snapshot.getValue(Tarea.class);
                 tarea.setCodigo(snapshot.getKey());
-                tareas.add(tarea);
-                displayTareas(tareas);
+                if(!tarea.getEstado().equals("Finalizada")){
+                    tareas.add(tarea);
+                    displayTareas(tareas);
+                }
+
 
             }
 
@@ -103,21 +106,24 @@ public class tareasporhacerFragment extends Fragment {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Tarea tarea=snapshot.getValue(Tarea.class);
                 tarea.setCodigo(snapshot.getKey());
-                List<Tarea> nuevasTareas=new ArrayList<>();
-                for(Tarea m:tareas)
-                {
-                    if(m.getCodigo().equals(tarea.getCodigo())){
-                        nuevasTareas.add(tarea);
-                    }
-                    else {
-                        nuevasTareas.add(m);
+                if(!tarea.getEstado().equals("Finalizada")){
+                    List<Tarea> nuevasTareas=new ArrayList<>();
+                    for(Tarea m:tareas)
+                    {
+                        if(m.getCodigo().equals(tarea.getCodigo())){
+                            nuevasTareas.add(tarea);
+                        }
+                        else {
+                            nuevasTareas.add(m);
+                        }
+
                     }
 
+                    tareas=nuevasTareas;
+
+                    displayTareas(tareas);
                 }
 
-                tareas=nuevasTareas;
-
-                displayTareas(tareas);
 
             }
 
@@ -125,18 +131,22 @@ public class tareasporhacerFragment extends Fragment {
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Tarea tarea=snapshot.getValue(Tarea.class);
                 tarea.setCodigo(snapshot.getKey());
-                List<Tarea> nuevasTareas=new ArrayList<>();
-                for(Tarea m:tareas)
-                {
-                    if(!m.getCodigo().equals(tarea.getCodigo())){
-                        nuevasTareas.add(m);
+
+                if(!tarea.getEstado().equals("Finalizada")){
+                    List<Tarea> nuevasTareas=new ArrayList<>();
+                    for(Tarea m:tareas)
+                    {
+                        if(!m.getCodigo().equals(tarea.getCodigo())){
+                            nuevasTareas.add(m);
+                        }
+
+
                     }
+                    tareas=nuevasTareas;
 
-
+                    displayTareas(tareas);
                 }
-                tareas=nuevasTareas;
 
-                displayTareas(tareas);
 
             }
 

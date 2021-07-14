@@ -5,6 +5,16 @@ public class RealizacionInspeccion {
     String siguientefecha;
     String tipoInspeccion;
     String tipo;
+    String codUltimaInspeccion;
+
+    public RealizacionInspeccion(String codigo, String siguientefecha, String tipoInspeccion, String tipo, String codUltimaInspeccion) {
+        this.codigo = codigo;
+        this.siguientefecha = siguientefecha;
+        this.tipoInspeccion = tipoInspeccion;
+        this.tipo = tipo;
+        this.codUltimaInspeccion = codUltimaInspeccion;
+    }
+
 
     public RealizacionInspeccion() {
     }
@@ -20,6 +30,14 @@ public class RealizacionInspeccion {
         this.siguientefecha = siguientefecha;
         this.tipoInspeccion = tipoInspeccion;
         this.tipo = tipo;
+    }
+
+    public String getCodUltimaInspeccion() {
+        return codUltimaInspeccion;
+    }
+
+    public void setCodUltimaInspeccion(String codUltimaInspeccion) {
+        this.codUltimaInspeccion = codUltimaInspeccion;
     }
 
     public String getTipo() {

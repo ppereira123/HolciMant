@@ -75,6 +75,12 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        if(tarea.getEstado().equals(estados[2])){
+            holder.cvTareaG.setCardBackgroundColor(Color.parseColor("#9b9b9b"));
+            holder.cvTareaG.setRadius(0);
+            holder.cvtarea.setRadius(0);
+            holder.imgEstado.setImageResource(R.drawable.cheque);
+        }
         holder.cvtarea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

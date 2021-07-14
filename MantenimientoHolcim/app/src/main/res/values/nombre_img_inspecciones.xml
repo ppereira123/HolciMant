@@ -42,6 +42,8 @@
         <item>"@mipmap/chaleco"</item>
         <item>"@mipmap/extintor"</item>
         <item>"@mipmap/bateria"</item>
+        <item>"@mipmap/montacargas"</item>
         <item>"@mipmap/puntodebloqueo"</item>
+
     </string-array>
 </resources>

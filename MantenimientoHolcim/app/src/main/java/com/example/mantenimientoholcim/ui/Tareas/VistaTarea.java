@@ -61,6 +61,7 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference messagedb;
+    DatabaseReference tareasdb;
     List<String> encargadoslist;
     boolean[] checkedItems;
     List<String> slectEncargados=new ArrayList<>();
@@ -107,49 +108,56 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
         editEncargadosVistaTarea.setKeyListener(null);
         editEncargadosVistaTarea.setText(getEncargadosString(tarea.getEncargados()));
         autocompleteSpinnerEstado.setText(tarea.getEstado());
-        cambiarimagenEstado(estado);
-        ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
-        autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+        if(!tarea.getEstado().equals("Finalizada")){
+            escogerEncargador(context,editEncargadosVistaTarea);
+            cambiarimagenEstado(estado);
+            ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+            autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
 
-        autocompleteSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            autocompleteSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                if(position==2){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Tarea Finalizada");
-                    builder.setMessage("¿Seguro qué desea dar por finalizada esta tarea?");
-                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            estado=estados[position];
-                            cambiarimagenEstado(estado);
-                            autocompleteSpinnerEstado.setText(estado);
-                            ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
-                            autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+                    if(position==2){
+                        AlertDialog.Builder builder= new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Tarea Finalizada");
+                        builder.setMessage("¿Seguro qué desea dar por finalizada esta tarea?");
+                        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                estado=estados[position];
+                                cambiarimagenEstado(estado);
+                                autocompleteSpinnerEstado.setText(estado);
+                                ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+                                autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+                                estado=estados[position];
+                                subirEstado(estado);
+                                finish();
 
-                        }
-                    });
-                    builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog=builder.create();
-                    dialog.show();
-                }else {
-                    estado=estados[position];
+                            }
+                        });
+                        builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog dialog=builder.create();
+                        dialog.show();
+                    }else {
+                        estado=estados[position];
+                    }
+                    escogerEncargador(context,editEncargadosVistaTarea);
+                    cambiarimagenEstado(estado);
+                    autocompleteSpinnerEstado.setText(estado);
+                    subirEstado(estado);
+                    ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+                    autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
                 }
-                escogerEncargador(context,editEncargadosVistaTarea);
-                cambiarimagenEstado(estado);
-                autocompleteSpinnerEstado.setText(estado);
-                subirEstado(estado);
-                ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
-                autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
-            }
-        });
+            });
+        }
+
 
 
         //messeges
@@ -224,6 +232,78 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        tareasdb=database.getReference("Taller").child("Tareas").child(tarea.getCodigo());
+        tareasdb.keepSynced(true);
+        tareasdb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Tarea tarefirebase= snapshot.getValue(Tarea.class);
+                    tarea=tarefirebase;
+                    editEncargadosVistaTarea.setText(getEncargadosString(tarea.getEncargados()));
+                    autocompleteSpinnerEstado.setText(tarea.getEstado());
+                    if(!tarea.getEstado().equals("Finalizada")){
+                        escogerEncargador(context,editEncargadosVistaTarea);
+                        cambiarimagenEstado(estado);
+                        ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+                        autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+
+                        autocompleteSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                                if(position==2){
+                                    AlertDialog.Builder builder= new AlertDialog.Builder(view.getContext());
+                                    builder.setTitle("Tarea Finalizada");
+                                    builder.setMessage("¿Seguro qué desea dar por finalizada esta tarea?");
+                                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            estado=estados[position];
+                                            cambiarimagenEstado(estado);
+                                            autocompleteSpinnerEstado.setText(estado);
+                                            ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+                                            autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+                                            estado=estados[position];
+                                            subirEstado(estado);
+                                            finish();
+
+                                        }
+                                    });
+                                    builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    AlertDialog dialog=builder.create();
+                                    dialog.show();
+                                }else {
+                                    estado=estados[position];
+                                }
+                                escogerEncargador(context,editEncargadosVistaTarea);
+                                cambiarimagenEstado(estado);
+                                autocompleteSpinnerEstado.setText(estado);
+                                subirEstado(estado);
+                                ArrayAdapter<String> adapterTipoEstado=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,estados);
+                                autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
+                            }
+                        });
+                    }
+
+                }
 
             }
 

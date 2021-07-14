@@ -32,6 +32,7 @@ public class AdaptadorListPendientes extends BaseAdapter {
     private ArrayList<RealizacionInspeccion> listItems;
 
 
+
     public AdaptadorListPendientes() {
     }
 
@@ -73,17 +74,33 @@ public class AdaptadorListPendientes extends BaseAdapter {
         txttipoinspeccion.setText(currentItem.getTipoInspeccion());
         txtultimainspeccion.setText(currentItem.getSiguientefecha());
         txtcdItem.setText(currentItem.getCodigo());
-        if(currentItem.getTipo().equals("correccion")){
-            txtcdItem.setBackgroundColor(Color.parseColor("#D32F2F"));
-        }
         Date d=new Date();
         SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
         String fechacActual = fecc.format(d);
+        int diferenciadias=0;
         try {
-            txtdiasrestantes.setText(String.valueOf(diferenciaDias(currentItem.getSiguientefecha(),fechacActual)));
+            diferenciadias= diferenciaDias(currentItem.getSiguientefecha(),fechacActual);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        txtdiasrestantes.setText(String.valueOf(diferenciadias));
+
+        if(currentItem.getTipo().equals("correccion")){
+            txtcdItem.setBackgroundColor(Color.parseColor("#FFFE00"));
+        }else if(diferenciadias<0){
+            txtcdItem.setBackgroundColor(Color.parseColor("#D32F2F"));
+        }
+        else {
+            txtcdItem.setBackgroundColor(Color.parseColor("#1565C0"));
+
+        }
+
+
+
+
+
+
+
         String[] nombresdeinspeccion =convertView.getResources().getStringArray(R.array.combo_inspeccionesNombre);
         int posicion=posicionEnArreglo(nombresdeinspeccion,currentItem.getTipoInspeccion());
         View finalConvertView = convertView;

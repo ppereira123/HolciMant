@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/tareasFragment"
         android:name="com.example.mantenimientoholcim.ui.Tareas.TareasFragment"
-        android:label="fragment_tareas"
+        android:label="Tareas"
         tools:layout="@layout/fragment_tareas" />
 
 </navigation>

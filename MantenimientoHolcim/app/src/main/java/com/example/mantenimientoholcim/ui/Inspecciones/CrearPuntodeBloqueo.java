@@ -62,7 +62,6 @@ public class CrearPuntodeBloqueo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_crear_puntode_bloqueo);
         hac= findViewById(R.id.hac);
         ubicacion= findViewById(R.id.ubicacion);
@@ -119,6 +118,8 @@ public class CrearPuntodeBloqueo extends AppCompatActivity {
                 numero1 + elementos[t] + elementos[c]+ numero2 + "comprimido.jpg";
 
     }
+
+
 
     private File crearImagen() throws IOException{
         String nombreImagen = aleatoria;

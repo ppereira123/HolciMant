@@ -39,7 +39,7 @@ public class Generar extends Fragment {
         tipoInspecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==41){
+                if (position==42){
                     Intent intent= new Intent(root.getContext(), RevisionPuntosBloqueo.class);
                     startActivity(intent);
 
