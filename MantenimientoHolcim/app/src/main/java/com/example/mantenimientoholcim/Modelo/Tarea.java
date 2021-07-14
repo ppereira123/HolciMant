@@ -11,6 +11,9 @@ public class Tarea implements Serializable {
     String estado;
     List<ComentarioTarea> comentarios;
     String fechadeEnvio;
+    String dirImagen;
+    String codEquipo;
+    String tipo;
 
     public Tarea() {
     }
@@ -24,17 +27,38 @@ public class Tarea implements Serializable {
         this.fechadeEnvio = fechadeEnvio;
     }
 
-    public Tarea(String codigo, String descripcion, String fechalimite, List<String> encargados, String estado, List<ComentarioTarea> comentarios, String fechadeEnvio) {
+    public Tarea(String codigo, String descripcion, String estado, String dirImagen, String codEquipo, String tipo) {
         this.codigo = codigo;
         this.descripcion = descripcion;
-        this.fechalimite = fechalimite;
-        this.encargados = encargados;
         this.estado = estado;
-        this.comentarios = comentarios;
-        this.fechadeEnvio = fechadeEnvio;
+        this.dirImagen = dirImagen;
+        this.codEquipo = codEquipo;
+        this.tipo = tipo;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
 
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getCodEquipo() {
+        return codEquipo;
+    }
+
+    public void setCodEquipo(String codEquipo) {
+        this.codEquipo = codEquipo;
+    }
+
+    public void setDirImagen(String dirImagen) {
+        this.dirImagen = dirImagen;
+    }
+
+    public String getDirImagen() {
+        return dirImagen;
+    }
 
     public String getFechadeEnvio() {
         return fechadeEnvio;
