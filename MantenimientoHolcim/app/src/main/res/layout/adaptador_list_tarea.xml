@@ -19,7 +19,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cvTarea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             app:cardBackgroundColor="@color/tab"
             app:cardCornerRadius="10dp"
@@ -28,19 +28,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/txtdescripcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:text="Descripción"
-                    android:textColor="@color/purple_700" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -52,17 +42,54 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_end="52dp" />
+                        app:layout_constraintGuide_end="100dp" />
 
-                    <ImageView
-                        android:id="@+id/imgEstado"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guideline7"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/enproceso" />
+                    <LinearLayout
+                        android:id="@+id/linearLayoutt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textViewt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_weight="1"
+                                android:text="Descripción:"
+                                android:textColor="@color/purple_700"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toStartOf="@+id/txtdescripcion"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txtdescripcion"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="descripcion"
+                                android:textColor="@color/black"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/guideline20t"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.Guideline
+                                android:id="@+id/guideline20t"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintGuide_begin="117dp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/linearLayout8"
@@ -72,7 +99,7 @@
                         android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/guideline7"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutt">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -97,6 +124,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Estado:"
                                 android:textColor="@color/black"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="@+id/guideline20"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -130,7 +158,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:layout_weight="1"
-                                android:text="Fecha limite:"
+                                android:text="Fecha:"
                                 android:textColor="@color/purple_700"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toStartOf="@+id/txtfechalimite"
@@ -156,50 +184,55 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/imgFotoAdaptadorTarea"
                         android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline7"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/brand" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/txtcodEquipo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center"
+                            android:text="Codigo"
+                            android:textColor="@color/purple_700"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/textView3"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
-                                android:layout_weight="1"
-                                android:text="Responsable:"
-                                android:textColor="@color/purple_700"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toStartOf="@+id/txtresponsable"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="60dp" />
 
-                            <TextView
-                                android:id="@+id/txtresponsable"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:text="Responsable:"
-                                android:textColor="@color/black"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="@+id/guideline22"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.constraintlayout.widget.Guideline
-                                android:id="@+id/guideline22"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                app:layout_constraintGuide_begin="117dp" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
+                        <ImageView
+                            android:id="@+id/imgEstado"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="2dp"
+                            app:layout_constraintEnd_toStartOf="@+id/guideline19"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/enproceso" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,42 +6,65 @@ import java.util.List;
 public class Tarea implements Serializable {
     String codigo;
     String descripcion;
-    String fechalimite;
     List<String> encargados;
     String estado;
     List<ComentarioTarea> comentarios;
     String fechadeEnvio;
     String dirImagen;
     String codEquipo;
-    String tipo;
+    String autor;
 
     public Tarea() {
     }
 
-    public Tarea(String codigo, String descripcion, String fechalimite, List<String> encargados, String estado, String fechadeEnvio) {
+
+    public Tarea(String codigo, String descripcion, List<String> encargados, String estado, String fechadeEnvio, String dirImagen, String codEquipo, String autor) {
         this.codigo = codigo;
         this.descripcion = descripcion;
-        this.fechalimite = fechalimite;
+        this.encargados = encargados;
+        this.estado = estado;
+        this.fechadeEnvio = fechadeEnvio;
+        this.dirImagen = dirImagen;
+        this.codEquipo = codEquipo;
+        this.autor = autor;
+    }
+
+    public Tarea(String codigo, String descripcion, List<String> encargados, String estado, String fechadeEnvio) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
         this.encargados = encargados;
         this.estado = estado;
         this.fechadeEnvio = fechadeEnvio;
     }
 
-    public Tarea(String codigo, String descripcion, String estado, String dirImagen, String codEquipo, String tipo) {
+    public Tarea(String codigo, String descripcion, List<String> encargados, String estado, List<ComentarioTarea> comentarios, String fechadeEnvio, String dirImagen, String codEquipo, String autor) {
         this.codigo = codigo;
         this.descripcion = descripcion;
+        this.encargados = encargados;
         this.estado = estado;
+        this.comentarios = comentarios;
+        this.fechadeEnvio = fechadeEnvio;
         this.dirImagen = dirImagen;
         this.codEquipo = codEquipo;
-        this.tipo = tipo;
+        this.autor = autor;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Tarea(String codigo, String descripcion, List<String> encargados, String estado, String fechadeEnvio, String codEquipo, String autor) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+        this.encargados = encargados;
+        this.estado = estado;
+        this.fechadeEnvio = fechadeEnvio;
+        this.codEquipo = codEquipo;
+        this.autor = autor;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public String getCodEquipo() {
@@ -82,14 +105,6 @@ public class Tarea implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public String getFechalimite() {
-        return fechalimite;
-    }
-
-    public void setFechalimite(String fechalimite) {
-        this.fechalimite = fechalimite;
     }
 
     public List<String> getEncargados() {

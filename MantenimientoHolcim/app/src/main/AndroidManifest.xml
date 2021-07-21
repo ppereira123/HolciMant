@@ -30,7 +30,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MantenimientoHolcim">
-        <activity android:name=".ui.Tareas.VistaTarea"></activity>
+        <activity android:name=".ui.Tareas.NuevaTarea"></activity>
+        <activity android:name=".ui.Tareas.VistaTarea" />
         <activity android:name=".prueba" />
         <activity
             android:name=".Herramientas.VistaHistorialPrestamos"

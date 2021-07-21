@@ -25,9 +25,24 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
-                android:text="Nueva Tarea"
+                android:text="Nueva Novedad"
                 android:textColor="#304FFE"
                 android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/imgFotoTarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/btnInsertarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Insertar foto"
+                app:icon="@drawable/ic_menu_camera" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -57,22 +72,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Encargados" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="outline"
-                app:startIconDrawable="@drawable/calendario">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editFechaLimit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Fecha Limite" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

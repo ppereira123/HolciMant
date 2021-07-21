@@ -1,16 +1,20 @@
 package com.example.mantenimientoholcim.Adaptadores;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +23,7 @@ import com.example.mantenimientoholcim.R;
 import com.example.mantenimientoholcim.ui.Inspecciones.PlantillasInspeccion;
 import com.example.mantenimientoholcim.ui.Tareas.VistaTarea;
 import com.google.firebase.database.DatabaseReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -49,15 +54,43 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
     @Override
     public void onBindViewHolder(@NonNull AdapterTareasViewHolder holder, int position) {
-        Date d=new Date();
-        SimpleDateFormat fecc=new SimpleDateFormat("d/MM/yyyy");
-        String fechacActual = fecc.format(d);
+
         String[] estados=context.getResources().getStringArray(R.array.combo_estadoTareas);
         Tarea tarea= tareaslist.get(position);
-        holder.txtresponsable.setText(getEncargadosString(tarea.getEncargados()));
+        holder.txtcodEquipo.setText(tarea.getCodEquipo());
         holder.txtdescripcion.setText(tarea.getDescripcion());
         holder.txtestado.setText(tarea.getEstado());
-        holder.txtfecha.setText(tarea.getFechalimite());
+        holder.txtfecha.setText(tarea.getFechadeEnvio());
+
+
+        Picasso.with(context).load(tarea.getDirImagen()).into(holder.imgFotoAdaptadorTarea);
+        holder.imgFotoAdaptadorTarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle(tarea.getCodEquipo());
+                WebView wv = new WebView(context);
+                wv.loadUrl(tarea.getDirImagen());
+                wv.getSettings().setBuiltInZoomControls(true);
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+
+                alert.setView(wv);
+                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+            }
+        });
+
 
         if(tarea.getEstado().equals(estados[0])){
             holder.cvTareaG.setCardBackgroundColor(Color.parseColor("#1565C0"));
@@ -66,15 +99,7 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
             holder.cvTareaG.setCardBackgroundColor(Color.parseColor("#3DDC84"));
             holder.imgEstado.setImageResource(R.drawable.enproceso);
         }
-        try {
-            if (diferenciaDias(tarea.getFechalimite(),fechacActual)<0){
-                holder.cvTareaG.setCardBackgroundColor(Color.parseColor("#F41111"));
-                holder.imgEstado.setImageResource(R.drawable.atraso);
 
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         if(tarea.getEstado().equals(estados[2])){
             holder.cvTareaG.setCardBackgroundColor(Color.parseColor("#9b9b9b"));
             holder.cvTareaG.setRadius(0);
@@ -100,9 +125,9 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
     public class AdapterTareasViewHolder extends RecyclerView.ViewHolder
     {
-        TextView txtestado, txtfecha, txtdescripcion, txtresponsable;
+        TextView txtestado, txtfecha, txtdescripcion,txtcodEquipo;
         CardView cvtarea, cvTareaG;
-        ImageView imgEstado;
+        ImageView imgEstado,imgFotoAdaptadorTarea;
 
 
         public AdapterTareasViewHolder(@NonNull View itemView) {
@@ -110,10 +135,12 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
             txtestado= itemView.findViewById(R.id.estadotxt);
             txtfecha=itemView.findViewById(R.id.txtfechalimite);
             txtdescripcion=itemView.findViewById(R.id.txtdescripcion);
-            txtresponsable=itemView.findViewById(R.id.txtresponsable);
+            imgFotoAdaptadorTarea=itemView.findViewById(R.id.imgFotoAdaptadorTarea);
             cvtarea=itemView.findViewById(R.id.cvTarea);
             cvTareaG=itemView.findViewById(R.id.cvTareaG);
             imgEstado=itemView.findViewById(R.id.imgEstado);
+            txtcodEquipo=itemView.findViewById(R.id.txtcodEquipo);
+            imgFotoAdaptadorTarea=itemView.findViewById(R.id.imgFotoAdaptadorTarea);
 
 
         }

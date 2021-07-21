@@ -60,7 +60,7 @@ public class HistorialTareasFragment extends Fragment {
         super.onStart();
         tareas.clear();
         database= FirebaseDatabase.getInstance();
-        tareasdb=database.getReference("Taller").child("Tareas");
+        tareasdb=database.getReference("Taller").child("Novedades");
         tareasdb.keepSynced(true);
         tareasdb.addChildEventListener(new ChildEventListener() {
             @Override

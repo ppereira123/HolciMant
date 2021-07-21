@@ -54,4 +54,31 @@
         <item>Potencial</item>
         <item>Neumática</item>
     </string-array>
+    <string-array name="combo_inspeccion_equipo_movil">
+        <item>4F1</item>
+        <item>4F4</item>
+        <item>4F2</item>
+        <item>4F3</item>
+        <item>4B1</item>
+        <item>4B2</item>
+        <item>4K1</item>
+        <item>4K2</item>
+        <item>4K5</item>
+        <item>4K9</item>
+        <item>4K4</item>
+        <item>4D1</item>
+        <item>4D2</item>
+        <item>4C1</item>
+        <item>4C2</item>
+        <item>4C3</item>
+        <item>4H1</item>
+        <item>4J2</item>
+        <item>K01-4F2</item>
+        <item>K01-4F1</item>
+    </string-array>
+    <string-array name="combo_estadoNovedad">
+        <item>Pendiente</item>
+        <item>En proceso</item>
+        <item>Finalizada</item>
+    </string-array>
 </resources>

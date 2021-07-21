@@ -10,14 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ import static com.example.mantenimientoholcim.Adaptadores.AdapterTareas.getEncar
 
 public class VistaTarea extends AppCompatActivity implements View.OnClickListener{
     Tarea tarea;
-    TextView txtdescripcionVistaTarea;
+    TextView txtdescripcionVistaTarea, editTextCodEquipo;
     TextInputEditText editFechaLimitVistaTarea, editEncargadosVistaTarea;
     AutoCompleteTextView autocompleteSpinnerEstado;
     TextInputLayout textinputEstado;
@@ -66,6 +69,7 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
     boolean[] checkedItems;
     List<String> slectEncargados=new ArrayList<>();
     String [] arryaEncaragdos;
+    ImageView imgFotoVistaTarea;
 
 
 
@@ -79,15 +83,46 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
         estados=this.getResources().getStringArray(R.array.combo_estadoTareas);
         estado=tarea.getEstado();
 
+        //img
+        Picasso.with(context).load(tarea.getDirImagen()).into(imgFotoVistaTarea);
+        imgFotoVistaTarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle(tarea.getCodEquipo());
+                WebView wv = new WebView(context);
+                wv.loadUrl(tarea.getDirImagen());
+                wv.getSettings().setBuiltInZoomControls(true);
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+
+                alert.setView(wv);
+                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+            }
+        });
+
     }
 
     void  init(){
         setContentView(R.layout.activity_vista_tarea);
-        txtdescripcionVistaTarea=findViewById(R.id.txtdescripcionVistaTarea);
+        txtdescripcionVistaTarea=findViewById(R.id.edittextDescripcion);
+        imgFotoVistaTarea=findViewById(R.id.imgFotoVistaTarea);
         editEncargadosVistaTarea=findViewById(R.id.editEncargadosVistaTarea);
         editFechaLimitVistaTarea=findViewById(R.id.editFechaLimitVistaTarea);
         autocompleteSpinnerEstado=findViewById(R.id.autocompleteSpinnerEstado);
         textinputEstado=findViewById(R.id.textinputEstado);
+        editTextCodEquipo=findViewById(R.id.editTextCodEquipo);
 
         //message
         rvMessage=findViewById(R.id.rcComentarios);
@@ -96,18 +131,21 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
         //fin message
         imageButton.setOnClickListener(this);
         messages= new ArrayList<>();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         txtdescripcionVistaTarea.setText(tarea.getDescripcion());
-        editFechaLimitVistaTarea.setText(tarea.getFechalimite());
         editFechaLimitVistaTarea.setKeyListener(null);
+        editFechaLimitVistaTarea.setText(tarea.getFechadeEnvio());
         autocompleteSpinnerEstado.setKeyListener(null);
         editEncargadosVistaTarea.setKeyListener(null);
         editEncargadosVistaTarea.setText(getEncargadosString(tarea.getEncargados()));
         autocompleteSpinnerEstado.setText(tarea.getEstado());
+
+
         if(!tarea.getEstado().equals("Finalizada")){
             escogerEncargador(context,editEncargadosVistaTarea);
             cambiarimagenEstado(estado);
@@ -156,6 +194,13 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
                     autocompleteSpinnerEstado.setAdapter(adapterTipoEstado);
                 }
             });
+        }
+
+        if(tarea.getCodEquipo().equals("")){
+            editTextCodEquipo.setText("Tarea de Taller");
+        }else
+        {
+            editTextCodEquipo.setText(tarea.getCodEquipo());
         }
 
 
@@ -243,7 +288,7 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
 
 
 
-        tareasdb=database.getReference("Taller").child("Tareas").child(tarea.getCodigo());
+        tareasdb=database.getReference("Taller").child("Novedades").child(tarea.getCodigo());
         tareasdb.keepSynced(true);
         tareasdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -251,7 +296,12 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
                 if(snapshot.exists()){
                     Tarea tarefirebase= snapshot.getValue(Tarea.class);
                     tarea=tarefirebase;
-                    editEncargadosVistaTarea.setText(getEncargadosString(tarea.getEncargados()));
+                    if(tarea.getEncargados()==null){
+                        editEncargadosVistaTarea.setText("");
+                    }else{
+                        editEncargadosVistaTarea.setText(getEncargadosString(tarea.getEncargados()));
+                    }
+
                     autocompleteSpinnerEstado.setText(tarea.getEstado());
                     if(!tarea.getEstado().equals("Finalizada")){
                         escogerEncargador(context,editEncargadosVistaTarea);
@@ -486,14 +536,14 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
     }
     void subirEncargado(List<String> slectEncargados){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference ref=database.getReference("Taller").child("Tareas").child(tarea.getCodigo());
+        DatabaseReference ref=database.getReference("Taller").child("Novedades").child(tarea.getCodigo());
         ref.keepSynced(true);
         ref.child("encargados").setValue(slectEncargados);
 
     }
     void subirEstado(String estado){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference ref=database.getReference("Taller").child("Tareas").child(tarea.getCodigo());
+        DatabaseReference ref=database.getReference("Taller").child("Novedades").child(tarea.getCodigo());
         ref.keepSynced(true);
         ref.child("estado").setValue(estado);
 

@@ -1,9 +1,14 @@
 package com.example.mantenimientoholcim.ui.Tareas;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,15 +24,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.mantenimientoholcim.Adaptadores.AdapterTareas;
+import com.example.mantenimientoholcim.MainActivity;
 import com.example.mantenimientoholcim.Modelo.ComentarioTarea;
 import com.example.mantenimientoholcim.Modelo.InternalStorage;
 import com.example.mantenimientoholcim.Modelo.Tarea;
 import com.example.mantenimientoholcim.Modelo.UsersData;
 import com.example.mantenimientoholcim.R;
+import com.example.mantenimientoholcim.RevisionPuntosBloqueo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.ChildEventListener;
@@ -37,10 +45,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import id.zelory.compressor.Compressor;
+
+import static android.app.Activity.RESULT_OK;
+import static com.theartofdev.edmodo.cropper.CropImage.getPickImageResultUri;
 
 
 public class tareasporhacerFragment extends Fragment {
@@ -60,7 +80,12 @@ public class tareasporhacerFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference tareasdb;
     UsersData userdata;
-
+    Bitmap thumb_bitmap= null;
+    byte[] thumb_byte;
+//
+    TextInputEditText editDescripcion, editEncargados;
+    ImageView imgFotoTarea;
+//
 
 
     @Override
@@ -75,20 +100,23 @@ public class tareasporhacerFragment extends Fragment {
         fabItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nuevaTarea(context);
+                Intent intent= new Intent(root.getContext(), NuevaTarea.class);
+                startActivity(intent);
 
             }
         });
         return root;
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
         tareas.clear();
         database= FirebaseDatabase.getInstance();
-        tareasdb=database.getReference("Taller").child("Tareas");
-        tareasdb.keepSynced(true);
+        tareasdb=database.getReference("Taller").child("Novedades");
+
         tareasdb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -174,200 +202,9 @@ public class tareasporhacerFragment extends Fragment {
         super.onResume();
     }
 
-    void nuevaTarea(Context context){
-        if(encargadoslist!=null){
-            encargadoslist.clear();
-        }
-        if(slectEncargados!=null){
-            slectEncargados.clear();
-        }
-
-
-        mInflater=LayoutInflater.from(context);
-
-        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        View view = mInflater.inflate(R.layout.adapter_dialog_crear_tarea, null);
-        TextInputEditText editDescripcion, editEncargados, editFecha;
-        Button subir,cancelar;
-        subir=view.findViewById(R.id.btnsubirTarea);
-        cancelar=view.findViewById(R.id.btncancelarTarea);
-        editDescripcion=view.findViewById(R.id.editDescripcion);
-        editEncargados=view.findViewById(R.id.editEncargados);
-        editFecha=view.findViewById(R.id.editFechaLimit);
-        escogerEncargador(context,editEncargados);
-        configFecha(editFecha);
-
-        builder.setView(view);
-        AlertDialog dialog=builder.create();
-        dialog.show();
-        subir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!editDescripcion.getText().toString().equals("")){
-                    FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference ref=database.getReference("Taller").child("Tareas");
-
-                    ref.keepSynced(true);
-                    DatabaseReference refId=ref.push();
-                    String codigo=refId.getKey();
-
-
-                    Tarea objeto= new Tarea(codigo,editDescripcion.getText().toString(),editFecha.getText().toString(),slectEncargados, "Pendiente","");
-                    ref.child(codigo).setValue(objeto);
-                    dialog.dismiss();
-
-                }else Toast.makeText(context, "Debe llenar la descripción", Toast.LENGTH_SHORT).show();
-            }
-        });
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
 
 
 
-    }
-    void escogerEncargador(Context context, TextInputEditText editEncargados){
-
-        editEncargados.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-
-                    List<String> encargadosSeleccionados=new ArrayList<>();
-                    encargadoslist=new ArrayList<>();
-                    encargadoslist.add("Todos");
-                    FirebaseDatabase database= FirebaseDatabase.getInstance();
-                    DatabaseReference ref=database.getReference("Taller").child("Miembros");
-                    ref.keepSynced(true);
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
-                                List<String> m = snapshot.getValue(t);
-                                for(String miembro:m){
-                                    encargadoslist.add(miembro);
-                                }
-
-                                checkedItems=new boolean[encargadoslist.size()];
-                                arryaEncaragdos=new String[encargadoslist.size()];
-
-                                for(int i=0;i<encargadoslist.size();i=i+1){
-                                    arryaEncaragdos[i]=encargadoslist.get(i);
-                                    checkedItems[i]=false;
-                                }
-
-
-                                AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
-                                builder.setTitle("Escoger encragados para la tarea");
-                                builder.setMultiChoiceItems(arryaEncaragdos, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                        if(arryaEncaragdos[which].equals("Todos")){
-
-                                            final AlertDialog alertDialog = (AlertDialog) dialog;
-                                            final ListView alertDialogList = alertDialog.getListView();
-
-                                            for (int position = 0; position < alertDialogList.getChildCount(); position++)
-                                            {
-                                                if (position != which) {
-                                                    if(isChecked){
-                                                        alertDialogList.getChildAt(position).setVisibility(View.GONE);
-                                                        encargadosSeleccionados.clear();
-                                                        encargadosSeleccionados.add(arryaEncaragdos[which]);
-                                                    }else {
-                                                        encargadosSeleccionados.clear();
-                                                        alertDialogList.getChildAt(position).setVisibility(View.VISIBLE);
-                                                    }
-
-
-
-                                                }
-                                            }
-                                        }else {
-                                            if(encargadosSeleccionados.contains("Todos")){
-                                                encargadosSeleccionados.remove(encargadosSeleccionados.indexOf("Todos"));
-                                            }
-
-                                            if(encargadosSeleccionados.contains(arryaEncaragdos[which])){
-                                                encargadosSeleccionados.remove(encargadosSeleccionados.indexOf(arryaEncaragdos[which]));
-
-                                            }
-                                            else {
-                                                encargadosSeleccionados.add(arryaEncaragdos[which]);
-                                            }
-
-                                        }
-
-
-
-
-                                    }
-                                });
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        slectEncargados.clear();
-                                        editEncargados.clearFocus();
-
-                                        if(!encargadosSeleccionados.contains("Todos")){
-                                            int cont=0;
-
-                                            for(boolean seleccionado:checkedItems){
-                                                if(seleccionado){
-                                                    slectEncargados.add(arryaEncaragdos[cont]);
-
-                                                }
-                                                cont++;
-                                            }
-
-                                        }else {
-                                            slectEncargados.add("Todos");
-
-
-                                        }
-                                        String muestra="";
-                                        for(String s: slectEncargados){
-                                            muestra=muestra+s+"\n";
-                                        }
-                                        editEncargados.setText(muestra);
-
-
-
-                                    }
-                                });
-                                builder.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        editEncargados.clearFocus();
-                                    }
-                                });
-
-                                AlertDialog dialog=builder.create();
-                                dialog.show();
-                            }
-                            else{
-                                Toast.makeText(root.getContext(), "No existe referencia", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    editEncargados.clearFocus();
-                }
-            }
-        });
-
-
-    }
     private void configFecha(TextInputEditText tietFecha) {
         Calendar calendar= Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
