@@ -3,6 +3,7 @@ package com.example.mantenimientoholcim.Adaptadores;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,8 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -37,12 +41,11 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
     Context context;
     List<Tarea> tareaslist;
-    DatabaseReference tareasDb;
 
-    public AdapterTareas(Context context, List<Tarea> tareaslist, DatabaseReference tareasDb) {
+
+    public AdapterTareas(Context context, List<Tarea> tareaslist) {
         this.context = context;
         this.tareaslist = tareaslist;
-        this.tareasDb = tareasDb;
     }
 
     @NonNull
@@ -57,39 +60,56 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
         String[] estados=context.getResources().getStringArray(R.array.combo_estadoTareas);
         Tarea tarea= tareaslist.get(position);
-        holder.txtcodEquipo.setText(tarea.getCodEquipo());
+
         holder.txtdescripcion.setText(tarea.getDescripcion());
         holder.txtestado.setText(tarea.getEstado());
         holder.txtfecha.setText(tarea.getFechadeEnvio());
 
+        Resources res = context.getResources();
+        List<String> nombre_equipos = Arrays.asList(res.getStringArray(R.array.combo_inspeccion_equipo_movil));
+        if(nombre_equipos.contains(tarea.getCodEquipo())){
+            holder.txtcodEquipo.setText(tarea.getCodEquipo());
+        }else
+        {
+            holder.txtcodEquipo.setText("Tarea del taller");
+        }
 
-        Picasso.with(context).load(tarea.getDirImagen()).into(holder.imgFotoAdaptadorTarea);
-        holder.imgFotoAdaptadorTarea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle(tarea.getCodEquipo());
-                WebView wv = new WebView(context);
-                wv.loadUrl(tarea.getDirImagen());
-                wv.getSettings().setBuiltInZoomControls(true);
-                wv.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
-                });
 
-                alert.setView(wv);
-                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
-            }
-        });
+        if(tarea.getDirImagen()==null){
+            holder.imgFotoAdaptadorTarea.setVisibility(View.GONE);
+        }else {
+
+            Picasso.with(context).load(tarea.getDirImagen()).into(holder.imgFotoAdaptadorTarea);
+            holder.imgFotoAdaptadorTarea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle(tarea.getCodEquipo());
+                    WebView wv = new WebView(context);
+                    wv.loadUrl(tarea.getDirImagen());
+                    wv.getSettings().setBuiltInZoomControls(true);
+                    wv.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            view.loadUrl(url);
+                            return true;
+                        }
+                    });
+
+                    alert.setView(wv);
+                    alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
+                }
+            });
+
+
+        }
+
 
 
         if(tarea.getEstado().equals(estados[0])){

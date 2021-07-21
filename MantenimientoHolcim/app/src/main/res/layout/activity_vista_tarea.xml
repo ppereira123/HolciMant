@@ -19,17 +19,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/imgFotoVistaTarea"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:background="#00FFFFFF"
-            android:src="@drawable/ingeniero" />
+            android:src="@drawable/ingeniero"
+            android:visibility="visible" />
     </LinearLayout>
 
     <LinearLayout
