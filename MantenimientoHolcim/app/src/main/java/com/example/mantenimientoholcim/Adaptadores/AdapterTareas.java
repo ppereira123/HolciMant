@@ -64,6 +64,7 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
         holder.txtdescripcion.setText(tarea.getDescripcion());
         holder.txtestado.setText(tarea.getEstado());
         holder.txtfecha.setText(tarea.getFechadeEnvio());
+        holder.txtautor.setText(tarea.getAutor());
 
         Resources res = context.getResources();
         List<String> nombre_equipos = Arrays.asList(res.getStringArray(R.array.combo_inspeccion_equipo_movil));
@@ -145,7 +146,7 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
     public class AdapterTareasViewHolder extends RecyclerView.ViewHolder
     {
-        TextView txtestado, txtfecha, txtdescripcion,txtcodEquipo;
+        TextView txtestado, txtfecha, txtdescripcion,txtcodEquipo,txtautor;
         CardView cvtarea, cvTareaG;
         ImageView imgEstado,imgFotoAdaptadorTarea;
 
@@ -160,6 +161,7 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
             cvTareaG=itemView.findViewById(R.id.cvTareaG);
             imgEstado=itemView.findViewById(R.id.imgEstado);
             txtcodEquipo=itemView.findViewById(R.id.txtcodEquipo);
+            txtautor=itemView.findViewById(R.id.txtautor);
             imgFotoAdaptadorTarea=itemView.findViewById(R.id.imgFotoAdaptadorTarea);
 
 

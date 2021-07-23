@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
@@ -22,6 +23,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -53,6 +57,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -69,22 +74,17 @@ public class tareasporhacerFragment extends Fragment {
     SearchView searchView;
     private FloatingActionButton fabItem;
     RecyclerView recyclerView;
-    private LayoutInflater mInflater;
     Context context;
-    List<String> encargadoslist;
-    boolean[] checkedItems;
-    List<String> slectEncargados=new ArrayList<>();
-    String [] arryaEncaragdos;
     List<Tarea> tareas=new ArrayList<>();
     AdapterTareas tareasadapter;
     FirebaseDatabase database;
     DatabaseReference tareasdb;
     UsersData userdata;
-    Bitmap thumb_bitmap= null;
-    byte[] thumb_byte;
-//
-    TextInputEditText editDescripcion, editEncargados;
-    ImageView imgFotoTarea;
+    AutoCompleteTextView autocompleteSpinnerFiltroGuardadas;
+    int posFiltro=0;
+    String[] opcfiltro;
+    String stringbusqueda="";
+
 //
 
 
@@ -96,7 +96,10 @@ public class tareasporhacerFragment extends Fragment {
         context=root.getContext();
         recyclerView=root.findViewById(R.id.recyclerviewTareas);
         fabItem=root.findViewById(R.id.fabTareas);
+        searchView=root.findViewById(R.id.buscartTareas);
+        autocompleteSpinnerFiltroGuardadas=root.findViewById(R.id.autocompleteSpinnerFiltroGuardadas);
         userdata=new InternalStorage().cargarArchivo(context);
+
         fabItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +108,77 @@ public class tareasporhacerFragment extends Fragment {
 
             }
         });
+
+        autocompleteSpinnerFiltroGuardadas.setKeyListener(null);
+        opcfiltro= new String[]{"Codigo", "Autor", "Descripción"};
+        setfiltro();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                buscar(s);
+                stringbusqueda=s;
+
+                return true;
+            }
+        });
         return root;
+    }
+    private void setfiltro() {
+        ArrayAdapter<String> adapterfiltro=new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,opcfiltro);
+        autocompleteSpinnerFiltroGuardadas.setAdapter(adapterfiltro);
+        autocompleteSpinnerFiltroGuardadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                posFiltro=position;
+
+            }
+        });
+    }
+
+    void buscar(String s) {
+        ArrayList<Tarea>  milista = new ArrayList<>();
+        for (Tarea obj: tareas){
+            switch (posFiltro){
+                case 0:
+                    if(!obj.getCodEquipo().equals("")){
+
+                        if(obj.getCodEquipo().toLowerCase().contains(s.toLowerCase())){
+                            milista.add(obj);
+                        }
+                    }else {
+                        if("Tarea del taller".toLowerCase().contains(s.toLowerCase())){
+                            milista.add(obj);
+                        }
+
+                    }
+
+
+                    break;
+                case 1:
+                    if(obj.getAutor().toLowerCase().contains(s.toLowerCase())){
+                        milista.add(obj);
+                    }
+                    break;
+                case 2:
+                    if(obj.getDescripcion().toLowerCase().contains(s.toLowerCase())){
+                        milista.add(obj);
+                    }
+
+                    break;
+            }
+
+
+        }
+        displayTareas(milista);
+
+
     }
 
 
@@ -124,7 +197,11 @@ public class tareasporhacerFragment extends Fragment {
                 tarea.setCodigo(snapshot.getKey());
                 if(!tarea.getEstado().equals("Finalizada")){
                     tareas.add(tarea);
-                    displayTareas(tareas);
+                    if(stringbusqueda.equals("")){
+                        displayTareas(tareas);
+                    }else {
+                        buscar(stringbusqueda);
+                    }
                 }
 
 
@@ -149,7 +226,11 @@ public class tareasporhacerFragment extends Fragment {
 
                     tareas=nuevasTareas;
 
-                    displayTareas(tareas);
+                    if(stringbusqueda.equals("")){
+                        displayTareas(tareas);
+                    }else {
+                        buscar(stringbusqueda);
+                    }
                 }
 
 
@@ -172,7 +253,11 @@ public class tareasporhacerFragment extends Fragment {
                     }
                     tareas=nuevasTareas;
 
-                    displayTareas(tareas);
+                    if(stringbusqueda.equals("")){
+                        displayTareas(tareas);
+                    }else {
+                        buscar(stringbusqueda);
+                    }
                 }
 
 
@@ -193,7 +278,7 @@ public class tareasporhacerFragment extends Fragment {
     }
     private void displayTareas(List<Tarea> tareas){
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        tareasadapter= new AdapterTareas(context,tareas,tareasdb);
+        tareasadapter= new AdapterTareas(context,tareas);
         recyclerView.setAdapter(tareasadapter);
     }
 
@@ -205,48 +290,4 @@ public class tareasporhacerFragment extends Fragment {
 
 
 
-    private void configFecha(TextInputEditText tietFecha) {
-        Calendar calendar= Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        tietFecha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        month = month+1;
-                        String date= day+"/"+month+"/"+year;
-                        tietFecha.setText(date);
-                        tietFecha.clearFocus();
-
-
-                    }
-
-                },year,month,day);
-                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == DialogInterface.BUTTON_NEGATIVE) {
-                            dialog.dismiss();
-                            tietFecha.clearFocus();
-
-                        }
-
-                    }
-                });
-
-                if(hasFocus){
-                    datePickerDialog.show();
-                }
-                else{
-                    datePickerDialog.dismiss();
-                    tietFecha.clearFocus();
-                }
-
-            }
-        });
-    }
 }

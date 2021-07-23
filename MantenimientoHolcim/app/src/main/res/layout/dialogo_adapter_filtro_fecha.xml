@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinputlayoutFechadesde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:startIconDrawable="@drawable/calendario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editFechadesde"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha desde:"
+            android:textColor="@color/black"
+            android:textColorHint="@color/ic_launcher_background" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinputlayoutFechahasta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:startIconDrawable="@drawable/calendario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editFechahasta"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha hasta:"
+            android:textColor="@color/black"
+            android:textColorHint="@color/ic_launcher_background" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</LinearLayout>

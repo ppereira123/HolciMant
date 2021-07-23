@@ -83,34 +83,42 @@ public class VistaTarea extends AppCompatActivity implements View.OnClickListene
         estados=this.getResources().getStringArray(R.array.combo_estadoTareas);
         estado=tarea.getEstado();
 
-        //img
-        Picasso.with(context).load(tarea.getDirImagen()).into(imgFotoVistaTarea);
-        imgFotoVistaTarea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle(tarea.getCodEquipo());
-                WebView wv = new WebView(context);
-                wv.loadUrl(tarea.getDirImagen());
-                wv.getSettings().setBuiltInZoomControls(true);
-                wv.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
-                });
+        if(tarea.getDirImagen()==null){
+            imgFotoVistaTarea.setVisibility(View.GONE);
 
-                alert.setView(wv);
-                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
-            }
-        });
+        }else {
+            //img
+            imgFotoVistaTarea.setVisibility(View.VISIBLE);
+            Picasso.with(context).load(tarea.getDirImagen()).into(imgFotoVistaTarea);
+            imgFotoVistaTarea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle(tarea.getCodEquipo());
+                    WebView wv = new WebView(context);
+                    wv.loadUrl(tarea.getDirImagen());
+                    wv.getSettings().setBuiltInZoomControls(true);
+                    wv.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            view.loadUrl(url);
+                            return true;
+                        }
+                    });
+
+                    alert.setView(wv);
+                    alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
+                }
+            });
+        }
+
+
 
     }
 
