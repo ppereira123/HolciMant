@@ -247,8 +247,14 @@ public class HistorialTareasFragment extends Fragment {
     }
 
     private void displayTareas(List<Tarea> tareas){
+        ArrayList<Tarea> lista=new ArrayList<>();
+        for(Tarea novedad:tareas){
+            if(!lista.contains(novedad)){
+                lista.add(novedad);
+            }
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        tareasadapter= new AdapterTareas(context,tareas);
+        tareasadapter= new AdapterTareas(context,lista);
         recyclerView.setAdapter(tareasadapter);
     }
 

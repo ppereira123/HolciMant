@@ -60,7 +60,6 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
 
         String[] estados=context.getResources().getStringArray(R.array.combo_estadoTareas);
         Tarea tarea= tareaslist.get(position);
-
         holder.txtdescripcion.setText(tarea.getDescripcion());
         holder.txtestado.setText(tarea.getEstado());
         holder.txtfecha.setText(tarea.getFechadeEnvio());
@@ -79,7 +78,7 @@ public class AdapterTareas extends  RecyclerView.Adapter<AdapterTareas.AdapterTa
         if(tarea.getDirImagen()==null){
             holder.imgFotoAdaptadorTarea.setVisibility(View.GONE);
         }else {
-
+            holder.imgFotoAdaptadorTarea.setVisibility(View.VISIBLE);
             Picasso.with(context).load(tarea.getDirImagen()).into(holder.imgFotoAdaptadorTarea);
             holder.imgFotoAdaptadorTarea.setOnClickListener(new View.OnClickListener() {
                 @Override
